@@ -1,0 +1,28 @@
+:root {
+  --color-bg: #1a1a2e;
+  --color-text: #fefae0;
+  --color-text-muted: #a0a0c0;
+  --color-accent: #7c6af7;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+.container {
+  max-width: 800px;
+  margin: 4rem auto;
+  padding: 0 2rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+}
