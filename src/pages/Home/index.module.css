@@ -1,0 +1,73 @@
+@keyframes letter-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+
+  100% {
+    opacity: var(--reveal-opacity, 1);
+    transform: translateY(0);
+  }
+}
+
+.hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 80vh;
+  margin: 0;
+  padding: 2rem;
+  font-weight: normal;
+}
+
+.hero__name {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  &--left {
+    align-items: flex-end;
+  }
+
+  &--right {
+    align-items: flex-start;
+    margin-left: 0.25rem;
+  }
+}
+
+.hero__letter {
+  font-family: var(--font-name);
+  color: var(--color-accent);
+  font-size: 3.25rem;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  animation: letter-reveal 0.3s ease-in-out both;
+
+  &--large {
+    font-size: 6rem;
+  }
+
+  &--hidden {
+    visibility: hidden;
+    animation: none;
+  }
+
+  &--faded {
+    --reveal-opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__letter {
+    animation: none;
+    opacity: var(--reveal-opacity, 1);
+    transform: none;
+  }
+}
+
+.hero__divider {
+  align-self: stretch;
+  width: 0.75rem;
+  background-color: var(--color-divider);
+}

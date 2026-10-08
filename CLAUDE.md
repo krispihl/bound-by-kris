@@ -12,8 +12,9 @@
 ## Tech Stack & Rules
 
 - **React:** Use Functional Components with Hooks. No Class components. Use arrow functions.
-- **TypeScript:** Strict mode enabled. **Never use `any`**. Use `interface` for props.
+- **TypeScript:** Strict mode enabled. **Never use `any`**. Use `type` for props. Inline a props type directly in the function signature when it has only 1-2 fields; name a separate `type` only for larger prop sets.
 - **Styling:** CSS Modules with BEM naming. Modifiers use `block--modifier` syntax and are nested inside the block class using PostCSS nesting (e.g. `&--active` inside `.link`).
+- **Sizing:** Always use `rem` units for sizing (`font-size`, `width`, `height`, `margin`, `padding`, `gap`, etc.) — never `px`. The root `html` element sets `font-size: 16px` in `src/styles/global.css`, so `1rem = 16px` (e.g. `1rem` = 16px, `1.5rem` = 24px).
 - **State:** Context API
 - **Data Fetching:** Fetch
 
@@ -24,4 +25,6 @@
 - **Performance:** Use `useMemo` and `useCallback` only when expensive computations are involved—don't over-optimize early.
 - **Naming:** Components in `PascalCase`, hooks start with `use`, utils in `camelCase`.
 - **Exports:** Prefer named exports over default exports for better IDE refactoring.
+- **Accessibility:** Must be considered and implemented, not an afterthought — semantic HTML, accessible names (`aria-label`/`aria-hidden` where visual markup fragments text), keyboard operability, and respect for `prefers-reduced-motion` on animations. Routed page content lives inside a `<main>` landmark (see `App.tsx`); each page's primary heading uses a real `<h1>`, not a styled `<div>`.
+- **Semantic HTML:** Prefer a semantic tag over a generic `<div>`/`<span>` whenever one matches the content's role — `<nav>` for navigation (already used in `Navbar`), `<main>` for the routed page content, `<header>`/`<footer>` for page or section framing, `<section>`/`<article>` for self-contained chunks of content (e.g. a book entry, a blog post), `<ul>`/`<li>` for lists of items (e.g. nav links, book listings), `<button>` for anything clickable that performs an action, `<a>`/`NavLink` for anything that navigates, and heading tags (`<h1>`-`<h6>`) in document order for titles. Reach for `<div>`/`<span>` only for styling hooks that have no semantic role of their own (e.g. a layout wrapper, a decorative divider).
 - **File Structure:** Each component and page lives in its own subfolder with `index.tsx` and `index.module.css`.

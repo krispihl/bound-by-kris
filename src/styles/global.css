@@ -1,15 +1,31 @@
+html {
+  font-size: 16px;
+}
+
 :root {
+  --font-display: 'Fraunces', serif;
+  --font-name: 'Nabla', 'Arial Black', sans-serif;
+
+  --navy-electric: #390099;
+  --dark-raspberry: #9e0059;
+  --hot-fuchsia: #ff0054;
+  --blaze-orange: #ff5400;
+  --amber-gold: #ffbd00;
+
   --color-bg: #faf9f6;
   --color-surface: #ffffff;
   --color-text: #201f2b;
   --color-text-muted: #6b6b80;
-  --color-accent: #7c6af7;
+  --color-accent: var(--hot-fuchsia);
+  --color-accent-hover: var(--blaze-orange);
+  --color-divider: var(--amber-gold);
   --color-border: #e5e3f0;
 }
 
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
+  font-family: var(--font-display);
 }
 
 .container {
