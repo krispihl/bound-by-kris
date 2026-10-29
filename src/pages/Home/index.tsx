@@ -20,9 +20,7 @@ const StackedWord = ({ word, largeLetterCount, delayOffset = 0 }: StackedWordPro
       <span
         key={index}
         aria-hidden="true"
-        className={`${styles.hero__letter}${
-          index < largeLetterCount ? ` ${styles['hero__letter--large']}` : ` ${styles['hero__letter--faded']}`
-        }`}
+        className={`${styles.hero__letter}${index < largeLetterCount ? ` ${styles['hero__letter--large']}` : ` ${styles['hero__letter--faded']}`}`}
         style={{ animationDelay: `${(index + delayOffset) * REVEAL_STEP_SECONDS}s` }}
       >
         {letter}
@@ -36,11 +34,7 @@ const StackedWord = ({ word, largeLetterCount, delayOffset = 0 }: StackedWordPro
 const LetterSpacer = ({ word }: { word: string }) => (
   <>
     {word.split('').map((letter, index) => (
-      <span
-        key={index}
-        aria-hidden="true"
-        className={`${styles.hero__letter} ${styles['hero__letter--large']} ${styles['hero__letter--hidden']}`}
-      >
+      <span key={index} aria-hidden="true" className={`${styles.hero__letter} ${styles['hero__letter--large']} ${styles['hero__letter--hidden']}`}>
         {letter}
       </span>
     ))}

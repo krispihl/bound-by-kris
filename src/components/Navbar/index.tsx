@@ -1,5 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { NavLink } from 'react-router-dom'
+
+import { useEscapeKey } from '../../hooks/useEscapeKey'
+import { useScrollLock } from '../../hooks/useScrollLock'
 
 import styles from './index.module.css'
 
@@ -11,26 +14,10 @@ const LINKS = [
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
 
-  useEffect(() => {
-    if (!isOpen) {
-      return
-    }
+  const close = useCallback(() => setIsOpen(false), [])
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setIsOpen(false)
-      }
-    }
-
-    const previousOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    document.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      document.body.style.overflow = previousOverflow
-      document.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [isOpen])
+  useEscapeKey(isOpen, close)
+  useScrollLock(isOpen)
 
   return (
     <header>
@@ -49,11 +36,7 @@ export const Navbar = () => {
         <ul className={styles.list}>
           {LINKS.map(({ to, label }) => (
             <li key={to}>
-              <NavLink
-                to={to}
-                className={({ isActive }) => `${styles.link}${isActive ? ` ${styles['link--active']}` : ''}`}
-                onClick={() => setIsOpen(false)}
-              >
+              <NavLink to={to} className={({ isActive }) => `${styles.link}${isActive ? ` ${styles['link--active']}` : ''}`} onClick={close}>
                 {label}
               </NavLink>
             </li>

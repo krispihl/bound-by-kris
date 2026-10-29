@@ -1,4 +1,4 @@
-type book = {
+export type Book = {
   title: string
   titleEN?: string
   readTime: string
@@ -6,7 +6,7 @@ type book = {
   review: string
 }
 
-export const BOOKS: book[] = [
+export const BOOKS: Book[] = [
   {
     title: "Sorry I'm Late, I Didn't Want to Come: An Introvert's Year of Living Dangerously",
     readTime: 'December 2025',

@@ -7,7 +7,9 @@
 - **Build:** `npm run build`
 - **Lint:** `npm run lint`
 - **Test:** `npm test`
-- **Typecheck:** `npx tsc --noEmit`
+- **Typecheck:** `npm run typecheck`
+- **Test (watch):** `npm run test:watch`
+- **Lint (autofix):** `npm run lint:fix`
 
 ## Tech Stack & Rules
 
@@ -21,6 +23,12 @@
 ## Coding Standards (Critical Reviewer Style)
 
 - **Imports:** Group by (1) React/External, (2) Internal Components, (3) Hooks/Utils, (4) Styles/Assets.
+- **Type assertions:** Do not use `as` (ESLint enforced; `as const` and test files excepted). Narrow with a type guard instead, especially for API responses.
+- **Barrels:** No `export *` re-exports (ESLint enforced). Export only what is needed.
+- **Type imports:** Use `import type` for type-only imports (ESLint enforced).
+- **Hooks:** Reusable hooks live flat in `src/hooks/` as `useThing.ts` with a `useThing.test.ts` beside them.
+- **Tests:** Vitest + Testing Library; use `userEvent`, not `fireEvent`. Put `index.test.tsx` next to the component. Aim for one happy path plus 2-3 edge cases. Query by role/accessible name.
+- **Pre-commit:** Husky runs lint-staged, typecheck and tests on changed files. Fix failures rather than bypassing with `--no-verify`.
 - **Safety:** Always check for `null`/`undefined` when dealing with API responses.
 - **Performance:** Use `useMemo` and `useCallback` only when expensive computations are involved—don't over-optimize early.
 - **Naming:** Components in `PascalCase`, hooks start with `use`, utils in `camelCase`.
