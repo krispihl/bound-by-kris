@@ -1,10 +1,165 @@
+@keyframes review-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page {
+  box-sizing: border-box;
+  max-width: 90rem;
+  margin: 0 auto;
+  padding: 6rem 2rem 4rem;
+  container-type: inline-size;
+  container-name: books;
+}
+
+.page__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding-bottom: 2rem;
+}
+
+.page__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  line-height: 1.05;
+}
+
+.page__intro {
+  max-width: 24rem;
+  margin: 0;
+  color: var(--color-text-muted);
+  text-align: right;
+}
+
 .list {
-  margin: 2rem 0 0;
+  margin: 0;
   padding: 0;
+  border-bottom: 1px solid var(--color-border);
   list-style: none;
 }
 
 .book {
-  padding: 1.5rem 0;
-  border-bottom: 1px solid var(--color-border);
+  border-top: 1px solid var(--color-border);
+}
+
+.details {
+  position: relative;
+  padding-left: 1.5rem;
+
+  /* The highlighted vertical line, drawn from the top while the book is open. */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 2px;
+    background: var(--navy-electric);
+    transform: scaleY(0);
+    transform-origin: top;
+    /* Closing: the content vanishes at once, so the line retracts quickly without an ease-in hesitation. */
+    transition: transform 0.2s ease-out;
+  }
+
+  &[open]::before {
+    transform: scaleY(1);
+    transition-duration: 0.3s;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  column-gap: 1.5rem;
+  padding: 2.5rem 0;
+  cursor: pointer;
+  list-style: none;
+
+  /* Hide the native marker in Safari; the chevron below replaces it. */
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &::after {
+    content: '';
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    width: 0.625rem;
+    height: 0.625rem;
+    border-right: 2px solid currentcolor;
+    border-bottom: 2px solid currentcolor;
+    color: var(--color-text-muted);
+    transform: rotate(45deg);
+    transition: transform 0.2s ease;
+  }
+
+  &:focus-visible {
+    outline: 0.1875rem solid var(--navy-electric);
+    outline-offset: -0.1875rem;
+  }
+
+  &:hover .title,
+  .details[open] & .title {
+    color: var(--hot-fuchsia);
+  }
+
+  .details[open] &::after {
+    transform: rotate(-135deg);
+  }
+}
+
+.title {
+  grid-column: 1;
+  margin: 0;
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.2cqi, 2.5rem);
+  font-weight: 600;
+  line-height: 1.2;
+  transition: color 0.2s ease;
+}
+
+.author {
+  grid-column: 1;
+  margin-top: 0.75rem;
+  color: var(--color-text-muted);
+  font-size: 1.125rem;
+}
+
+.review {
+  line-height: 1.6;
+  white-space: pre-line;
+  padding: 0 0 2.5rem;
+  animation: review-in 0.3s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.readTime {
+  margin: 0 0 1rem;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .details::before,
+  .summary::after,
+  .title {
+    transition: none;
+  }
+
+  .review {
+    animation: none;
+  }
 }
