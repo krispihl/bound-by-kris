@@ -1,0 +1,248 @@
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page {
+  box-sizing: border-box;
+  max-width: 90rem;
+  margin: 0 auto;
+  padding: 6rem 2rem 4rem;
+}
+
+.page__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding-bottom: 2rem;
+}
+
+.page__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  line-height: 1.05;
+}
+
+.page__intro {
+  max-width: 24rem;
+  margin: 0;
+  color: var(--color-text-muted);
+  text-align: right;
+}
+
+/* The layout reacts to the width of this container, not the viewport. */
+.container {
+  container-type: inline-size;
+  container-name: bites;
+}
+
+.list {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--color-border);
+  list-style: none;
+
+  /* The vertical rule running through the number badges. */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 1.125rem;
+    width: 1px;
+    background: var(--color-border);
+  }
+}
+
+.row {
+  --title-row-height: 3rem;
+
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.25rem 1fr;
+  align-items: center;
+  column-gap: 1rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--color-border);
+
+  /* The highlighted stretch of the vertical rule, shown while the row is open. */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 1.125rem;
+    width: 1px;
+    background: var(--navy-electric);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  &--open::after {
+    transform: scaleY(1);
+  }
+}
+
+.row__heading {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+.row__button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-muted);
+  font: inherit;
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-align: inherit;
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  /* Stretch the click area over the whole row; summary and badge sit underneath. */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  &:focus-visible {
+    outline: none;
+
+    &::after {
+      outline: 0.1875rem solid var(--navy-electric);
+      outline-offset: -0.1875rem;
+    }
+  }
+
+  &:hover,
+  .row--open & {
+    color: var(--hot-fuchsia);
+  }
+}
+
+.row__number {
+  position: relative;
+  z-index: 1;
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.5rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--navy-electric);
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 0.75rem;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+
+  .row--open & {
+    border-color: var(--navy-electric);
+    background: var(--navy-electric);
+    color: var(--color-bg);
+  }
+}
+
+.row__summary {
+  grid-column: 2;
+  grid-row: 2;
+  margin: 0.5rem 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+
+  /* Collapsed rows show a teaser; the open row shows the whole intro. */
+  .row:not(.row--open) & {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}
+
+.row__panel {
+  position: relative;
+  z-index: 1;
+  grid-column: 2;
+  grid-row: 3;
+  padding-top: 1.5rem;
+  animation: panel-in 0.3s cubic-bezier(0.65, 0, 0.35, 1);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+@container bites (min-width: 48rem) {
+  .list::before,
+  .row::after {
+    left: 50%;
+  }
+
+  .row {
+    align-items: start;
+    grid-template-columns: 1fr 2.25rem 1fr;
+    column-gap: 1.5rem;
+    padding: 2.5rem 0;
+  }
+
+  /* Everything in the first row is top-aligned inside a fixed-height title row, so nothing shifts when the intro grows on open. */
+  .row__heading {
+    display: flex;
+    grid-column: 1;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: var(--title-row-height);
+    font-size: clamp(1.75rem, 3.2cqi, 2.5rem);
+    text-align: right;
+  }
+
+  .row__number {
+    grid-column: 2;
+    margin-top: calc((var(--title-row-height) - 1.5rem) / 2);
+  }
+
+  .row__summary {
+    grid-column: 3;
+    grid-row: 1;
+    margin: calc((var(--title-row-height) - 2.8125rem) / 2) 0 0;
+    padding-right: 1rem;
+  }
+
+  .row__panel {
+    grid-column: 3;
+    padding-right: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row__panel {
+    animation: none;
+  }
+
+  .row,
+  .row::after,
+  .row__button,
+  .row__number {
+    transition: none;
+  }
+}

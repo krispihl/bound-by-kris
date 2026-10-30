@@ -1,0 +1,18 @@
+.link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+
+  &:hover {
+    color: var(--color-accent-hover);
+  }
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 0.0625rem;
+  height: 0.0625rem;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

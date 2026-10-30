@@ -9,6 +9,7 @@ import styles from './index.module.css'
 const LINKS = [
   { to: '/', label: 'Home' },
   { to: '/books', label: 'Books' },
+  { to: '/a11y-bites', label: 'a11y bites' },
 ]
 
 export const Navbar = () => {
