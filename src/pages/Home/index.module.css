@@ -1,73 +1,130 @@
-@keyframes letter-reveal {
-  0% {
-    opacity: 0;
-    transform: translateY(0.5rem);
+@keyframes rule-draw {
+  from {
+    transform: translateY(-50%) scaleX(0);
   }
 
-  100% {
-    opacity: var(--reveal-opacity, 1);
-    transform: translateY(0);
+  to {
+    transform: translateY(-50%) scaleX(1);
+  }
+}
+
+@keyframes letter-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }
 
 .hero {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  min-height: 80vh;
-  margin: 0;
-  padding: 2rem;
-  font-weight: normal;
+  box-sizing: border-box;
+  padding: 1.5rem 2rem 1rem;
+  /* The tight line height lets the glyph boxes spill past the bottom edge, which would otherwise add a scrollbar. */
+  overflow: clip;
+  container-type: inline-size;
+  container-name: hero;
 }
 
-.hero__name {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+/* The title block and the spacer share these so the whitespace above the name and the scrollable whitespace below it
+   match. The first screen is gap + intro + name; the gap is whatever is left of the viewport (1rem makes up for the
+   default 0.5rem body margin on each side, 2.5rem for the hero's vertical padding, 4.3rem for the two-line intro
+   plus the space under it). */
+.hero__title,
+.hero__spacer {
+  --name-size: 19.5cqi;
+  --gap: max(2rem, calc(100dvh - 1rem - 2.5rem - 4.3rem - 1.7 * var(--name-size)));
+}
 
-  &--left {
-    align-items: flex-end;
-  }
+.hero__title {
+  position: relative;
+  margin-top: var(--gap);
+}
+
+.hero__intro {
+  max-width: 20rem;
+  margin: 0 0 1.5rem;
+  font-size: 1rem;
+  line-height: 1.4;
+
+  /* Starts with KRISTINA, as the first thing in the lower row: PIHL then fades in under TINA. */
+  animation: letter-in 0.8s ease-out both;
+}
+
+/* Sized from the page width so "KRISTINA" always spans the full row. */
+.hero__name {
+  position: relative;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--name-size);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 0.85;
+  text-transform: uppercase;
+}
+
+/* Runs between the two name rows; positioned in em so it stays centred in the gap between the letters at any size. */
+.hero__rule {
+  position: absolute;
+  top: 0.86em;
+  /* Bleeds into the hero's side padding so it spans the full page width. */
+  right: -2rem;
+  left: -2rem;
+  height: 0.25rem;
+  background: var(--amber-gold);
+  transform: translateY(-50%);
+  transform-origin: left;
+  animation: rule-draw 1.4s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+.hero__line {
+  display: block;
 
   &--right {
-    align-items: flex-start;
-    margin-left: 0.25rem;
+    text-align: right;
   }
 }
 
+/* Each letter's delay is set inline from its position in the name, so the fade runs letter by letter. */
 .hero__letter {
-  font-family: var(--font-name);
-  color: var(--color-accent);
-  font-size: 3.25rem;
-  line-height: 1;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  animation: letter-reveal 0.3s ease-in-out both;
+  animation: letter-in 0.8s ease-out both;
+}
 
-  &--large {
-    font-size: 6rem;
+.hero__spacer {
+  height: var(--gap);
+}
+
+@container hero (min-width: 48rem) {
+  .hero__title,
+  .hero__spacer {
+    --name-size: 21cqi;
+
+    /* The intro leaves the flow here, so there is no intro height to subtract. */
+    --gap: max(2rem, calc(100dvh - 1rem - 2.5rem - 1.7 * var(--name-size)));
   }
 
-  &--hidden {
-    visibility: hidden;
-    animation: none;
-  }
-
-  &--faded {
-    --reveal-opacity: 0.55;
+  /* Centred in the free space left of PIHL: PIHL is about 2.35em wide, and its capitals centre about 0.42em above the
+     bottom of the title block. */
+  .hero__intro {
+    position: absolute;
+    bottom: calc(0.42 * var(--name-size));
+    left: 0;
+    box-sizing: border-box;
+    width: calc(100cqi - 2.35 * var(--name-size));
+    max-width: none;
+    margin: 0;
+    padding: 0 max(1rem, calc((100cqi - 2.35 * var(--name-size) - 20rem) / 2));
+    text-align: center;
+    text-wrap: balance;
+    transform: translateY(50%);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__letter {
+  .hero__intro,
+  .hero__letter,
+  .hero__rule {
     animation: none;
-    opacity: var(--reveal-opacity, 1);
-    transform: none;
   }
-}
-
-.hero__divider {
-  align-self: stretch;
-  width: 0.75rem;
-  background-color: var(--color-divider);
 }

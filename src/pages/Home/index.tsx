@@ -1,57 +1,34 @@
 import styles from './index.module.css'
 
-// Keep roughly in sync with the letter-reveal animation duration in index.module.css (.hero__letter).
-const REVEAL_STEP_SECONDS = 0.2
+const FIRST_NAME = 'Kristina'
+const LAST_NAME = 'Pihl'
+// PIHL waits for the difference in length, so it fades in under the end of KRISTINA and both finish together.
+const LETTER_DELAY = 0.1
 
-const FIRST_NAME = 'KRISTINA'
-const FIRST_NAME_LARGE_COUNT = 4
-const LAST_NAME = 'PIHL'
-const LAST_NAME_LARGE_COUNT = 2
-
-type StackedWordProps = {
-  word: string
-  largeLetterCount: number
-  delayOffset?: number
-}
-
-const StackedWord = ({ word, largeLetterCount, delayOffset = 0 }: StackedWordProps) => (
-  <>
-    {word.split('').map((letter, index) => (
-      <span
-        key={index}
-        aria-hidden="true"
-        className={`${styles.hero__letter}${index < largeLetterCount ? ` ${styles['hero__letter--large']}` : ` ${styles['hero__letter--faded']}`}`}
-        style={{ animationDelay: `${(index + delayOffset) * REVEAL_STEP_SECONDS}s` }}
-      >
-        {letter}
-      </span>
-    ))}
-  </>
-)
-
-// Reserves layout space matching the first name's large letters so the last name starts where the
-// first name's small letters start, without coupling row heights to it.
-const LetterSpacer = ({ word }: { word: string }) => (
-  <>
-    {word.split('').map((letter, index) => (
-      <span key={index} aria-hidden="true" className={`${styles.hero__letter} ${styles['hero__letter--large']} ${styles['hero__letter--hidden']}`}>
-        {letter}
-      </span>
-    ))}
-  </>
-)
+// Letters fade in one after another, left to right; `offset` is the number of letter slots to wait before the first one.
+const renderLetters = (word: string, offset = 0) =>
+  Array.from(word, (letter, index) => (
+    <span key={index} className={styles.hero__letter} style={{ animationDelay: `${(offset + index) * LETTER_DELAY}s` }}>
+      {letter}
+    </span>
+  ))
 
 export const Home = () => {
   return (
-    <h1 className={styles.hero}>
-      <div className={`${styles.hero__name} ${styles['hero__name--left']}`} aria-label={FIRST_NAME}>
-        <StackedWord word={FIRST_NAME} largeLetterCount={FIRST_NAME_LARGE_COUNT} />
+    <div className={styles.hero}>
+      <div className={styles.hero__title}>
+        <p className={styles.hero__intro}>Frontend developer passionate about accessibility and fond of good design.</p>
+        <h1 className={styles.hero__name} aria-label={`${FIRST_NAME} ${LAST_NAME}`}>
+          <span className={styles.hero__line} aria-hidden="true">
+            {renderLetters(FIRST_NAME)}
+          </span>{' '}
+          <span className={styles.hero__rule} aria-hidden="true" />{' '}
+          <span className={`${styles.hero__line} ${styles['hero__line--right']}`} aria-hidden="true">
+            {renderLetters(LAST_NAME, FIRST_NAME.length - LAST_NAME.length)}
+          </span>
+        </h1>
       </div>
-      <div className={styles.hero__divider} />
-      <div className={`${styles.hero__name} ${styles['hero__name--right']}`} aria-label={LAST_NAME}>
-        <LetterSpacer word={FIRST_NAME.slice(0, FIRST_NAME_LARGE_COUNT)} />
-        <StackedWord word={LAST_NAME} largeLetterCount={LAST_NAME_LARGE_COUNT} delayOffset={FIRST_NAME.length} />
-      </div>
-    </h1>
+      <div className={styles.hero__spacer} aria-hidden="true" />
+    </div>
   )
 }
