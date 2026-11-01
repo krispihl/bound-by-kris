@@ -1,0 +1,36 @@
+.page {
+  box-sizing: border-box;
+  max-width: 90rem;
+  margin: 0 auto;
+  padding: 6rem 2rem 4rem;
+}
+
+.page__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.page__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  line-height: 1.05;
+}
+
+.page__intro {
+  max-width: 24rem;
+  margin: 0;
+  color: var(--color-text-muted);
+  text-align: right;
+}
+
+.content {
+  padding-top: 2.5rem;
+  font-size: 1.125rem;
+  line-height: 1.6;
+}

@@ -1,0 +1,62 @@
+.page {
+  box-sizing: border-box;
+  max-width: 90rem;
+  margin: 0 auto;
+  padding: 6rem 2rem 4rem;
+  container-type: inline-size;
+  container-name: boardgames;
+}
+
+.page__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding-bottom: 2rem;
+}
+
+.page__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  line-height: 1.05;
+}
+
+.page__intro {
+  max-width: 24rem;
+  margin: 0;
+  color: var(--color-text-muted);
+  text-align: right;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--color-border);
+  list-style: none;
+}
+
+.game {
+  padding: 2.5rem 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.game__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.2cqi, 2.5rem);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.game__meta {
+  margin: 0.75rem 0 0;
+  color: var(--color-text-muted);
+  font-size: 1.125rem;
+}
+
+.game__description {
+  margin: 1rem 0 0;
+  line-height: 1.6;
+}
