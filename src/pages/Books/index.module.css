@@ -107,8 +107,8 @@
   }
 
   &:focus-visible {
-    outline: 0.1875rem solid var(--navy-electric);
-    outline-offset: -0.1875rem;
+    outline: var(--focus-width) solid var(--color-focus);
+    outline-offset: calc(-1 * var(--focus-width));
   }
 
   &:hover .title,

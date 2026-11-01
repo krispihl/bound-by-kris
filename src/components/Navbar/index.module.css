@@ -22,12 +22,9 @@
     color: var(--color-accent);
   }
 
-  &:focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 0.25rem;
-  }
-
   &--open {
+    --color-focus: var(--amber-gold);
+
     color: var(--color-bg);
 
     &:hover {
@@ -79,6 +76,8 @@
 }
 
 .menu {
+  --color-focus: var(--amber-gold);
+
   position: fixed;
   inset: 0;
   z-index: 10;
@@ -166,8 +165,21 @@
     transform 0.5s ease-out 0.35s;
 }
 
+/* Each link follows the one before it by 0.07s, starting from the first link's 0.35s. */
 .menu--open li:nth-child(2) .link {
-  transition-delay: 0s, 0.45s, 0.45s;
+  transition-delay: 0s, 0.42s, 0.42s;
+}
+
+.menu--open li:nth-child(3) .link {
+  transition-delay: 0s, 0.49s, 0.49s;
+}
+
+.menu--open li:nth-child(4) .link {
+  transition-delay: 0s, 0.56s, 0.56s;
+}
+
+.menu--open li:nth-child(5) .link {
+  transition-delay: 0s, 0.63s, 0.63s;
 }
 
 @media (prefers-reduced-motion: reduce) {
