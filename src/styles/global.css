@@ -1,5 +1,33 @@
 html {
   font-size: 16px;
+  /* Keeps the scrollbar's space reserved on pages too short to scroll, so the layout doesn't shift between pages. */
+  scrollbar-gutter: stable;
+}
+
+/* Chromium and Safari ignore the ::-webkit-scrollbar rules below once scrollbar-color is set, so Firefox gets the
+   standard properties and the rest get the rounded outlined thumb. */
+@supports not selector(::-webkit-scrollbar) {
+  html {
+    scrollbar-color: var(--amber-gold) var(--color-bg);
+    scrollbar-width: thin;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  /* An outline rather than a fill: the transparent border insets the thumb and the inset shadow draws the ring inside it. */
+  background: transparent;
+  border: 0.125rem solid transparent;
+  border-radius: 0.375rem;
+  box-shadow: inset 0 0 0 0.125rem var(--amber-gold);
 }
 
 :root {
