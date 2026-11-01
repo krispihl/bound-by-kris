@@ -10,4 +10,11 @@ describe('Home', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'Kristina Pihl' })).toBeInTheDocument()
     expect(screen.getByText(/Frontend developer passionate about accessibility/)).toBeInTheDocument()
   })
+
+  it('links to the social profiles', () => {
+    render(<Home />)
+
+    expect(screen.getByRole('link', { name: /GitHub/ })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /LinkedIn/ })).toBeInTheDocument()
+  })
 })

@@ -1,0 +1,30 @@
+.list {
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: block;
+  color: var(--amber-gold);
+  transition: color 0.2s;
+
+  &:hover {
+    color: var(--hot-fuchsia);
+  }
+}
+
+.icon {
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  fill: currentColor;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link {
+    transition: none;
+  }
+}

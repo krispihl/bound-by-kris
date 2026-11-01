@@ -27,12 +27,12 @@
   container-name: hero;
 }
 
-/* The title block and the spacer share these so the whitespace above the name and the scrollable whitespace below it
+/* The title block and the footer share these so the whitespace above the name and the scrollable whitespace below it
    match. The first screen is gap + intro + name; the gap is whatever is left of the viewport (1rem makes up for the
    default 0.5rem body margin on each side, 2.5rem for the hero's vertical padding, 4.3rem for the two-line intro
    plus the space under it). */
 .hero__title,
-.hero__spacer {
+.hero__footer {
   --name-size: 19.5cqi;
   --gap: max(2rem, calc(100dvh - 1rem - 2.5rem - 4.3rem - 1.7 * var(--name-size)));
 }
@@ -91,13 +91,20 @@
   animation: letter-in 0.8s ease-out both;
 }
 
-.hero__spacer {
+/* The scrollable whitespace below the name, with the social links at its bottom centre. */
+.hero__footer {
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
   height: var(--gap);
+  min-height: 4.5rem;
+  padding-bottom: 1.5rem;
 }
 
 @container hero (min-width: 48rem) {
   .hero__title,
-  .hero__spacer {
+  .hero__footer {
     --name-size: 21cqi;
 
     /* The intro leaves the flow here, so there is no intro height to subtract. */

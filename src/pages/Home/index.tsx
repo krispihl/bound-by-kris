@@ -1,3 +1,5 @@
+import { SocialLinks } from '../../components/SocialLinks'
+
 import styles from './index.module.css'
 
 const FIRST_NAME = 'Kristina'
@@ -28,7 +30,9 @@ export const Home = () => {
           </span>
         </h1>
       </div>
-      <div className={styles.hero__spacer} aria-hidden="true" />
+      <footer className={styles.hero__footer}>
+        <SocialLinks />
+      </footer>
     </div>
   )
 }
