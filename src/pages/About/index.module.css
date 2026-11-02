@@ -3,6 +3,9 @@
 	max-width: 90rem;
 	margin: 0 auto;
 	padding: 6rem 2rem 4rem;
+	container-type: inline-size;
+	container-name: about;
+	counter-reset: section;
 }
 
 .page__header {
@@ -12,7 +15,6 @@
 	justify-content: space-between;
 	gap: 1rem 2rem;
 	padding-bottom: 2rem;
-	border-bottom: 1px solid var(--color-border);
 }
 
 .page__title {
@@ -22,15 +24,194 @@
 	line-height: 1.05;
 }
 
+/* No max-width: the short intro stays on one row wherever there is room, and wraps only on narrow screens. */
 .page__intro {
-	max-width: 24rem;
 	margin: 0;
 	color: var(--color-text-muted);
 	text-align: right;
 }
 
-.content {
-	padding-top: 2.5rem;
-	font-size: 1.125rem;
+/* Laid out like the a11y bites rows: a number badge on a vertical rule, the heading beside it and the entries after it. */
+.section {
+	position: relative;
+	display: grid;
+	grid-template-columns: 2.25rem minmax(0, 1fr);
+	align-items: center;
+	gap: 0.5rem 1rem;
+	padding: 1.5rem 0;
+	border-top: 1px solid var(--color-border);
+	/* The vertical rule, drawn behind the badge; the sections stack, so it runs unbroken down the page. */
+	background: linear-gradient(var(--color-border), var(--color-border)) 1.125rem 0 / 1px 100% no-repeat;
+	counter-increment: section;
+
+	/* The highlighted rule, drawn from the top while the section is hovered. */
+	&::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 1.125rem;
+		width: 1px;
+		background: var(--navy-electric);
+		transform: scaleY(0);
+		transform-origin: top;
+		transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+	}
+
+	&:hover::after {
+		transform: scaleY(1);
+	}
+
+	&:last-child {
+		border-bottom: 1px solid var(--color-border);
+	}
+}
+
+/* Decorative: the number only echoes the order the headings already have. */
+.section__number {
+	position: relative;
+	z-index: 1;
+	grid-column: 1;
+	grid-row: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 1.5rem;
+	border: 1px solid var(--color-border);
+	background: var(--color-bg);
+	color: var(--navy-electric);
+	font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+	font-size: 0.75rem;
+	transition:
+		background-color 0.2s ease,
+		color 0.2s ease;
+
+	&::before {
+		content: counter(section, decimal-leading-zero);
+	}
+
+	.section:hover & {
+		border-color: var(--navy-electric);
+		background: var(--navy-electric);
+		color: var(--color-bg);
+	}
+}
+
+.section__heading {
+	grid-column: 2;
+	grid-row: 1;
+	margin: 0;
+	font-family: var(--font-display);
+	font-size: 1.5rem;
+	line-height: 1.2;
+	font-weight: 600;
+	color: var(--color-text-muted);
+	transition: color 0.2s ease;
+
+	/* Like the bites titles: muted at rest, fuchsia while the section is hovered. */
+	.section:hover & {
+		color: var(--hot-fuchsia);
+	}
+}
+
+.section__list {
+	grid-column: 2;
+	grid-row: 2;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/* Narrow screens stack the years under the entry; wide ones put them beside it. */
+.entry {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem 2rem;
+	padding: 0.5rem 0 1rem;
+
+	&:last-child {
+		padding-bottom: 0;
+	}
+}
+
+/* A sidenote closing a list: small, muted and italic, so it reads as an aside rather than another item. */
+.note {
+	padding-top: 0.5rem;
+	color: var(--color-text-muted);
+	font-size: 0.875rem;
+	font-style: italic;
 	line-height: 1.6;
+}
+
+.entry__title {
+	margin: 0;
+	font-size: 1.125rem;
+	font-weight: 600;
+	line-height: 1.4;
+}
+
+.entry__detail {
+	margin: 0.25rem 0 0;
+	color: var(--color-text-muted);
+	line-height: 1.6;
+}
+
+.entry__period {
+	flex-shrink: 0;
+	margin: 0;
+	color: var(--color-text-muted);
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
+
+/* Same split as the bites: headings right-aligned against the centre line, the entries starting after it. */
+@container about (min-width: 48rem) {
+	.section {
+		--title-row-height: 3rem;
+
+		grid-template-columns: minmax(0, 1fr) 2.25rem minmax(0, 1fr);
+		align-items: start;
+		column-gap: 1.5rem;
+		padding: 2.5rem 0;
+		background-position: 50% 0;
+
+		&::after {
+			left: 50%;
+		}
+	}
+
+	.section__number {
+		grid-column: 2;
+		margin-top: calc((var(--title-row-height) - 1.5rem) / 2);
+	}
+
+	.section__heading {
+		display: flex;
+		grid-column: 1;
+		align-items: center;
+		justify-content: flex-end;
+		min-height: var(--title-row-height);
+		font-size: clamp(1.75rem, 3.2cqi, 2.5rem);
+		text-align: right;
+	}
+
+	.section__list {
+		grid-column: 3;
+		grid-row: 1;
+	}
+
+	.entry {
+		flex-direction: row;
+		align-items: baseline;
+		justify-content: space-between;
+		padding-top: 0.25rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.section::after,
+	.section__number,
+	.section__heading {
+		transition: none;
+	}
 }
