@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
+import { HomeLink } from './components/HomeLink'
 import { Navbar } from './components/Navbar'
 import { About } from './pages/About'
 import { A11yBites } from './pages/A11yBites'
@@ -20,6 +21,7 @@ const App = () => {
 					<Route path="/boardgames" element={<Boardgames />} />
 				</Routes>
 			</main>
+			<HomeLink />
 		</BrowserRouter>
 	)
 }
