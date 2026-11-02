@@ -3,19 +3,19 @@ import { cleanup } from '@testing-library/react'
 import { afterEach } from 'vitest'
 
 afterEach(() => {
-  cleanup()
+	cleanup()
 })
 
 // jsdom does not implement element scrolling or media queries.
 Element.prototype.scrollTo = () => {}
 Element.prototype.scrollIntoView = () => {}
 window.matchMedia = (query: string) => ({
-  matches: false,
-  media: query,
-  onchange: null,
-  addEventListener: () => {},
-  removeEventListener: () => {},
-  addListener: () => {},
-  removeListener: () => {},
-  dispatchEvent: () => false,
+	matches: false,
+	media: query,
+	onchange: null,
+	addEventListener: () => {},
+	removeEventListener: () => {},
+	addListener: () => {},
+	removeListener: () => {},
+	dispatchEvent: () => false,
 })

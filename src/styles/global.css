@@ -1,84 +1,84 @@
 html {
-  font-size: 16px;
-  /* Keeps the scrollbar's space reserved on pages too short to scroll, so the layout doesn't shift between pages. */
-  scrollbar-gutter: stable;
+	font-size: 16px;
+	/* Keeps the scrollbar's space reserved on pages too short to scroll, so the layout doesn't shift between pages. */
+	scrollbar-gutter: stable;
 }
 
 /* Chromium and Safari ignore the ::-webkit-scrollbar rules below once scrollbar-color is set, so Firefox gets the
    standard properties and the rest get the rounded outlined thumb. */
 @supports not selector(::-webkit-scrollbar) {
-  html {
-    scrollbar-color: var(--amber-gold) var(--color-bg);
-    scrollbar-width: thin;
-  }
+	html {
+		scrollbar-color: var(--amber-gold) var(--color-bg);
+		scrollbar-width: thin;
+	}
 }
 
 ::-webkit-scrollbar {
-  width: 0.75rem;
-  height: 0.75rem;
+	width: 0.75rem;
+	height: 0.75rem;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-bg);
+	background: var(--color-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  /* An outline rather than a fill: the transparent border insets the thumb and the inset shadow draws the ring inside it. */
-  background: transparent;
-  border: 0.125rem solid transparent;
-  border-radius: 0.375rem;
-  box-shadow: inset 0 0 0 0.125rem var(--amber-gold);
+	/* An outline rather than a fill: the transparent border insets the thumb and the inset shadow draws the ring inside it. */
+	background: transparent;
+	border: 0.125rem solid transparent;
+	border-radius: 0.375rem;
+	box-shadow: inset 0 0 0 0.125rem var(--amber-gold);
 }
 
 :root {
-  --font-display: 'Fraunces', serif;
-  --font-name: 'Nabla', 'Arial Black', sans-serif;
+	--font-display: 'Fraunces', serif;
+	--font-name: 'Nabla', 'Arial Black', sans-serif;
 
-  --navy-electric: #390099;
-  --dark-raspberry: #9e0059;
-  --hot-fuchsia: #ff0054;
-  --blaze-orange: #ff5400;
-  --amber-gold: #ffbd00;
+	--navy-electric: #390099;
+	--dark-raspberry: #9e0059;
+	--hot-fuchsia: #ff0054;
+	--blaze-orange: #ff5400;
+	--amber-gold: #ffbd00;
 
-  --color-bg: #faf9f6;
-  --color-surface: #ffffff;
-  --color-text: #201f2b;
-  --color-text-muted: #6b6b80;
-  --color-accent: var(--hot-fuchsia);
-  --color-accent-hover: var(--blaze-orange);
-  --color-divider: var(--amber-gold);
-  --color-border: #e5e3f0;
+	--color-bg: #faf9f6;
+	--color-surface: #ffffff;
+	--color-text: #201f2b;
+	--color-text-muted: #6b6b80;
+	--color-accent: var(--hot-fuchsia);
+	--color-accent-hover: var(--blaze-orange);
+	--color-divider: var(--amber-gold);
+	--color-border: #e5e3f0;
 
-  /* The one focus ring for the whole site. Navy is visible on the page background; the menu sits on navy, so it swaps
+	/* The one focus ring for the whole site. Navy is visible on the page background; the menu sits on navy, so it swaps
      the colour for gold (gold alone would not reach 3:1 against the page background). */
-  --color-focus: var(--navy-electric);
-  --focus-width: 0.1875rem;
+	--color-focus: var(--navy-electric);
+	--focus-width: 0.1875rem;
 }
 
 :focus-visible {
-  outline: var(--focus-width) solid var(--color-focus);
-  outline-offset: 0.25rem;
+	outline: var(--focus-width) solid var(--color-focus);
+	outline-offset: 0.25rem;
 }
 
 body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-display);
+	background-color: var(--color-bg);
+	color: var(--color-text);
+	font-family: var(--font-display);
 }
 
 .container {
-  max-width: 800px;
-  margin: 4rem auto;
-  padding: 0 2rem;
+	max-width: 800px;
+	margin: 4rem auto;
+	padding: 0 2rem;
 }
 
 .title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 0.75rem;
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-bottom: 0.75rem;
 }
 
 .subtitle {
-  font-size: 1.1rem;
-  color: var(--color-text-muted);
+	font-size: 1.1rem;
+	color: var(--color-text-muted);
 }

@@ -1,209 +1,209 @@
 .toggle {
-  position: fixed;
-  top: 1.5rem;
-  right: 2rem;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.5rem 0;
-  background: none;
-  border: 0;
-  color: var(--color-text);
-  font-family: inherit;
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: color 0.3s;
+	position: fixed;
+	top: 1.5rem;
+	right: 2rem;
+	z-index: 20;
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0.5rem 0;
+	background: none;
+	border: 0;
+	color: var(--color-text);
+	font-family: inherit;
+	font-size: 1rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	cursor: pointer;
+	transition: color 0.3s;
 
-  &:hover {
-    color: var(--color-accent);
-  }
+	&:hover {
+		color: var(--color-accent);
+	}
 
-  &--open {
-    --color-focus: var(--amber-gold);
+	&--open {
+		--color-focus: var(--amber-gold);
 
-    color: var(--color-bg);
+		color: var(--color-bg);
 
-    &:hover {
-      color: var(--color-divider);
-    }
-  }
+		&:hover {
+			color: var(--color-divider);
+		}
+	}
 }
 
 .toggleIcon {
-  position: relative;
-  width: 1.5rem;
-  height: 0.75rem;
+	position: relative;
+	width: 1.5rem;
+	height: 0.75rem;
 
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: currentColor;
-    transition:
-      transform 0.3s,
-      top 0.3s;
-  }
+	&::before,
+	&::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		width: 100%;
+		height: 2px;
+		background: currentColor;
+		transition:
+			transform 0.3s,
+			top 0.3s;
+	}
 
-  &::before {
-    top: 0;
-  }
+	&::before {
+		top: 0;
+	}
 
-  &::after {
-    top: calc(100% - 2px);
-  }
+	&::after {
+		top: calc(100% - 2px);
+	}
 }
 
 .toggle--open .toggleIcon {
-  &::before,
-  &::after {
-    top: calc(50% - 1px);
-  }
+	&::before,
+	&::after {
+		top: calc(50% - 1px);
+	}
 
-  &::before {
-    transform: rotate(45deg);
-  }
+	&::before {
+		transform: rotate(45deg);
+	}
 
-  &::after {
-    transform: rotate(-45deg);
-  }
+	&::after {
+		transform: rotate(-45deg);
+	}
 }
 
 .menu {
-  --color-focus: var(--amber-gold);
+	--color-focus: var(--amber-gold);
 
-  position: fixed;
-  inset: 0;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--navy-electric);
-  clip-path: circle(0 at calc(100% - 3rem) 2.5rem);
-  visibility: hidden;
-  will-change: clip-path;
-  transition:
-    clip-path 0.8s cubic-bezier(0.65, 0, 0.35, 1),
-    visibility 0s linear 0.8s;
+	position: fixed;
+	inset: 0;
+	z-index: 10;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--navy-electric);
+	clip-path: circle(0 at calc(100% - 3rem) 2.5rem);
+	visibility: hidden;
+	will-change: clip-path;
+	transition:
+		clip-path 0.8s cubic-bezier(0.65, 0, 0.35, 1),
+		visibility 0s linear 0.8s;
 
-  &--open {
-    clip-path: circle(150vmax at calc(100% - 3rem) 2.5rem);
-    clip-path: circle(hypot(100vw, 100vh) at calc(100% - 3rem) 2.5rem);
-    visibility: visible;
-    transition-delay: 0s;
-  }
+	&--open {
+		clip-path: circle(150vmax at calc(100% - 3rem) 2.5rem);
+		clip-path: circle(hypot(100vw, 100vh) at calc(100% - 3rem) 2.5rem);
+		visibility: visible;
+		transition-delay: 0s;
+	}
 }
 
 .list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  text-align: left;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	text-align: left;
 
-  /* On wide screens the links' shared left edge sits on the vertical centre line of the page. */
-  @media (min-width: 48rem) {
-    box-sizing: border-box;
-    width: 100%;
-    padding-left: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-  }
+	/* On wide screens the links' shared left edge sits on the vertical centre line of the page. */
+	@media (min-width: 48rem) {
+		box-sizing: border-box;
+		width: 100%;
+		padding-left: 50%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: flex-start;
+	}
 }
 
 .link {
-  display: inline-block;
-  padding: 0.5rem 0;
-  color: var(--color-bg);
-  text-decoration: none;
-  font-size: clamp(2.5rem, 10vw, 5rem);
-  font-weight: 700;
-  line-height: 1.2;
-  opacity: 0;
-  transform: translateY(1.5rem);
-  transition:
-    color 0.2s,
-    opacity 0.2s,
-    transform 0.2s;
+	display: inline-block;
+	padding: 0.5rem 0;
+	color: var(--color-bg);
+	text-decoration: none;
+	font-size: clamp(2.5rem, 10vw, 5rem);
+	font-weight: 700;
+	line-height: 1.2;
+	opacity: 0;
+	transform: translateY(1.5rem);
+	transition:
+		color 0.2s,
+		opacity 0.2s,
+		transform 0.2s;
 
-  &:hover,
-  &:focus-visible {
-    color: var(--color-divider);
-  }
+	&:hover,
+	&:focus-visible {
+		color: var(--color-divider);
+	}
 
-  &--active {
-    color: var(--color-accent);
+	&--active {
+		color: var(--color-accent);
 
-    &:hover,
-    &:focus-visible {
-      color: var(--color-divider);
-    }
-  }
+		&:hover,
+		&:focus-visible {
+			color: var(--color-divider);
+		}
+	}
 }
 
 .note {
-  /* The aside after the page name, much smaller than the link itself and white whatever state the link is in. */
-  color: var(--color-surface);
-  font-size: 0.3em;
-  font-weight: 400;
-  letter-spacing: 0.04em;
+	/* The aside after the page name, much smaller than the link itself and white whatever state the link is in. */
+	color: var(--color-surface);
+	font-size: 0.3em;
+	font-weight: 400;
+	letter-spacing: 0.04em;
 }
 
 .menu--open .link {
-  opacity: 1;
-  transform: none;
-  transition:
-    color 0.2s,
-    opacity 0.5s ease-out 0.35s,
-    transform 0.5s ease-out 0.35s;
+	opacity: 1;
+	transform: none;
+	transition:
+		color 0.2s,
+		opacity 0.5s ease-out 0.35s,
+		transform 0.5s ease-out 0.35s;
 }
 
 /* Each link follows the one before it by 0.07s, starting from the first link's 0.35s. */
 .menu--open li:nth-child(2) .link {
-  transition-delay: 0s, 0.42s, 0.42s;
+	transition-delay: 0s, 0.42s, 0.42s;
 }
 
 .menu--open li:nth-child(3) .link {
-  transition-delay: 0s, 0.49s, 0.49s;
+	transition-delay: 0s, 0.49s, 0.49s;
 }
 
 .menu--open li:nth-child(4) .link {
-  transition-delay: 0s, 0.56s, 0.56s;
+	transition-delay: 0s, 0.56s, 0.56s;
 }
 
 .menu--open li:nth-child(5) .link {
-  transition-delay: 0s, 0.63s, 0.63s;
+	transition-delay: 0s, 0.63s, 0.63s;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .menu {
-    clip-path: none;
-    opacity: 0;
-    transition:
-      opacity 0.01s,
-      visibility 0s linear 0.01s;
+	.menu {
+		clip-path: none;
+		opacity: 0;
+		transition:
+			opacity 0.01s,
+			visibility 0s linear 0.01s;
 
-    &--open {
-      opacity: 1;
-    }
-  }
+		&--open {
+			opacity: 1;
+		}
+	}
 
-  .link,
-  .menu--open .link {
-    opacity: 1;
-    transform: none;
-    transition: color 0.2s;
-  }
+	.link,
+	.menu--open .link {
+		opacity: 1;
+		transform: none;
+		transition: color 0.2s;
+	}
 
-  .toggleIcon::before,
-  .toggleIcon::after {
-    transition: none;
-  }
+	.toggleIcon::before,
+	.toggleIcon::after {
+		transition: none;
+	}
 }

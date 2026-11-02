@@ -1,30 +1,30 @@
 @keyframes rule-draw {
-  from {
-    transform: translateY(-50%) scaleX(0);
-  }
+	from {
+		transform: translateY(-50%) scaleX(0);
+	}
 
-  to {
-    transform: translateY(-50%) scaleX(1);
-  }
+	to {
+		transform: translateY(-50%) scaleX(1);
+	}
 }
 
 @keyframes letter-in {
-  from {
-    opacity: 0;
-  }
+	from {
+		opacity: 0;
+	}
 
-  to {
-    opacity: 1;
-  }
+	to {
+		opacity: 1;
+	}
 }
 
 .hero {
-  box-sizing: border-box;
-  padding: 1.5rem 2rem 1rem;
-  /* The tight line height lets the glyph boxes spill past the bottom edge, which would otherwise add a scrollbar. */
-  overflow: clip;
-  container-type: inline-size;
-  container-name: hero;
+	box-sizing: border-box;
+	padding: 1.5rem 2rem 1rem;
+	/* The tight line height lets the glyph boxes spill past the bottom edge, which would otherwise add a scrollbar. */
+	overflow: clip;
+	container-type: inline-size;
+	container-name: hero;
 }
 
 /* The title block and the footer share these so the whitespace above the name and the scrollable whitespace below it
@@ -33,105 +33,105 @@
    plus the space under it). */
 .hero__title,
 .hero__footer {
-  --name-size: 19.5cqi;
-  --gap: max(2rem, calc(100dvh - 1rem - 2.5rem - 4.3rem - 1.7 * var(--name-size)));
+	--name-size: 19.5cqi;
+	--gap: max(2rem, calc(100dvh - 1rem - 2.5rem - 4.3rem - 1.7 * var(--name-size)));
 }
 
 .hero__title {
-  position: relative;
-  margin-top: var(--gap);
+	position: relative;
+	margin-top: var(--gap);
 }
 
 .hero__intro {
-  max-width: 20rem;
-  margin: 0 0 1.5rem;
-  font-size: 1rem;
-  line-height: 1.4;
+	max-width: 20rem;
+	margin: 0 0 1.5rem;
+	font-size: 1rem;
+	line-height: 1.4;
 
-  /* Starts with KRISTINA, as the first thing in the lower row: PIHL then fades in under TINA. */
-  animation: letter-in 0.8s ease-out both;
+	/* Starts with KRISTINA, as the first thing in the lower row: PIHL then fades in under TINA. */
+	animation: letter-in 0.8s ease-out both;
 }
 
 /* Sized from the page width so "KRISTINA" always spans the full row. */
 .hero__name {
-  position: relative;
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--name-size);
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  line-height: 0.85;
-  text-transform: uppercase;
+	position: relative;
+	margin: 0;
+	font-family: var(--font-display);
+	font-size: var(--name-size);
+	font-weight: 900;
+	letter-spacing: -0.02em;
+	line-height: 0.85;
+	text-transform: uppercase;
 }
 
 /* Runs between the two name rows; positioned in em so it stays centred in the gap between the letters at any size. */
 .hero__rule {
-  position: absolute;
-  top: 0.86em;
-  /* Bleeds into the hero's side padding so it spans the full page width. */
-  right: -2rem;
-  left: -2rem;
-  height: 0.25rem;
-  background: var(--amber-gold);
-  transform: translateY(-50%);
-  transform-origin: left;
-  animation: rule-draw 1.4s cubic-bezier(0.65, 0, 0.35, 1) both;
+	position: absolute;
+	top: 0.86em;
+	/* Bleeds into the hero's side padding so it spans the full page width. */
+	right: -2rem;
+	left: -2rem;
+	height: 0.25rem;
+	background: var(--amber-gold);
+	transform: translateY(-50%);
+	transform-origin: left;
+	animation: rule-draw 1.4s cubic-bezier(0.65, 0, 0.35, 1) both;
 }
 
 .hero__line {
-  display: block;
+	display: block;
 
-  &--right {
-    text-align: right;
-  }
+	&--right {
+		text-align: right;
+	}
 }
 
 /* Each letter's delay is set inline from its position in the name, so the fade runs letter by letter. */
 .hero__letter {
-  animation: letter-in 0.8s ease-out both;
+	animation: letter-in 0.8s ease-out both;
 }
 
 /* The scrollable whitespace below the name, with the social links at its bottom centre. */
 .hero__footer {
-  box-sizing: border-box;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  height: var(--gap);
-  min-height: 4.5rem;
-  padding-bottom: 1.5rem;
+	box-sizing: border-box;
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	height: var(--gap);
+	min-height: 4.5rem;
+	padding-bottom: 1.5rem;
 }
 
 @container hero (min-width: 48rem) {
-  .hero__title,
-  .hero__footer {
-    --name-size: 21cqi;
+	.hero__title,
+	.hero__footer {
+		--name-size: 21cqi;
 
-    /* The intro leaves the flow here, so there is no intro height to subtract. */
-    --gap: max(2rem, calc(100dvh - 1rem - 2.5rem - 1.7 * var(--name-size)));
-  }
+		/* The intro leaves the flow here, so there is no intro height to subtract. */
+		--gap: max(2rem, calc(100dvh - 1rem - 2.5rem - 1.7 * var(--name-size)));
+	}
 
-  /* Centred in the free space left of PIHL: PIHL is about 2.35em wide, and its capitals centre about 0.42em above the
+	/* Centred in the free space left of PIHL: PIHL is about 2.35em wide, and its capitals centre about 0.42em above the
      bottom of the title block. */
-  .hero__intro {
-    position: absolute;
-    bottom: calc(0.42 * var(--name-size));
-    left: 0;
-    box-sizing: border-box;
-    width: calc(100cqi - 2.35 * var(--name-size));
-    max-width: none;
-    margin: 0;
-    padding: 0 max(1rem, calc((100cqi - 2.35 * var(--name-size) - 20rem) / 2));
-    text-align: center;
-    text-wrap: balance;
-    transform: translateY(50%);
-  }
+	.hero__intro {
+		position: absolute;
+		bottom: calc(0.42 * var(--name-size));
+		left: 0;
+		box-sizing: border-box;
+		width: calc(100cqi - 2.35 * var(--name-size));
+		max-width: none;
+		margin: 0;
+		padding: 0 max(1rem, calc((100cqi - 2.35 * var(--name-size) - 20rem) / 2));
+		text-align: center;
+		text-wrap: balance;
+		transform: translateY(50%);
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__intro,
-  .hero__letter,
-  .hero__rule {
-    animation: none;
-  }
+	.hero__intro,
+	.hero__letter,
+	.hero__rule {
+		animation: none;
+	}
 }

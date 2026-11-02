@@ -1,29 +1,29 @@
 .list {
-  display: flex;
-  gap: 1.5rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+	display: flex;
+	gap: 1.5rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
 }
 
 .link {
-  display: block;
-  color: var(--amber-gold);
-  transition: color 0.2s;
+	display: block;
+	color: var(--amber-gold);
+	transition: color 0.2s;
 
-  &:hover {
-    color: var(--hot-fuchsia);
-  }
+	&:hover {
+		color: var(--hot-fuchsia);
+	}
 }
 
 .icon {
-  display: block;
-  width: 2rem;
-  height: 2rem;
+	display: block;
+	width: 2rem;
+	height: 2rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .link {
-    transition: none;
-  }
+	.link {
+		transition: none;
+	}
 }

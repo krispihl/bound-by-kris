@@ -1,66 +1,66 @@
 {
-  "name": "bound-by-kris",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "format": "prettier --write .",
-    "preview": "vite preview",
-    "prepare": "husky",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:git": "vitest run --changed",
-    "typecheck": "tsc --noEmit -p tsconfig.app.json",
-    "lint:fix": "eslint . --fix"
-  },
-  "dependencies": {
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "react-icons": "^5.7.0",
-    "react-router-dom": "^7.13.1"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.39.1",
-    "@testing-library/jest-dom": "^7.0.1",
-    "@testing-library/react": "^16.3.3",
-    "@testing-library/user-event": "^14.6.8",
-    "@types/node": "^24.10.1",
-    "@types/react": "^19.2.7",
-    "@types/react-dom": "^19.2.3",
-    "@typescript-eslint/parser": "^8.56.1",
-    "@vitejs/plugin-react": "^5.1.1",
-    "autoprefixer": "^10.4.27",
-    "eslint": "^9.39.1",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-jsx-a11y": "^6.10.2",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "eslint-plugin-react-refresh": "^0.4.24",
-    "globals": "^16.5.0",
-    "husky": "^9.1.7",
-    "jsdom": "^30.1.3",
-    "lint-staged": "^17.6.0",
-    "postcss": "^8.5.6",
-    "postcss-mixins": "^12.1.2",
-    "postcss-nested": "^7.0.2",
-    "postcss-preset-env": "^11.2.0",
-    "prettier": "^3.8.1",
-    "prettier-eslint": "^16.4.2",
-    "typescript": "~5.9.3",
-    "typescript-eslint": "^8.48.0",
-    "vite": "^7.3.1",
-    "vitest": "^5.0.5"
-  },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{css,json,md}": [
-      "prettier --write"
-    ]
-  }
+	"name": "bound-by-kris",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc -b && vite build",
+		"lint": "eslint .",
+		"format": "prettier --write .",
+		"preview": "vite preview",
+		"prepare": "husky",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"test:git": "vitest run --changed",
+		"typecheck": "tsc --noEmit -p tsconfig.app.json",
+		"lint:fix": "eslint . --fix"
+	},
+	"dependencies": {
+		"react": "^19.2.0",
+		"react-dom": "^19.2.0",
+		"react-icons": "^5.7.0",
+		"react-router-dom": "^7.13.1"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.39.1",
+		"@testing-library/jest-dom": "^7.0.1",
+		"@testing-library/react": "^16.3.3",
+		"@testing-library/user-event": "^14.6.8",
+		"@types/node": "^24.10.1",
+		"@types/react": "^19.2.7",
+		"@types/react-dom": "^19.2.3",
+		"@typescript-eslint/parser": "^8.56.1",
+		"@vitejs/plugin-react": "^5.1.1",
+		"autoprefixer": "^10.4.27",
+		"eslint": "^9.39.1",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-jsx-a11y": "^6.10.2",
+		"eslint-plugin-react": "^7.37.5",
+		"eslint-plugin-react-hooks": "^7.0.1",
+		"eslint-plugin-react-refresh": "^0.4.24",
+		"globals": "^16.5.0",
+		"husky": "^9.1.7",
+		"jsdom": "^30.1.3",
+		"lint-staged": "^17.6.0",
+		"postcss": "^8.5.6",
+		"postcss-mixins": "^12.1.2",
+		"postcss-nested": "^7.0.2",
+		"postcss-preset-env": "^11.2.0",
+		"prettier": "^3.8.1",
+		"prettier-eslint": "^16.4.2",
+		"typescript": "~5.9.3",
+		"typescript-eslint": "^8.48.0",
+		"vite": "^7.3.1",
+		"vitest": "^5.0.5"
+	},
+	"lint-staged": {
+		"*.{ts,tsx}": [
+			"eslint --fix",
+			"prettier --write"
+		],
+		"*.{css,json,md}": [
+			"prettier --write"
+		]
+	}
 }
