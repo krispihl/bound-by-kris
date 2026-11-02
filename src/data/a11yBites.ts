@@ -2961,13 +2961,21 @@ export const A11Y_BITES: A11yBite[] = [
 						'Ambiguous context for screen readers',
 						'Use self-descriptive anchor strings (e.g., "Explore pricing options").',
 					],
-					['**Hidden focus rings**', 'Keyboard users "fly blind"', 'Ensure visible focus indicators are styled explicitly using `:focus-visible`.'],
+					[
+						'**Hidden focus rings**',
+						'Keyboard users "fly blind"',
+						'Ensure visible focus indicators are styled explicitly using `:focus-visible`.',
+					],
 					[
 						'**Small tap targets**',
 						'Frustrating for mobile and motor-impaired users',
 						'Maintain a strict minimum element target size of 24×24px with padding.',
 					],
-					['**Icon-only buttons**', 'Screen readers miss intent entirely', 'Add descriptive label support via text strings or an `aria-label`.'],
+					[
+						'**Icon-only buttons**',
+						'Screen readers miss intent entirely',
+						'Add descriptive label support via text strings or an `aria-label`.',
+					],
 				],
 			},
 			{

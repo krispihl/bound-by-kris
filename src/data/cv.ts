@@ -24,7 +24,11 @@ export const CV_SECTIONS: CvSection[] = [
 			},
 			{ title: 'Student, Vali IT! course', detail: '4 months course + 2 months internship', period: '2018' },
 			{ title: 'Technician / AutoCad draftsman, MIHO OÜ', detail: 'Construction technical drawings with AutoCad', period: '2016 – 2018' },
-			{ title: 'Database administrator, Ericsson Estonia', detail: 'AutoCad drawings and database administration tasks', period: '2007 – 2016' },
+			{
+				title: 'Database administrator, Ericsson Estonia',
+				detail: 'AutoCad drawings and database administration tasks',
+				period: '2007 – 2016',
+			},
 			{ title: 'And anything before that is already ancient history', note: true },
 		],
 	},
@@ -52,8 +56,7 @@ export const CV_SECTIONS: CvSection[] = [
 			{ title: 'Languages', detail: 'Estonian (native), English' },
 			{
 				title: 'Free time',
-				detail:
-					'I love to spend it outdoors: cycling, bikepacking, riding my motorcycle, snowboarding, camping etc. At home you would find me reading or playing boardgames.',
+				detail: 'I love to spend it outdoors: cycling, bikepacking, riding my motorcycle, snowboarding, camping etc. At home you would find me reading or playing boardgames.',
 			},
 		],
 	},

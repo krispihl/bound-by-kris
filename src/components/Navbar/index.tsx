@@ -39,7 +39,11 @@ export const Navbar = () => {
 				<ul className={styles.list}>
 					{LINKS.map(({ to, label, note }) => (
 						<li key={to}>
-							<NavLink to={to} className={({ isActive }) => `${styles.link}${isActive ? ` ${styles['link--active']}` : ''}`} onClick={close}>
+							<NavLink
+								to={to}
+								className={({ isActive }) => `${styles.link}${isActive ? ` ${styles['link--active']}` : ''}`}
+								onClick={close}
+							>
 								{label} <span className={styles.note}>({note})</span>
 							</NavLink>
 						</li>
