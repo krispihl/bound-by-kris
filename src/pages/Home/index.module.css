@@ -91,15 +91,17 @@
 	animation: letter-in 0.8s ease-out both;
 }
 
-/* The scrollable whitespace below the name, with the social links at its bottom centre. */
+/* The scrollable whitespace below the name, with the social links at its bottom right, in line with the menu button
+   (the negative margin cancels the body's 0.5rem margin, so the right edge is 2rem from the window). */
 .hero__footer {
 	box-sizing: border-box;
 	display: flex;
 	align-items: flex-end;
-	justify-content: center;
+	justify-content: flex-end;
 	height: var(--gap);
 	min-height: 4.5rem;
-	padding-bottom: 1.5rem;
+	margin-right: -0.5rem;
+	padding-bottom: 1rem;
 }
 
 @container hero (min-width: 48rem) {
