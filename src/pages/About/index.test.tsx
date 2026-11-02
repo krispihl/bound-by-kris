@@ -20,7 +20,21 @@ describe('About', () => {
 
 		const work = screen.getByRole('region', { name: 'Work' })
 		expect(within(work).getByRole('heading', { level: 3, name: 'Software Engineer, Pipedrive' })).toBeInTheDocument()
-		expect(within(work).getByText('2018 – now')).toBeInTheDocument()
+		expect(within(work).getByText('2018 – 2026')).toBeInTheDocument()
+	})
+
+	it('lists the highlights of each Pipedrive role', () => {
+		render(<About />)
+
+		const work = screen.getByRole('region', { name: 'Work' })
+		expect(within(work).getByRole('heading', { level: 4, name: 'Accessibility Mission Lead & Engineer, Public Web' })).toBeInTheDocument()
+		expect(within(work).getByRole('heading', { level: 4, name: 'Earlier work' })).toBeInTheDocument()
+	})
+
+	it('does not leave drafting notes on the page', () => {
+		render(<About />)
+
+		expect(screen.queryByText(/\[Add|confirm/i)).not.toBeInTheDocument()
 	})
 
 	it('does not publish contact details from the CV', () => {

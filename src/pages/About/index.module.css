@@ -114,9 +114,41 @@
 	}
 }
 
-.section__list {
+/* Holds the summary, tags and entries: below the heading on narrow screens, after the centre line on wide ones. */
+.section__body {
 	grid-column: 2;
 	grid-row: 2;
+	min-width: 0;
+}
+
+.section__summary {
+	max-width: 44rem;
+	margin: 0;
+	line-height: 1.7;
+
+	& + & {
+		margin-top: 1rem;
+	}
+}
+
+.tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	max-width: 44rem;
+	margin: 1.5rem 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.tag {
+	padding: 0.25rem 0.75rem;
+	border: 1px solid var(--color-border);
+	font-size: 0.875rem;
+	line-height: 1.5;
+}
+
+.section__list {
 	margin: 0;
 	padding: 0;
 	list-style: none;
@@ -124,13 +156,51 @@
 
 /* Narrow screens stack the years under the entry; wide ones put them beside it. */
 .entry {
-	display: flex;
-	flex-direction: column;
-	gap: 0.25rem 2rem;
 	padding: 0.5rem 0 1rem;
 
 	&:last-child {
 		padding-bottom: 0;
+	}
+}
+
+.entry__head {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem 2rem;
+}
+
+/* The highlights of a longer entry, grouped by role. */
+.roles {
+	margin: 1.25rem 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.role {
+	padding: 1rem 0;
+	border-top: 1px solid var(--color-border);
+}
+
+.role__title {
+	margin: 0;
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 1.4;
+}
+
+.highlights {
+	margin: 0.75rem 0 0;
+	padding: 0 0 0 1.25rem;
+	color: var(--color-text-muted);
+	font-size: 0.9375rem;
+	line-height: 1.6;
+
+	& li {
+		padding-left: 0.25rem;
+	}
+
+	& li + li {
+		margin-top: 0.5rem;
 	}
 }
 
@@ -154,6 +224,14 @@
 	margin: 0.25rem 0 0;
 	color: var(--color-text-muted);
 	line-height: 1.6;
+}
+
+.entry__steps {
+	margin: 0.25rem 0 0;
+	padding: 0;
+	color: var(--color-text-muted);
+	line-height: 1.6;
+	list-style: none;
 }
 
 .entry__period {
@@ -195,16 +273,20 @@
 		text-align: right;
 	}
 
-	.section__list {
+	.section__body {
 		grid-column: 3;
 		grid-row: 1;
+		padding-top: 0.25rem;
 	}
 
 	.entry {
+		padding-top: 0.25rem;
+	}
+
+	.entry__head {
 		flex-direction: row;
 		align-items: baseline;
 		justify-content: space-between;
-		padding-top: 0.25rem;
 	}
 }
 
