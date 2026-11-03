@@ -45,6 +45,21 @@ describe('A11yBites', () => {
 		expect(screen.getByRole('button', { name: 'Focus indicators' })).toHaveAttribute('aria-expanded', 'true')
 	})
 
+	it('lists the resources in two groups, opening each link in a new tab', () => {
+		render(<A11yBites />)
+
+		const resources = screen.getByRole('region', { name: 'Resources' })
+		const blogs = within(resources).getByRole('region', { name: 'Blogs' })
+		const docs = within(resources).getByRole('region', { name: 'Documentation for building' })
+
+		expect(within(blogs).getAllByRole('link')).toHaveLength(3)
+		expect(within(docs).getAllByRole('link')).toHaveLength(3)
+
+		const link = within(blogs).getByRole('link', { name: /^Adrian Roselli\s*\(opens in a new tab\)$/ })
+		expect(link).toHaveAttribute('href', 'https://adrianroselli.com/tag/accessibility')
+		expect(link).toHaveAttribute('target', '_blank')
+	})
+
 	it('scrolls the title into view on open only when it is outside the viewport', async () => {
 		const user = userEvent.setup()
 		const scrollIntoView = vi.spyOn(Element.prototype, 'scrollIntoView')

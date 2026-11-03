@@ -241,6 +241,94 @@
 	font-size: 0.75rem;
 }
 
+/* Extra reading below the bites: blogs and building docs, each a plain list of links with a one-line note. Sits on its
+   own card with a navy top edge, well clear of the list, so it reads as an extra rather than one more bite. */
+.resources {
+	margin-top: 6rem;
+	padding: 2rem 1.5rem;
+	border: 1px solid var(--color-border);
+	border-top: 0.25rem solid var(--navy-electric);
+	background: var(--color-surface);
+}
+
+.resources__header {
+	display: grid;
+	gap: 0.5rem;
+	padding-bottom: 2rem;
+}
+
+.resources__title {
+	margin: 0;
+	font-family: var(--font-display);
+	font-size: clamp(2rem, 6vw, 3rem);
+	line-height: 1.1;
+}
+
+.resources__intro {
+	margin: 0;
+	color: var(--color-text-muted);
+}
+
+.resources__groups {
+	display: grid;
+	gap: 2.5rem;
+}
+
+.group__title {
+	margin: 0 0 1rem;
+	padding-bottom: 0.5rem;
+	border-bottom: 1px solid var(--color-border);
+	color: var(--navy-electric);
+	font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+	font-size: 0.8125rem;
+	font-weight: 400;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.group__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.resource + .resource {
+	margin-top: 1.25rem;
+}
+
+.resource__link {
+	color: var(--color-text);
+	font-weight: 600;
+	text-decoration: underline;
+	text-decoration-color: var(--color-border);
+	text-decoration-thickness: 0.125rem;
+	text-underline-offset: 0.2em;
+	transition:
+		color 0.2s ease,
+		text-decoration-color 0.2s ease;
+
+	&:hover {
+		color: var(--color-accent);
+		text-decoration-color: currentColor;
+	}
+}
+
+.resource__description {
+	margin: 0.25rem 0 0;
+	color: var(--color-text-muted);
+	font-size: 0.9375rem;
+	line-height: 1.5;
+}
+
+.visuallyHidden {
+	position: absolute;
+	width: 0.0625rem;
+	height: 0.0625rem;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
 @container bites (min-width: 48rem) {
 	/* Same columns as the rows: the title right-aligned against the rule, the intro starting after it. */
 	.page__header {
@@ -324,6 +412,40 @@
 	.contents__link {
 		flex-direction: row-reverse;
 	}
+
+	/* Same columns as the page header and rows: the title right-aligned in the first, the lists side by side in the third. */
+	.resources {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 2.25rem minmax(0, 2fr);
+		column-gap: 1.5rem;
+		padding: 3rem 2.5rem 3.5rem 0;
+	}
+
+	.resources__header {
+		display: contents;
+	}
+
+	/* The title and the intro sit on the same baseline, like the page header. */
+	.resources__title {
+		grid-column: 1;
+		grid-row: 1;
+		align-self: last baseline;
+		text-align: right;
+	}
+
+	.resources__intro {
+		grid-column: 3;
+		grid-row: 1;
+		align-self: last baseline;
+	}
+
+	.resources__groups {
+		grid-column: 3;
+		grid-row: 2;
+		margin-top: 2rem;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 2rem;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -335,7 +457,8 @@
 	.row::after,
 	.row__button,
 	.row__number,
-	.contents__link {
+	.contents__link,
+	.resource__link {
 		transition: none;
 	}
 }

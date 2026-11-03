@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { BiteContent } from '../../components/BiteContent'
 import { RichText } from '../../components/RichText'
 import { A11Y_BITES } from '../../data/a11yBites'
+import { A11Y_RESOURCES } from '../../data/a11yResources'
 import { getBiteSections } from '../../utils/biteSections'
 
 import styles from './index.module.css'
@@ -92,6 +93,35 @@ export const A11yBites = () => {
 					)
 				})}
 			</ul>
+
+			<section className={styles.resources} aria-labelledby="resources-heading">
+				<header className={styles.resources__header}>
+					<h2 id="resources-heading" className={styles.resources__title}>
+						Resources
+					</h2>
+					<p className={styles.resources__intro}>Some blogs and docs I turn to when learning and building.</p>
+				</header>
+				<div className={styles.resources__groups}>
+					{A11Y_RESOURCES.map((group, index) => (
+						<section key={group.title} className={styles.group} aria-labelledby={`resources-group-${index}`}>
+							<h3 id={`resources-group-${index}`} className={styles.group__title}>
+								{group.title}
+							</h3>
+							<ul className={styles.group__list}>
+								{group.resources.map((resource) => (
+									<li key={resource.href} className={styles.resource}>
+										<a className={styles.resource__link} href={resource.href} target="_blank" rel="noopener noreferrer">
+											{resource.name}
+											<span className={styles.visuallyHidden}> (opens in a new tab)</span>
+										</a>
+										<p className={styles.resource__description}>{resource.description}</p>
+									</li>
+								))}
+							</ul>
+						</section>
+					))}
+				</div>
+			</section>
 		</div>
 	)
 }
