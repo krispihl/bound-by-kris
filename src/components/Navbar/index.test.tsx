@@ -40,7 +40,7 @@ describe('Navbar', () => {
 		const user = renderNavbar()
 		await user.click(screen.getByRole('button', { name: 'Menu' }))
 
-		await user.click(screen.getByRole('link', { name: 'Books (I read)' }))
+		await user.click(screen.getByRole('link', { name: 'Books I read' }))
 
 		expect(screen.getByRole('button', { name: 'Menu' })).toHaveAttribute('aria-expanded', 'false')
 	})
@@ -48,7 +48,7 @@ describe('Navbar', () => {
 	it('marks the current page link as active', () => {
 		renderNavbar()
 
-		expect(screen.getByRole('link', { name: 'Home (page)' })).toHaveAttribute('aria-current', 'page')
-		expect(screen.getByRole('link', { name: 'Books (I read)' })).not.toHaveAttribute('aria-current')
+		expect(screen.getByRole('link', { name: 'Home page' })).toHaveAttribute('aria-current', 'page')
+		expect(screen.getByRole('link', { name: 'Books I read' })).not.toHaveAttribute('aria-current')
 	})
 })

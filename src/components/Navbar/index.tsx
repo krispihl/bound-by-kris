@@ -44,7 +44,7 @@ export const Navbar = () => {
 								className={({ isActive }) => `${styles.link}${isActive ? ` ${styles['link--active']}` : ''}`}
 								onClick={close}
 							>
-								{label} <span className={styles.note}>({note})</span>
+								{label} <span className={styles.note}>{note}</span>
 							</NavLink>
 						</li>
 					))}

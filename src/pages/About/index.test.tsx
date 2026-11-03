@@ -19,7 +19,7 @@ describe('About', () => {
 		render(<About />)
 
 		const work = screen.getByRole('region', { name: 'Work' })
-		expect(within(work).getByRole('heading', { level: 3, name: 'Software Engineer, Pipedrive' })).toBeInTheDocument()
+		expect(within(work).getByRole('heading', { level: 3, name: 'Pipedrive' })).toBeInTheDocument()
 		expect(within(work).getByText('2018 – 2026')).toBeInTheDocument()
 	})
 
@@ -27,8 +27,8 @@ describe('About', () => {
 		render(<About />)
 
 		const work = screen.getByRole('region', { name: 'Work' })
-		expect(within(work).getByRole('heading', { level: 4, name: 'Accessibility Mission Lead & Engineer, Public Web' })).toBeInTheDocument()
-		expect(within(work).getByRole('heading', { level: 4, name: 'Earlier work' })).toBeInTheDocument()
+		expect(within(work).getByRole('heading', { level: 4, name: 'Accessibility Mission Lead & Engineer' })).toBeInTheDocument()
+		expect(within(work).getByRole('heading', { level: 4, name: 'Design System' })).toBeInTheDocument()
 	})
 
 	it('does not leave drafting notes on the page', () => {

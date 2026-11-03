@@ -48,6 +48,8 @@ html {
 	--color-accent-hover: var(--blaze-orange);
 	--color-divider: var(--amber-gold);
 	--color-border: #e5e3f0;
+	/* A faint accent tint for chips and tags. */
+	--color-chip: color-mix(in srgb, var(--color-accent) 7%, var(--color-surface));
 
 	/* The one focus ring for the whole site. Navy is visible on the page background; the menu sits on navy, so it swaps
      the colour for gold (gold alone would not reach 3:1 against the page background). */
