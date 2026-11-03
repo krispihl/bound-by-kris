@@ -6,13 +6,28 @@
 	list-style: none;
 }
 
+/* Brand guidelines allow the GitHub and LinkedIn marks only in black or white, so hover adds an accent bar under the
+   icon instead of recolouring it. */
 .link {
+	position: relative;
 	display: block;
-	color: var(--amber-gold);
-	transition: color 0.2s;
+	color: var(--color-text);
 
-	&:hover {
-		color: var(--hot-fuchsia);
+	&::after {
+		content: '';
+		position: absolute;
+		right: 0;
+		bottom: -0.5rem;
+		left: 0;
+		height: 0.1875rem;
+		background: var(--color-accent);
+		transform: scaleX(0);
+		transition: transform 0.2s;
+	}
+
+	&:hover::after,
+	&:focus-visible::after {
+		transform: scaleX(1);
 	}
 }
 
@@ -23,7 +38,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.link {
+	.link::after {
 		transition: none;
 	}
 }
