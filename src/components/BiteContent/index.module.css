@@ -1,4 +1,6 @@
+/* Capped at a comfortable reading line length. */
 .content {
+	max-width: 40rem;
 	container-type: inline-size;
 	line-height: 1.6;
 
@@ -21,10 +23,63 @@
 	}
 }
 
+/* One section per top-level heading, spaced well apart so each reads as its own chunk. */
+.section {
+	margin-top: 2.5rem;
+
+	&:first-child {
+		margin-top: 0;
+	}
+
+	& > * + * {
+		margin-top: 1rem;
+	}
+
+	/* "Common pitfalls" sits on a card, so the things that go wrong stand apart from the general explanation.
+	   Things that use the surface colour inside it switch to the page background so they stay visible. */
+	&--issues {
+		padding: 1.5rem;
+		background: var(--color-surface);
+
+		/* Lands with the card's top edge showing, not just the heading. */
+		& .heading {
+			scroll-margin-top: 3.5rem;
+		}
+
+		& :not(pre) > code,
+		& .code,
+		& .callout,
+		& th {
+			background: var(--color-bg);
+		}
+	}
+}
+
 .heading {
-	margin: 2rem 0 0;
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	margin: 0;
 	font-size: 1.375rem;
 	line-height: 1.3;
+	/* A little breathing room when jumped to from the contents, without showing the end of the previous section. */
+	scroll-margin-top: 2rem;
+}
+
+/* Same mono number badge as the bite rows. */
+.heading__badge {
+	display: inline-flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	min-width: 2.25rem;
+	height: 1.5rem;
+	border: 1px solid var(--color-border);
+	background: var(--color-bg);
+	color: var(--navy-electric);
+	font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+	font-size: 0.75rem;
+	font-weight: 400;
 }
 
 .subheading {
@@ -33,7 +88,16 @@
 }
 
 .list {
-	padding-left: 1.5rem;
+	padding-left: 1.25rem;
+
+	/* Accent square bullets, as on the About page. */
+	&:is(ul) {
+		list-style-type: square;
+	}
+
+	& li::marker {
+		color: var(--color-accent);
+	}
 
 	& li + li {
 		margin-top: 0.5rem;
@@ -50,20 +114,38 @@
 	background: var(--color-surface);
 }
 
+/* A figure, so the author can sit in a figcaption outside the quoted words. */
 .quote {
 	margin-inline: 0;
+	margin-bottom: 0;
 	padding-left: 1.25rem;
 	border-left: 0.25rem solid var(--amber-gold);
 	font-style: italic;
+
+	/* Each bite ends on a quote; give it the same gap as between sections so it doesn't read as part of the last one. */
+	.section:last-child > &:last-child {
+		margin-top: 2.5rem;
+	}
+}
+
+.quote__text {
+	margin: 0;
+}
+
+.quote__author {
+	margin-top: 0.5rem;
+	font-weight: 700;
 }
 
 .code {
 	margin-block: 0;
 	padding: 1rem;
 	overflow-x: auto;
-	border-radius: 0.5rem;
-	background: var(--color-text);
-	color: var(--color-bg);
+	/* Light and quiet, like the inline code, so examples support the text instead of shouting over it. */
+	border: 1px solid var(--color-border);
+	border-radius: 0.25rem;
+	background: var(--color-surface);
+	color: var(--color-text);
 	font-size: 0.875rem;
 	line-height: 1.5;
 

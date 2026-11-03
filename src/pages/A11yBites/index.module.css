@@ -167,7 +167,22 @@
 	font-size: 0.9375rem;
 	line-height: 1.5;
 
-	/* Collapsed rows show a teaser; the open row shows the whole intro. */
+	/* The open row shows the whole intro, still muted so it stays quieter than the bite's own sections, and closed off
+	   with a short accent rule; collapsed rows clamp it to a teaser. */
+	.row--open & {
+		max-width: 40rem;
+		line-height: 1.6;
+
+		&::after {
+			content: '';
+			display: block;
+			width: 3rem;
+			height: 0.1875rem;
+			margin-top: 1.5rem;
+			background: var(--color-accent);
+		}
+	}
+
 	.row:not(.row--open) & {
 		display: -webkit-box;
 		overflow: hidden;
@@ -181,12 +196,49 @@
 	z-index: 1;
 	grid-column: 2;
 	grid-row: 3;
-	padding-top: 1.5rem;
+	/* Matches the gap between sections, so the lead reads as its own chunk too. */
+	padding-top: 2.5rem;
 	animation: panel-in 0.3s cubic-bezier(0.65, 0, 0.35, 1);
 
 	&[hidden] {
 		display: none;
 	}
+}
+
+/* The open bite's section links. Only shown on wide layouts, where the column under the title is free. */
+.row__contents {
+	display: none;
+}
+
+.contents {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	& li + li {
+		margin-top: 0.75rem;
+	}
+}
+
+.contents__link {
+	display: inline-flex;
+	gap: 0.625rem;
+	align-items: baseline;
+	color: var(--color-text-muted);
+	font-size: 0.9375rem;
+	line-height: 1.4;
+	text-decoration: none;
+	transition: color 0.2s ease;
+
+	&:hover {
+		color: var(--color-accent);
+	}
+}
+
+.contents__number {
+	color: var(--navy-electric);
+	font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+	font-size: 0.75rem;
 }
 
 @container bites (min-width: 48rem) {
@@ -250,6 +302,28 @@
 		grid-column: 3;
 		padding-right: 1rem;
 	}
+
+	/* Fills the title column beside the panel, so the list can stay in view while the bite scrolls. Sits above the
+	   row-wide click area, like the panel. */
+	.row__contents {
+		position: relative;
+		z-index: 1;
+		display: block;
+		grid-column: 1;
+		grid-row: 3;
+		align-self: stretch;
+		padding-top: 2.5rem;
+	}
+
+	.contents {
+		position: sticky;
+		top: 2rem;
+		text-align: right;
+	}
+
+	.contents__link {
+		flex-direction: row-reverse;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -260,7 +334,8 @@
 	.row,
 	.row::after,
 	.row__button,
-	.row__number {
+	.row__number,
+	.contents__link {
 		transition: none;
 	}
 }

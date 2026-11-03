@@ -98,31 +98,14 @@ export const A11Y_BITES: A11yBite[] = [
 				type: 'paragraph',
 				text: 'Even for screen reader users, the skip link is often the very first thing they hear: *"Link, Skip to main content."* It serves as a verbal confirmation that the site is accessible. Also it’s faster to hit `Enter` on that first link than it is to open a "Landmarks" rotor or menu, scroll down to "Main," and select it.',
 			},
+			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
 			{
-				type: 'heading',
-				level: 2,
-				text: '🚨 Current Issues at Pipedrive public web',
+				type: 'paragraph',
+				text: 'Picture a typical marketing site without skip links: around 10 header links, identical on every page. Finding something usually means jumping through several pages, tabbing through *every single header link* each time. Most people would give up and search elsewhere.',
 			},
 			{
 				type: 'paragraph',
-				text: 'The main issue(*) is, surprise-surprise, that we are missing skip links!',
-			},
-			{
-				type: 'list',
-				ordered: false,
-				items: [
-					{
-						text: "Yes, our website currently has other significant keyboard accessibility problems in the header navigation as well, but let's not get into that just now. We already have an experiment running for the new header megamenu and in the new implementation those will be addressed.",
-					},
-				],
-			},
-			{
-				type: 'paragraph',
-				text: 'If you start from the top of the page, you would have to tap through around 10 links in the header. These links are exactly the same on each page. When you are looking for something on a webpage, you typically jump through multiple pages before you find exactly what you were looking for. How many pages would you jump through if you would have to read though *every single header link* on each page? I know that I would give up rather quickly and go search for information somewhere else.',
-			},
-			{
-				type: 'paragraph',
-				text: "And it's even worse when you get to the footer! Let's imagine you would like to reach cookie settings link, which is located at the very bottom of the page. But before that you have around 70+(!!!) footer navigation links to tab through! Amazing, right?",
+				text: 'The footer is even worse. Want the cookie settings link at the very bottom? That can mean 70+ footer links to tab through first. Amazing, right?',
 			},
 			{
 				type: 'heading',
@@ -163,66 +146,25 @@ export const A11Y_BITES: A11yBite[] = [
 				type: 'paragraph',
 				text: 'Without focus indicators, a person navigating with the `Tab` key is effectively "flying blind"—they are interacting with the page, but have no idea which link or button they are about to trigger. Also, if a page has some focus indicators present, and some missing, the keyboard navigation experience will become extra confusing. At some point, you see where you are and the next minute you are lost without any visual cues. And then suddenly the focus indicator appears in seemingly a random place down the page!',
 			},
-			{
-				type: 'heading',
-				level: 2,
-				text: '🚨 Current Issues at Pipedrive public web',
-			},
-			{
-				type: 'paragraph',
-				text: 'Problems with focus indicators can be mainly divided into some general groups and some of those problems also affect our website.',
-			},
+			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
+			{ type: 'paragraph', text: 'Focus problems usually fall into four groups:' },
 			{
 				type: 'list',
 				ordered: true,
 				items: [
 					{
-						text: 'You will not see your focus indicator because the element itself is not focusable to begin with.',
+						text: "**Not focusable at all:** a `<div>` used as a menu trigger opens on hover but never receives focus, so keyboard users can't reach it. Native `<a>` and `<button>` elements are focusable by default.",
 					},
-				],
-			},
-			{
-				type: 'paragraph',
-				text: 'For example, we can see this happening on our main header navigation. If you try to tab through header items, you will notice that some of them do not receive focus rings. This is happening because they are coded as non-focusable HTML elements (in this case, just a regular `<div>`). The elements that do receive focus are coded as link tags (`<a>`), which are focusable by default. For mouse users, these div’s open mega menu on hover. For keyboard users, they are totally inaccessible and do nothing.',
-			},
-			{
-				type: 'list',
-				ordered: true,
-				items: [
 					{
-						text: 'Visual focus indicator has been removed specifically.',
+						text: '**Ring removed on purpose:** the default outline gets stripped because it "looks ugly", and nothing replaces it. Keyboard users have no idea where they are.',
 					},
-				],
-			},
-			{
-				type: 'paragraph',
-				text: 'This is when we remove the default browser focus ring because the designer thinks it "looks ugly," without replacing it with a custom one. This makes the site completely unusable for keyboard users. I do not recall such case in our public web and we can only thank our great designers for that.',
-			},
-			{
-				type: 'list',
-				ordered: true,
-				items: [
 					{
-						text: 'Element has been made focusable, but focus indicators have not been implemented or are hidden.',
+						text: "**Ring clipped:** the element is focusable, but a parent such as a card with `overflow: hidden` cuts the ring off. It technically works, but it's like a car with pedals and no steering wheel.",
 					},
-				],
-			},
-			{
-				type: 'paragraph',
-				text: 'For example, we have one use case with video cover component. The video cover itself has focus indicator, but when it is wrapped inside a card component, this indicator ring is cut off and users cannot see it. It technically "works" with keyboard, but without visible focus, it’s functionally inaccessible. This is like building a car with working pedals but no steering wheel—it kind of works, but it\'s unusable.',
-			},
-			{
-				type: 'list',
-				ordered: true,
-				items: [
 					{
-						text: 'When focus indicators exist, but the element itself is out of page current viewport.',
+						text: '**Focus off-screen:** a slide-in panel parked off-screen stays in the tab order. The ring vanishes 2000px to the left and the user thinks the page froze. This is called "Ghost Tabbing."',
 					},
 				],
-			},
-			{
-				type: 'paragraph',
-				text: 'Imagine a component that is placed outside of current visible viewport and slides in on demand. When an element is visually hidden (off-screen) but still in the DOM, it remains in the Sequential Focus Navigation Order. A keyboard user will hit `Tab`, the focus ring will disappear because the browser is focusing on something 2000px to the left, and the user will think the page is broken or their computer has frozen. This is called "Ghost Tabbing."',
 			},
 			{
 				type: 'heading',
@@ -307,30 +249,14 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 				],
 			},
+			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
 			{
-				type: 'heading',
-				level: 2,
-				text: '🚨 Current Issues at Pipedrive public web',
+				type: 'paragraph',
+				text: 'Designs often drop the underline from inline links and rely on colour alone. WCAG still allows that, but only if [the link has at least 3:1 contrast with the surrounding body text](https://webaim.org/articles/contrast/#only) *and* shows a non-colour cue on hover (typically an underline) and on focus (a focus ring).',
 			},
 			{
 				type: 'paragraph',
-				text: 'Apparently we do not like underlines under links inside text. Would that be too descriptive? 🤷‍♀️ 🙂 Fortunately, if we want to play it like that, we do have a workaround that is still technically allowed by WCAG: [link text must have at least 3:1 contrast with surrounding body text](https://webaim.org/articles/contrast/#only) *and* must present a non-color indicator on mouse hover (typically underline) and keyboard focus (focus ring).',
-			},
-			{
-				type: 'paragraph',
-				text: '**Our Crime:** Inline text links rely solely on blue (`rgb(13, 104, 197)`) to distinguish themselves from body text *and* our CSS actively strips away “the safety net”. e.g. underline.',
-			},
-			{
-				type: 'paragraph',
-				text: 'For a link to be accessible without an underline, it must have at least a 3:1 contrast ratio with the surrounding body text.',
-			},
-			{
-				type: 'paragraph',
-				text: 'Currently, our link-to-body-text contrast ratio is 2.82:1. Not ideal. But to be honest, with contrast ratio we are somewhat playing a “politically everything is correct” game as well. I mean, would the difference between 2.82:1 vs 3:1 be actually *that* visible? Probably not, but still there needs to be some “standard” to refer to.',
-			},
-			{
-				type: 'paragraph',
-				text: 'So we should always take contrast ratio failures with a grain of salt and if possible go *beyond* the minimal required standard.',
+				text: 'A common miss is a blue link at 2.82:1 against the body text. Would the gap to 3:1 really be *that* visible? Probably not, but there has to be a standard to refer to. Treat the minimum as a floor and go *beyond* it where you can.',
 			},
 			{
 				type: 'heading',
@@ -351,7 +277,7 @@ export const A11Y_BITES: A11yBite[] = [
 							ordered: true,
 							items: [
 								{
-									text: "Hit that *3:1 contrast ratio* against surrounding text (which we currently don't, but update is already in designer's table to fix that).",
+									text: 'Hit that *3:1 contrast ratio* against surrounding text.',
 								},
 								{
 									text: 'Provide a *non-color indicator* (like an underline) on mouse hover and keyboard focus (which we already do)',
@@ -433,30 +359,11 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 				],
 			},
-			{
-				type: 'heading',
-				level: 2,
-				text: '🚨 Current Issues at Pipedrive public web',
-			},
+			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
+			{ type: 'paragraph', text: "Landmarks are easy to miss entirely: no `<main>` at all, or a `<footer>` that doesn't count as one." },
 			{
 				type: 'paragraph',
-				text: 'The issue with our public web was that we were really not utilizing the landmarks (or roles). For example we were missing `<main>` at all and although we had `<footer>` it was actually not working.',
-			},
-			{
-				type: 'paragraph',
-				text: 'In our specific footer implementation, we ran into a conflict between design system requirements and native semantics:',
-			},
-			{
-				type: 'list',
-				ordered: false,
-				items: [
-					{
-						text: '**The Constraints:** Our design system demands beautiful, consistent margins. To maintain specific margins and background alignment, our `<footer>` was wrapped inside a `<section>` + `<div>` wrapper.',
-					},
-					{
-						text: '**The Consequence:** The browser is a bit of a snob. It says, *"If the footer isn\'t a direct child of the body, it’s not a \'real\' footer anymore."* And the result was that our footer went "undercover." It looked great to us, but to a screen reader, it was just a nameless ghost. It lost its `contentinfo` landmark status. To a screen reader, our footer became a generic, un-navigable block of text.',
-					},
-				],
+				text: 'A typical footer trap comes from layout wrappers. To get consistent margins and backgrounds, the `<footer>` ends up inside a `<section>`. The browser is a bit of a snob: *"A footer inside a section belongs to that section, not the page."* It loses its `contentinfo` landmark role, and to a screen reader it\'s just a generic block of text.',
 			},
 			{
 				type: 'heading',
@@ -475,13 +382,13 @@ export const A11Y_BITES: A11yBite[] = [
 						text: 'We could implemented explicit role assignment. This means adding `role="contentinfo"` directly to the `<footer>` element. This would override the nesting rules and forces the browser to announce it as the global footer landmark. It’s like giving the footer a megaphone so it can shout "I\'M THE FOOTER!" from inside its wrapper.',
 					},
 					{
-						text: 'In our case we actually had a second and more elegant solution. We allowed out section container to actually be rendered as something other than HTML <section> element. So in case of footer, we said: “Hey you, nice mr. Section! We really like all you amazing styles, but please be a Footer in instead”. This allowed us to fix the native landmark role issue by moving <footer> element to be once again the direct child of body.',
+						text: 'A more elegant fix is to let the section component render as a different element. For the footer, that means: “Hey you, nice mr. Section! We really like all your amazing styles, but please be a Footer instead.” With no `<section>` around it, the `<footer>` gets its landmark role back.',
 					},
 				],
 			},
 			{
 				type: 'paragraph',
-				text: 'Of course we also needed to implement the `<main>` . For that it was not enough to just slap a role on the first main content section (as our main content is built from multiple separate `<section>` elements). If you only put the `<main>` tag on the *first* section, everything following it (the siblings) will be "orphaned" from the main landmark. This is because screen readers treat landmarks like *containers,* not like bookmarks or anchors.',
+				text: 'The `<main>` needs care too. When the main content is built from multiple separate `<section>` elements, it is not enough to slap the role on the first one. If you only put the `<main>` tag on the *first* section, everything following it (the siblings) will be "orphaned" from the main landmark. This is because screen readers treat landmarks like *containers,* not like bookmarks or anchors.',
 			},
 			{
 				type: 'list',
@@ -595,27 +502,23 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 				],
 			},
-			{
-				type: 'heading',
-				level: 2,
-				text: '🚨 Current Issues at Pipedrive public web',
-			},
+			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
 			{
 				type: 'paragraph',
-				text: 'Our current pricing page comparison table, which should inform user about our plans and help them make a decision, is a bit of a "master of disguise." It *looks* like a table, but under the hood, it\'s actually a collection of `<div>` elements pretending to be one. There is no relationship between rows or cells. For assistive technology users our current table is literally totally useless.',
+				text: 'Comparison tables, like the ones on pricing pages, are often a "master of disguise." They *look* like a table, but under the hood they are `<div>`s pretending to be one, with no relationship between rows or cells. For assistive technology users, that makes them useless.',
 			},
 			{
 				type: 'list',
 				ordered: false,
 				items: [
 					{
-						text: 'The "Ghost" Columns: On mobile, we use a "sliding window" to show only two columns at a time. We use `display: none` to hide the others, which actually does remove them from the accessibility tree (good!), but it can break the "column count" logic if not handled carefully. And we are not handling anything currently.',
+						text: '**Missing relationships:** a data cell can have up to three headers (e.g. category, feature and plan), but nothing links them. It’s like a family tree where no one is talking to each other.',
 					},
 					{
-						text: '**The CSS Grid Conflict:** We love CSS Grid for layout, but if we just slapped native HTML `<table>` tags in there, our grid styling would fight the browser\'s internal table algorithms like cats and dogs. What it means is that this would manually override the browser\'s internal "User Agent Stylesheet." By default, a table relies on a specific hierarchy of display properties to calculate column widths and cell alignment. The table stops behaving like a table for layout purposes because the browser no longer sees that `<tr>` as a "table row." It treats it as a standard grid container.',
+						text: '**"Ghost" columns:** a mobile "sliding window" shows two columns and hides the rest with `display: none`. That removes them from the accessibility tree (good!), but breaks the column count unless it\'s handled.',
 					},
 					{
-						text: 'Missing Relationships: Currently, there’s no explicit link between a data cell and its three potential headers (Category, Feature, and Plan). It’s like a family tree where no one is talking to each other.',
+						text: "**The CSS Grid conflict:** swapping in native `<table>` tags isn't a quick fix when the layout relies on CSS Grid. Grid overrides the display values the browser uses to size and align table columns, so a `<tr>` stops behaving like a table row.",
 					},
 				],
 			},
@@ -649,18 +552,18 @@ export const A11Y_BITES: A11yBite[] = [
 						text: 'Pros: Browsers give you a lot for free (like column mapping).',
 					},
 					{
-						text: 'Cons: It breaks our mobile "overflow" trick and CSS Grid layout. A `<tr>` is a "Table Row Box," not a "Block Box," so it refuses to overflow its parent. It\'s very stubborn.',
+						text: 'Cons: It breaks a mobile "overflow" trick and CSS Grid layout. A `<tr>` is a "Table Row Box," not a "Block Box," so it refuses to overflow its parent. It\'s very stubborn.',
 					},
 				],
 			},
 			{
 				type: 'heading',
 				level: 3,
-				text: '2. The ARIA Role Approach (Our Chosen Path)',
+				text: '2. The ARIA Role Approach (when the design can’t change)',
 			},
 			{
 				type: 'paragraph',
-				text: 'Since we don’t have time or resources right now to change the design, we’re going to "annotate" our existing `<div>` structure using WAI-ARIA roles. This keeps our current layout but gives screen readers the "map" they need. Basically we will mimic the native table relationships.',
+				text: 'When there’s no time to change the design, you can "annotate" the existing `<div>` structure with WAI-ARIA roles. This keeps the layout but gives screen readers the "map" they need, mimicking the native table relationships.',
 			},
 			{
 				type: 'paragraph',
@@ -687,7 +590,7 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'paragraph',
-				text: 'And with this, we will make our comparison table great again! (...or as much as we can, for now. Like stated earlier, we can do it even better if we would use native tables and I really hope we will eventually get to that as well.)',
+				text: 'And with this, the comparison table is great again! (...or as great as it gets. Native tables are still the better option whenever you can use them.)',
 			},
 			{
 				type: 'quote',
@@ -781,14 +684,19 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 				],
 			},
+			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
+			{ type: 'paragraph', text: 'Even when components have roles and live regions, the details often slip:' },
 			{
-				type: 'heading',
-				level: 2,
-				text: '🚨 Current Issues at Pipedrive public web',
-			},
-			{
-				type: 'paragraph',
-				text: 'Step by step we have already improved the situation with adding semantic roles or aria live properties to our components. It is not perfect yet though. For example our `Spinner` component. Loading spinners should announce their state to screen readers, but there\'s no role="status" or aria-live anywhere, and no accessible label. Thus screen reader users get no feedback that content is loading. Also we do not really utilize `aria-atomic="true"`. For example if we have `<div aria-live="polite">` wrapper on `FieldMessage` component, it lacks aria-atomic="true". Without it, some screen readers may announce only the changed text node rather than the full message. For short validation messages, aria-atomic="true" ensures the whole message is read. Same goes for our `Checkbox` component. These are easy fixes and we can do better 💪',
+				type: 'list',
+				ordered: false,
+				items: [
+					{
+						text: '**Silent spinners:** a loading spinner without `role="status"`, `aria-live` or an accessible label gives screen reader users no hint that anything is loading.',
+					},
+					{
+						text: '**Partial announcements:** an `aria-live="polite"` wrapper around a validation message, without `aria-atomic="true"`, may only announce the changed text node. For short messages, `aria-atomic="true"` makes sure the whole message is read.',
+					},
+				],
 			},
 			{
 				type: 'heading',
@@ -910,7 +818,7 @@ export const A11Y_BITES: A11yBite[] = [
 		number: 7,
 		title: 'Using <aside> together with <nav> elements',
 		summary:
-			'With the (soonish) introduction of the CRM Content Hub, we are about to introduce a second set of navigation linking to different Hub pages. As of now we have not had such implementation in our web. Or did we? We actually do have Table Of Contents, right! Is this also similar to the new additional navigation? To find out, continue reading.',
+			'A content hub often brings a second set of navigation, linking between the hub pages. Many sites already have something similar without thinking of it that way: a Table of Contents. Is it the same kind of navigation? To find out, continue reading.',
 		content: [
 			{
 				type: 'heading',
@@ -998,26 +906,15 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 				],
 			},
-			{
-				type: 'heading',
-				level: 2,
-				text: '🚨 Current Issues at Pipedrive public web',
-			},
+			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
 			{
 				type: 'paragraph',
-				text: 'Like I already mentioned in the introduction, additionally to the new CRM hub navigation our web already has Table of Content implemented. It is used on some landing pages, but mostly on a lot of blog pages and support articles.',
+				text: 'A Table of Contents beside an article is a classic case. It is often wrapped in a generic `<div>` column. That works, but it’s a bit like labelling a jar "Stuff": technically true, but not very helpful.',
 			},
+			{ type: 'paragraph', text: '**1. Why `<aside>` is the correct choice**' },
 			{
 				type: 'paragraph',
-				text: 'Currently, our TOC ("Topics" ) is wrapped in a generic `<div>` inside a column, which sits next to the main article. While this is functional, it doesn\'t describe the relationship of the content to the main article as effectively as semantic tags could. It works, yes, but it’s a bit like labeling some jar "Stuff" — technically true, but not very helpful. Here is the breakdown of why we should consider shifting to `<aside>` and how to structure it.',
-			},
-			{
-				type: 'paragraph',
-				text: '**1. Why `<aside>` is the correct choice**',
-			},
-			{
-				type: 'paragraph',
-				text: "The `<aside>` element is intended for content that is remotely related to the main content. Since TOC helps users navigate the article but isn't part of the main body itself, it fits this definition perfectly.",
+				text: "The `<aside>` element is intended for content that is remotely related to the main content. A TOC helps users navigate the article but isn't part of its body, so it fits perfectly.",
 			},
 			{
 				type: 'list',
@@ -1026,34 +923,20 @@ export const A11Y_BITES: A11yBite[] = [
 					{
 						text: '**Accessibility:** Screen readers recognize `<aside>` as a landmark, making it easier for users to jump to the navigation.',
 					},
-					{
-						text: '**SEO:** It tells Google, "This is the map, not the treasure."',
-					},
+					{ text: '**SEO:** It tells Google, "This is the map, not the treasure."' },
 				],
 			},
-			{
-				type: 'paragraph',
-				text: '**2. Recommended HTML Structure**',
-			},
-			{
-				type: 'paragraph',
-				text: 'In our current code, the TOC is nested like this:',
-			},
+			{ type: 'paragraph', text: '**2. Recommended HTML structure**' },
+			{ type: 'paragraph', text: 'Instead of a generic wrapper like this:' },
+			{ type: 'code', code: '<div class="toc">\n  <nav aria-label="Topics">\n    ...\n  </nav>\n</div>' },
+			{ type: 'paragraph', text: 'Make the outer wrapper an `<aside>` and keep the inner `<nav>`:' },
 			{
 				type: 'code',
-				code: '...\n<div class="article-container_stickyTableOfContents">\n    ...\n    <nav aria-label="Topics">\n        ...',
+				code: '<aside class="toc" aria-labelledby="toc-heading">\n  <span id="toc-heading">Topics</span>\n\n  <nav aria-label="Table of Contents">\n    <ul>\n      <li><a href="#key-takeaways">Key takeaways</a></li>\n    </ul>\n  </nav>\n</aside>',
 			},
 			{
 				type: 'paragraph',
-				text: 'We should level up. Let’s change that outer wrapper to an `<aside>` and keep the internal `<nav>`. Here is an updated example:',
-			},
-			{
-				type: 'code',
-				code: '<aside class="article-container_stickyTableOfContents" aria-labelledby="toc-heading">\n  <div class="article-container_scrollableContent">\n    <div class="puco-spacing ...">\n      <span id="toc-heading" class="puco-text ... puco-heading--h6">Topics</span>\n    </div>\n\n    <nav aria-label="Table of Contents" class="puco-table-of-contents">\n      <ul>\n        <li class="puco-table-of-contents__block">\n          <a href="#key-takeaways..." class="puco-table-of-contents__item">Key takeaways...</a>\n        </li>\n      </ul>\n    </nav>\n  </div>\n</aside>',
-			},
-			{
-				type: 'paragraph',
-				text: '*Note: Adding `aria-labelledby` ensures that when a screen reader enters the area, it announces "Topics, complimentary" instead of just leaving the user guessing.*',
+				text: '*Note: Adding `aria-labelledby` means a screen reader announces "Topics, complementary" when entering the area, instead of leaving the user guessing.*',
 			},
 			{
 				type: 'heading',
@@ -1062,7 +945,7 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'paragraph',
-				text: 'In modern layouts like our upcoming CRM Content Hub, `<aside>` and `<nav>` often work together. (Similarly to the example in the improved TOC above).',
+				text: 'In modern layouts like a content hub, `<aside>` and `<nav>` often work together, just like in the improved TOC above.',
 			},
 			{
 				type: 'paragraph',
@@ -1076,13 +959,13 @@ export const A11Y_BITES: A11yBite[] = [
 						text: 'The `<aside>` tells the browser: "This whole area is secondary to the main page content."',
 					},
 					{
-						text: 'The `<nav>` inside it tells the browser: "The specific purpose of this content is to help the user navigate to other parts on CRM content hub (our web)."',
+						text: 'The `<nav>` inside it tells the browser: "The specific purpose of this content is to help the user navigate to other parts of the hub."',
 					},
 				],
 			},
 			{
 				type: 'paragraph',
-				text: 'As we implement the CRM Content Hub, we should adopt these industry-standard patterns:',
+				text: 'When building a layout like this, adopt these industry-standard patterns:',
 			},
 			{
 				type: 'paragraph',
@@ -1106,7 +989,7 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'paragraph',
-				text: '**2. Nested Navigations** - In the Content Hub, we will have a `<nav>` inside an `<aside>`.',
+				text: '**2. Nested Navigations** - A content hub typically has a `<nav>` inside an `<aside>`.',
 			},
 			{
 				type: 'paragraph',
@@ -1130,7 +1013,7 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'code',
-				code: '<aside aria-labelledby="sidebar-title">\n  <h2 id="sidebar-title">CRM hub pages</h2>\n  <nav aria-label="Content Hub Categories">\n    <ul>...</ul>\n  </nav>\n</aside>',
+				code: '<aside aria-labelledby="sidebar-title">\n  <h2 id="sidebar-title">Hub pages</h2>\n  <nav aria-label="Content Hub Categories">\n    <ul>...</ul>\n  </nav>\n</aside>',
 			},
 			{
 				type: 'paragraph',
@@ -1138,7 +1021,7 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'paragraph',
-				text: 'The order of your tags in the HTML is the "highway" for keyboard users. There are two potential strategies for the CRM Content Hub:',
+				text: 'The order of your tags in the HTML is the "highway" for keyboard users. There are two potential strategies for a content hub:',
 			},
 			{
 				type: 'paragraph',
@@ -1239,30 +1122,23 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 				],
 			},
-			{
-				type: 'heading',
-				level: 2,
-				text: '🚨 Current Issues at Pipedrive public web',
-			},
-			{
-				type: 'paragraph',
-				text: 'Our previous implementation had a few "oops" moments that created real barriers:',
-			},
+			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
+			{ type: 'paragraph', text: 'Tooltips tend to break in the same few ways:' },
 			{
 				type: 'list',
 				ordered: false,
 				items: [
 					{
-						text: '**Keyboard Inaccessibility:** The wrapper `div` lacked a `tabIndex`. This meant keyboard users could never reach the trigger, rendering the tooltip content completely unreachable for them.',
+						text: '**Unreachable trigger:** a wrapper `div` without `tabIndex` never receives keyboard focus, so the tooltip content is out of reach.',
 					},
 					{
-						text: '**The "Portal" Black Hole:** Content was rendered via `createPortal` into `document.body`. Without a programmatic link, screen readers saw the trigger and the tooltip as two strangers who had never met.',
+						text: '**The "Portal" black hole:** content rendered via `createPortal` into `document.body` has no programmatic link to its trigger. Screen readers see two strangers who never met.',
 					},
 					{
-						text: "**Ghosting the Keyboard:** There were no `onFocus`, `onBlur`, or `onKeyDown` listeners. You couldn't open a tooltip with `Tab` or dismiss it with `Escape`.",
+						text: "**Ghosting the keyboard:** without `onFocus`, `onBlur` and `onKeyDown` listeners, you can't open the tooltip with `Tab` or dismiss it with `Escape`.",
 					},
 					{
-						text: '**The "Catch Me If You Can" Dismissal:** Tooltips disappeared instantly on `mouseLeave`. If a user tried to move their cursor *to* the tooltip (e.g., to read closely or copy text), it would disappear like a mirage.',
+						text: '**"Catch me if you can" dismissal:** hiding instantly on `mouseLeave` makes the tooltip vanish like a mirage when users move the cursor *to* it to read or copy the text.',
 					},
 				],
 			},
@@ -1273,7 +1149,7 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'paragraph',
-				text: 'To hit the WCAG 2.1 Success Criterion 1.4.13 (the fancy way of saying "don\'t break the UI on hover"), we upgraded our code from "just CSS" to "actually smart."',
+				text: 'To hit the WCAG 2.1 Success Criterion 1.4.13 (the fancy way of saying "don\'t break the UI on hover"), the code has to go from "just CSS" to "actually smart."',
 			},
 			{
 				type: 'heading',
@@ -1353,7 +1229,7 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'paragraph',
-				text: '**Bottom line:** If your tooltip disappears like a shy ghost or ignores the keyboard entirely, it’s not helping—it’s haunting. Let’s keep our UI helpful, reachable, and ghost-free. 👻🚫 These changes took our tooltips from "broken mirages" to WCAG-compliant components. It’s a small component, but a huge leap in making the Pipedrive web experience more inclusive, one `tabIndex` at a time.',
+				text: '**Bottom line:** If your tooltip disappears like a shy ghost or ignores the keyboard entirely, it’s not helping—it’s haunting. Let’s keep our UI helpful, reachable, and ghost-free. 👻🚫 It’s a small component, but a huge leap in making the web more inclusive, one `tabIndex` at a time.',
 			},
 			{
 				type: 'quote',
@@ -1421,37 +1297,22 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 				],
 			},
-			{
-				type: 'heading',
-				level: 2,
-				text: '🚨 Current Issues at Pipedrive public web',
-			},
-			{
-				type: 'paragraph',
-				text: 'While auditing our Newsletter and Signup modals, we identified several critical accessibility barriers:',
-			},
+			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
+			{ type: 'paragraph', text: 'Signup and newsletter forms, especially in modals, tend to share the same barriers:' },
 			{
 				type: 'list',
 				ordered: false,
 				items: [
 					{
-						text: '**The Silent Treatment:** Email inputs and checkboxes had visible errors, but screen readers were left in the dark because `aria-describedby` was missing. Disconnected error states meant screen reader users heard "invalid" but not the "why."',
+						text: '**The silent treatment:** errors are visible, but without `aria-describedby` screen reader users hear "invalid" and not the "why."',
 					},
+					{ text: '**Messy IDs:** IDs with whitespace (a coding sin) and implicit labels that some screen readers ignore.' },
+					{ text: '**Redundant noise:** decorative icons and images get announced as "Image, Image, Image."' },
 					{
-						text: '**Messy IDs:** We had IDs with whitespace (a coding sin) and implicit labels (wrapping inputs in labels) that some screen readers could just decide to ignore.',
+						text: '**No focus guidance:** after a failed submit, focus stays on the button, and users have to navigate back to find which field failed.',
 					},
-					{
-						text: '**Redundant Noise:** Non-informative decorative elements (icons, modal images) were selectable by VoiceOver. It was helpfully announcing "Image, Image, Image" for every decorative checkmark and icon.',
-					},
-					{
-						text: '**Lack of Focus Guidance:** When a user attempted to submit a signup form step with errors, focus remained on the next/submit button. They were stuck at the end of the form with no idea where the fire was. Users had to manually navigate backward to find which field failed validation.',
-					},
-					{
-						text: '**State Persistence Errors:** Validation errors remained marked as `aria-invalid="true"` even after a user corrected the data. Talk about holding a grudge.',
-					},
-					{
-						text: '**Lack of Browser Assistance:** Missing `autocomplete` and `required` attributes prevented browsers from offering autofill or native validation, increasing the interaction cost for all users.',
-					},
+					{ text: '**Grudge-holding errors:** `aria-invalid="true"` stays on after the user has fixed the value.' },
+					{ text: '**No browser assistance:** missing `autocomplete` and `required` attributes block autofill and native validation.' },
 				],
 			},
 			{
@@ -1630,14 +1491,14 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'paragraph',
-				text: 'While ensuring everyone can use our web is the right thing to do, accessible graphics also offer technical and business value:',
+				text: 'While ensuring everyone can use the web is the right thing to do, accessible graphics also offer technical and business value:',
 			},
 			{
 				type: 'list',
 				ordered: false,
 				items: [
 					{
-						text: '**SEO & AI discovery:** Google’s bots and the new wave of AI "answer engines" can’t "see" our beautiful UI. They read code. Proper alt text lets them index our features so Pipedrive shows up when someone asks, "What does a sales pipeline look like?"',
+						text: '**SEO & AI discovery:** Google’s bots and the new wave of AI "answer engines" can’t "see" our beautiful UI. They read code. Proper alt text lets them index the features, so the product shows up when someone asks, "What does a sales pipeline look like?"',
 					},
 					{
 						text: '**Technical resilience:** Images fail. CDNs have bad days and hotel Wi-Fi is a nightmare. When images fail to load, alt text is the ultimate safety net. It ensures the user doesn’t see a "broken" box, but the context they actually came for.',
@@ -1650,48 +1511,23 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 				],
 			},
-			{
-				type: 'heading',
-				level: 2,
-				text: '🚨 Current Issues at Pipedrive public web',
-			},
+			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
 			{
 				type: 'paragraph',
-				text: 'We’ve moved past the "missing alt text" rookie mistakes—most of our images have `alt=""` by default now. But the devil is in the details. We’re currently leveling up from "it exists" to "it’s actually helpful."',
-			},
-			{
-				type: 'paragraph',
-				text: '**1. Functional vs. literal descriptions**',
-			},
-			{
-				type: 'paragraph',
-				text: 'A recurring "whoopsie" is describing what an image *is* rather than what it *does*. For example, if a link is a logo, the user doesn\'t need to hear "Software Advice Front Runners Logo". They need to hear "Read the Software Advice Front Runners award article" We’re currently auditing these link-based images to focus on the destination, not the decoration and we should take this into account when adding similar links in the future. (This is mostly content issue, not something for developers to control.)',
-			},
-			{
-				type: 'paragraph',
-				text: '**2. Excessive "noise" from decorative icons**',
-			},
-			{
-				type: 'paragraph',
-				text: 'We love icons, but screen readers don\'t love hearing about every single decorative checkmark. We’ve been doing a cleanup to apply `aria-hidden="true"` to these "visual sugar" elements so users can get to the meat of the content faster.',
-			},
-			{
-				type: 'paragraph',
-				text: '**3. Broken programmatic relationships (The Review component case)**',
-			},
-			{
-				type: 'paragraph',
-				text: 'This was a classic case of "it looks right, but sounds wrong."',
+				text: 'Most sites have moved past missing alt text. The harder part is going from "it exists" to "it’s actually helpful":',
 			},
 			{
 				type: 'list',
-				ordered: false,
+				ordered: true,
 				items: [
 					{
-						text: '**The problem:** A user would hear "5 of 5", but because the logo had no descriptive alt text, they had no idea *who* gave the rating. Visually, the logo and the stars sit together. Programmatically, there was no link. Also in these components, decorative SVG stars were not hidden, creating "auditory clutter" for a rating that was already described in text.',
+						text: '**Literal instead of functional:** describe what an image *does*, not what it *is*. A logo linking to an award article shouldn\'t say "Software Advice Front Runners logo" but "Read the Software Advice Front Runners award article."',
 					},
 					{
-						text: '**The solution:** We "connected" the dots. Now, the logo says `alt="GetApp rating:"` and we hide the individual star SVGs to provide a clean, logical experience: *"GetApp rating: 5 of 5."*',
+						text: '**Noisy decorative icons:** screen readers don\'t need to hear every decorative checkmark. Add `aria-hidden="true"` to the "visual sugar" so users get to the content faster.',
+					},
+					{
+						text: '**Broken relationships:** a review badge reads "5 of 5", but the logo beside it has no alt text, so users don\'t know *who* gave the rating, and the star SVGs add clutter. Give the logo `alt="GetApp rating:"` and hide the stars, and it reads *"GetApp rating: 5 of 5."*',
 					},
 				],
 			},
@@ -1723,7 +1559,7 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'paragraph',
-				text: '*Example:* `<img src="dashboard.png" alt="Pipedrive sales pipeline showing three deals in the Negotiation stage.">` Also there is a general rule that you should try avoid adding images with actual informative text content on them. If this information is valuable for the sighted user, it will be valuable to everyone. If the design really needs something like this, then image alt text needs to include the same information.',
+				text: '*Example:* `<img src="dashboard.png" alt="Acme sales pipeline showing three deals in the Negotiation stage.">` Also there is a general rule that you should try avoid adding images with actual informative text content on them. If this information is valuable for the sighted user, it will be valuable to everyone. If the design really needs something like this, then image alt text needs to include the same information.',
 			},
 			{
 				type: 'list',
@@ -1913,19 +1749,6 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '🚨 Current Issues at Pipedrive public web',
-			},
-			{
-				type: 'paragraph',
-				text: "This is more like a general topic, thus I will not list any specific problems here, but let's be real: accessibility isn't a \"one-and-done\" task. Any time we touch code, we need to check if we've accidentally turned a button into a nameless void.",
-			},
-			{
-				type: 'paragraph',
-				text: '**Pro-Tip:** Don\'t guess. Pop open Chrome DevTools, hit the Accessibility tab, and look at the Computed Properties. If the "Name" field is empty, we’ve got work to do.',
-			},
-			{
-				type: 'heading',
-				level: 2,
 				text: '💡 Technical Solutions',
 			},
 			{
@@ -2072,6 +1895,10 @@ export const A11Y_BITES: A11yBite[] = [
 				],
 			},
 			{
+				type: 'paragraph',
+				text: "**Pro-Tip:** Accessibility isn't a one-and-done task. Any time you touch code, check you haven't turned a button into a nameless void. Don't guess: open Chrome DevTools, go to the Accessibility tab and look at the Computed Properties. If the \"Name\" field is empty, there's work to do.",
+			},
+			{
 				type: 'quote',
 				text: '“Accessibility is not a problem to be solved. It is a culture to be built.” — Sheri Byrne-Haber',
 			},
@@ -2164,48 +1991,30 @@ export const A11Y_BITES: A11yBite[] = [
 				type: 'paragraph',
 				text: 'Under the Web Content Accessibility Guidelines, [WCAG Success Criterion 3.2.4: Consistent Identification (Level AA)](https://www.w3.org/WAI/WCAG22/Understanding/consistent-identification.html) dictates that components performing the same function across a set of pages must be identified consistently. Swapping roles via screen-size breakpoints directly risks failing this compliance checkpoint.',
 			},
-			{
-				type: 'heading',
-				level: 2,
-				text: '🚨 Current Issues at Pipedrive public web',
-			},
+			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
 			{
 				type: 'paragraph',
-				text: 'To see what happens when this goes wrong, let’s look at an example from our recent Tabs component audit.',
-			},
-			{
-				type: 'paragraph',
-				text: 'On desktop, the component was built beautifully as a standard, compliant tabbed interface (`role="tablist"`). However, on mobile viewports, the design team gracefully collapsed the tabs into a visual dropdown menu. To try and force screen readers to match this visual trick, the underlying code completely changed its semantics to a menu widget.',
-			},
-			{
-				type: 'paragraph',
-				text: 'The broken mobile markup pattern looked something like this:',
+				text: 'A common case: a Tabs component built as a compliant `role="tablist"` on desktop collapses into a dropdown on mobile. To match the visual change, the mobile markup switches to a menu widget:',
 			},
 			{
 				type: 'code',
-				code: '<button aria-haspopup="true" aria-expanded="false" aria-controls="tabs-X-M">\n  tab 0\n</button>\n\n<ul role="menu" aria-labelledby="tabs-X">\n  <li role="menuitem" aria-selected="true" aria-controls="tabs-X-P-0">tab 0</li>\n  <li role="menuitem" aria-selected="false" aria-controls="tabs-X-P-1">tab 1</li>\n</ul>',
+				code: '<button aria-haspopup="true" aria-expanded="false" aria-controls="tabs-X-M">\n  tab 0\n</button>\n\n<ul role="menu" aria-labelledby="tabs-X">\n  <li role="menuitem" aria-selected="true" aria-controls="tabs-X-P-0">tab 0</li>\n  <li role="menuitem" aria-selected="false" aria-controls="tabs-X-P-1">tab 1</li>\n</ul>',
 			},
-			{
-				type: 'heading',
-				level: 3,
-				text: 'Why this caused accessibility violations:',
-			},
+			{ type: 'heading', level: 3, text: 'Why this breaks:' },
 			{
 				type: 'list',
 				ordered: true,
 				items: [
 					{
-						text: '**Role mismatch** (`role="menu"` / `role="menuitem"`)**:** Even when styled as a dropdown on mobile, this component still switches visible content panels. By definition, that makes it a tab interface. `role="menu"` is reserved for lists of immediate actions. VoiceOver announced this as an application menu, leading users to expect actions rather than a panel switcher.',
+						text: '**Role mismatch:** it still switches content panels, so it\'s still tabs. `role="menu"` is reserved for lists of immediate actions, and VoiceOver announces it as an application menu.',
 					},
 					{
-						text: '**Invalid state attributes:** The code used `aria-selected` on a `role="menuitem"`. The ARIA specification explicitly forbids this (it’s a semantic crime). Because of this spec violation, browsers and screen readers either ignored the active state entirely or announced it unpredictably, leaving users completely in the dark about which tab was currently active.',
+						text: '**Invalid state:** `aria-selected` isn\'t allowed on `role="menuitem"`, so the active tab is ignored or announced unpredictably.',
 					},
 					{
-						text: '**Broken programmatic links:** The code used `aria-controls` to point from a `menuitem` to a `tabpanel`.This relationship has zero defined meaning in the ARIA spec. Screen readers simply shrugged and ignored it, breaking the link between the tab and its content.',
+						text: '**Broken links:** `aria-controls` from a `menuitem` to a `tabpanel` has no defined meaning, so screen readers ignore it.',
 					},
-					{
-						text: '**The false** `aria-haspopup="true"`: Using `aria-haspopup="true"` (an alias for `aria-haspopup="menu"`) on the trigger button falsely told screen readers that it opened an application menu widget. There is no `tablist` value for `aria-haspopup`; the button is actually a disclosure control, not a menu launcher.',
-					},
+					{ text: '**False popup:** `aria-haspopup="true"` means "opens a menu", but the button is really a disclosure control.' },
 				],
 			},
 			{
@@ -2321,7 +2130,7 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'paragraph',
-				text: 'Keeping Pipedrive accessible is the right thing to do, and yes, compliance legal teams will hunt us down if we ignore WCAG standards. But in this post let’s look at this purely from a developer and QA perspective: why do we actually need to know how screen readers work? Because otherwise, we are coding with our eyes closed. Literally.',
+				text: 'Keeping a site accessible is the right thing to do, and yes, compliance legal teams will hunt us down if we ignore WCAG standards. But in this post let’s look at this purely from a developer and QA perspective: why do we actually need to know how screen readers work? Because otherwise, we are coding with our eyes closed. Literally.',
 			},
 			{
 				type: 'heading',
@@ -2353,15 +2162,6 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'paragraph',
 				text: 'For example, if a mobile hamburger menu is closed but incorrectly coded, a sighted user won\'t see it, and a standard Tab-key test won\'t hit it. However, a screen reader user navigating by headings or swipes might get dragged into this hidden menu, reading out "ghost" links that are visually invisible off-screen. Testing with a screen reader ensures that what a user hears perfectly matches what is actually happening on the screen.',
-			},
-			{
-				type: 'heading',
-				level: 2,
-				text: '🚨 Current Issues at (developing) Pipedrive public web',
-			},
-			{
-				type: 'paragraph',
-				text: 'The main issue is, well, that we do not test with screen readers, when we actually should 😁 So lets start doing it!',
 			},
 			{
 				type: 'heading',
@@ -2585,15 +2385,6 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '🚨 Current Issues at Pipedrive public web',
-			},
-			{
-				type: 'paragraph',
-				text: 'For example we lately had a task to implement emojis to be used inside Accordion component trigger titles. It is needed purely for “eye candy”. But as such, we need to implement it correctly as well.',
-			},
-			{
-				type: 'heading',
-				level: 2,
 				text: '💡 Technical Solutions',
 			},
 			{
@@ -2751,18 +2542,14 @@ export const A11Y_BITES: A11yBite[] = [
 				type: 'paragraph',
 				text: "If we don't build our header and mega menu accessibly, that is exactly what we are doing to our users. Fixing it lowers our bounce rates, satisfies regulatory compliance, and ensures an equitable user experience.",
 			},
+			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
 			{
-				type: 'heading',
-				level: 2,
-				text: '🚨 Current Issues at Pipedrive public web',
+				type: 'paragraph',
+				text: "Mega menus are where header accessibility usually falls apart: no skip link to jump over the navigation, header links that do one thing on hover and another on click, and items a keyboard can't reach at all. The whole menu ends up out of reach for keyboard and assistive technology users 🙈",
 			},
 			{
 				type: 'paragraph',
-				text: 'Our old mega menu was, well, let’s just say “lacking”. We didn’t have skip link to jump over the whole navigation. The header links had dual personality, e.g. they did one thing on hover and another on click, which left our mega menu totally out of reach for the keyboard or assistive technology users. Also not even all items on header were reachable by keyboard! I think we can agree, it was a mess 🙈 But now, with the redesign, we had a good opportunity to make it so much better - to be truly accessible and user friendly!',
-			},
-			{
-				type: 'paragraph',
-				text: 'The technical solutions list below is covering the general aspects of what should be considered when building an accessible header and mega menu. Our new mega menu should now be compatible with all the mandatory points. But there is always room for some add-on improvements (like additional keyboard navigation inside the mega menu items etc).',
+				text: 'The solutions below cover the mandatory basics of an accessible header and mega menu. Extras, like arrow-key navigation inside the menu, can come on top.',
 			},
 			{
 				type: 'heading',
@@ -2793,7 +2580,7 @@ export const A11Y_BITES: A11yBite[] = [
 						text: '**The "Skip to content" lifeline:** Keyboard users don\'t want to tab through your X amount of header / mega menu links on *every single page load*. This is why we need "Skip to main content" link as the absolute first element in our HTML. We hide it visually with CSS, but make it highly visible when it receives focus. It targets the primary content area container via an ID (e.g., `href="#main-content"`).',
 					},
 					{
-						text: '**The Logo:** If company logo links to the homepage, the `<a>` tag needs explicit inner text or an `<img>` tag with `alt="Pipedrive"`. If using an inline SVG, include `role="img"` and an internal `<title>` tag linked via `aria-labelledby`. (Currently we are wrapping the SVG with a `<div>` and giving it a specific aria-label.)',
+						text: '**The Logo:** If company logo links to the homepage, the `<a>` tag needs explicit inner text or an `<img>` tag with `alt="Acme"`. If using an inline SVG, include `role="img"` and an internal `<title>` tag linked via `aria-labelledby`.',
 					},
 				],
 			},
@@ -3016,7 +2803,7 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'paragraph',
-				text: 'And that’s a wrap! I believe our new navigation with all the accessibility fixes and new structure in mind, will guide our users much better and make them see exactly why PD should be considered as the most loved CRM 😻',
+				text: 'And that’s a wrap! A navigation built with all of this in mind guides users much better, and lets everyone see exactly why your product deserves to be loved 😻',
 			},
 			{
 				type: 'quote',

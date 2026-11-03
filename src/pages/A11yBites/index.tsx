@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { BiteContent } from '../../components/BiteContent'
 import { RichText } from '../../components/RichText'
 import { A11Y_BITES } from '../../data/a11yBites'
+import { getBiteSections } from '../../utils/biteSections'
 
 import styles from './index.module.css'
 
@@ -29,7 +30,13 @@ export const A11yBites = () => {
 		<div className={styles.page}>
 			<header className={styles.page__header}>
 				<h1 className={styles.page__title}>a11y bites</h1>
-				<p className={styles.page__intro}>Bite-sized accessibility lessons, one topic at a time. Click one to read it.</p>
+				<p className={styles.page__intro}>
+					Bite-sized accessibility lessons I initially made for my team.
+					<br />
+					Each bite covers one topic, which was relevant at that point in time.
+					<br />
+					Click one to read it.
+				</p>
 			</header>
 
 			<ul ref={listRef} className={styles.list}>
@@ -38,6 +45,8 @@ export const A11yBites = () => {
 					const buttonId = `bite-${bite.number}-button`
 					const panelId = `bite-${bite.number}-panel`
 					const summaryId = `bite-${bite.number}-summary`
+					const sections = isOpen ? getBiteSections(bite.content, bite.number) : []
+					const headings = sections.flatMap((section) => (section.heading ? [section.heading] : []))
 
 					return (
 						<li key={bite.number} className={`${styles.row}${isOpen ? ` ${styles['row--open']}` : ''}`}>
@@ -60,8 +69,24 @@ export const A11yBites = () => {
 							<p id={summaryId} className={styles.row__summary}>
 								<RichText text={bite.summary} />
 							</p>
+							{headings.length > 0 ? (
+								<nav className={styles.row__contents} aria-label={`${bite.title} contents`}>
+									<ol className={styles.contents}>
+										{headings.map((heading) => (
+											<li key={heading.id}>
+												<a className={styles.contents__link} href={`#${heading.id}`}>
+													<span className={styles.contents__number} aria-hidden="true">
+														{heading.label}
+													</span>
+													<RichText text={heading.text} />
+												</a>
+											</li>
+										))}
+									</ol>
+								</nav>
+							) : null}
 							<div id={panelId} role="region" aria-labelledby={buttonId} className={styles.row__panel} hidden={!isOpen}>
-								{isOpen ? <BiteContent blocks={bite.content} /> : null}
+								{isOpen ? <BiteContent sections={sections} /> : null}
 							</div>
 						</li>
 					)

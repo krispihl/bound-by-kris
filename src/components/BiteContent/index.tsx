@@ -1,6 +1,9 @@
 import type { Block, ListBlock } from '../../data/a11yBites'
+import type { BiteSection } from '../../utils/biteSections'
 
 import { RichText } from '../RichText'
+
+import { splitQuote } from '../../utils/splitQuote'
 
 import styles from './index.module.css'
 
@@ -21,12 +24,9 @@ const List = ({ list }: { list: ListBlock }) => {
 
 const BlockView = ({ block }: { block: Block }) => {
 	switch (block.type) {
+		// Top-level headings start a section, so only subheadings reach here.
 		case 'heading':
-			return block.level === 2 ? (
-				<h3 className={styles.heading}>
-					<RichText text={block.text} />
-				</h3>
-			) : (
+			return (
 				<h4 className={styles.subheading}>
 					<RichText text={block.text} />
 				</h4>
@@ -43,12 +43,18 @@ const BlockView = ({ block }: { block: Block }) => {
 					<RichText text={block.text} />
 				</aside>
 			)
-		case 'quote':
+		case 'quote': {
+			const { quote, author } = splitQuote(block.text)
+
 			return (
-				<blockquote className={styles.quote}>
-					<RichText text={block.text} />
-				</blockquote>
+				<figure className={styles.quote}>
+					<blockquote className={styles.quote__text}>
+						<RichText text={quote} />
+					</blockquote>
+					{author ? <figcaption className={styles.quote__author}>— {author}</figcaption> : null}
+				</figure>
 			)
+		}
 		case 'code':
 			return (
 				// Scrollable region must be keyboard reachable.
@@ -90,10 +96,32 @@ const BlockView = ({ block }: { block: Block }) => {
 	}
 }
 
-export const BiteContent = ({ blocks }: { blocks: Block[] }) => (
-	<div className={styles.content}>
-		{blocks.map((block, index) => (
-			<BlockView key={index} block={block} />
-		))}
-	</div>
-)
+const Blocks = ({ blocks }: { blocks: Block[] }) => blocks.map((block, index) => <BlockView key={index} block={block} />)
+
+export const BiteContent = ({ sections }: { sections: BiteSection[] }) => {
+	return (
+		<div className={styles.content}>
+			{sections.map((section) => {
+				if (!section.heading) {
+					return <Blocks key="intro" blocks={section.blocks} />
+				}
+
+				return (
+					<section
+						key={section.heading.id}
+						className={`${styles.section}${section.isIssues ? ` ${styles['section--issues']}` : ''}`}
+						aria-labelledby={section.heading.id}
+					>
+						<h3 id={section.heading.id} className={styles.heading}>
+							<span className={styles.heading__badge} aria-hidden="true">
+								{section.heading.label}
+							</span>
+							<RichText text={section.heading.text} />
+						</h3>
+						<Blocks blocks={section.blocks} />
+					</section>
+				)
+			})}
+		</div>
+	)
+}
