@@ -32,43 +32,41 @@ export const A11yBites = () => {
 				<p className={styles.page__intro}>Bite-sized accessibility lessons, one topic at a time. Click one to read it.</p>
 			</header>
 
-			<div className={styles.container}>
-				<ul ref={listRef} className={styles.list}>
-					{A11Y_BITES.map((bite) => {
-						const isOpen = openNumber === bite.number
-						const buttonId = `bite-${bite.number}-button`
-						const panelId = `bite-${bite.number}-panel`
-						const summaryId = `bite-${bite.number}-summary`
+			<ul ref={listRef} className={styles.list}>
+				{A11Y_BITES.map((bite) => {
+					const isOpen = openNumber === bite.number
+					const buttonId = `bite-${bite.number}-button`
+					const panelId = `bite-${bite.number}-panel`
+					const summaryId = `bite-${bite.number}-summary`
 
-						return (
-							<li key={bite.number} className={`${styles.row}${isOpen ? ` ${styles['row--open']}` : ''}`}>
-								<h2 className={styles.row__heading}>
-									<button
-										type="button"
-										id={buttonId}
-										className={styles.row__button}
-										aria-expanded={isOpen}
-										aria-controls={panelId}
-										aria-describedby={summaryId}
-										onClick={() => setOpenNumber(isOpen ? null : bite.number)}
-									>
-										{bite.title}
-									</button>
-								</h2>
-								<span className={styles.row__number} aria-hidden="true">
-									{String(bite.number).padStart(2, '0')}
-								</span>
-								<p id={summaryId} className={styles.row__summary}>
-									<RichText text={bite.summary} />
-								</p>
-								<div id={panelId} role="region" aria-labelledby={buttonId} className={styles.row__panel} hidden={!isOpen}>
-									{isOpen ? <BiteContent blocks={bite.content} /> : null}
-								</div>
-							</li>
-						)
-					})}
-				</ul>
-			</div>
+					return (
+						<li key={bite.number} className={`${styles.row}${isOpen ? ` ${styles['row--open']}` : ''}`}>
+							<h2 className={styles.row__heading}>
+								<button
+									type="button"
+									id={buttonId}
+									className={styles.row__button}
+									aria-expanded={isOpen}
+									aria-controls={panelId}
+									aria-describedby={summaryId}
+									onClick={() => setOpenNumber(isOpen ? null : bite.number)}
+								>
+									{bite.title}
+								</button>
+							</h2>
+							<span className={styles.row__number} aria-hidden="true">
+								{String(bite.number).padStart(2, '0')}
+							</span>
+							<p id={summaryId} className={styles.row__summary}>
+								<RichText text={bite.summary} />
+							</p>
+							<div id={panelId} role="region" aria-labelledby={buttonId} className={styles.row__panel} hidden={!isOpen}>
+								{isOpen ? <BiteContent blocks={bite.content} /> : null}
+							</div>
+						</li>
+					)
+				})}
+			</ul>
 		</div>
 	)
 }

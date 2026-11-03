@@ -15,6 +15,9 @@
 	max-width: 90rem;
 	margin: 0 auto;
 	padding: 6rem 2rem 4rem;
+	/* The layout reacts to the width of this container, not the viewport. */
+	container-type: inline-size;
+	container-name: bites;
 }
 
 .page__header {
@@ -38,12 +41,6 @@
 	margin: 0;
 	color: var(--color-text-muted);
 	text-align: right;
-}
-
-/* The layout reacts to the width of this container, not the viewport. */
-.container {
-	container-type: inline-size;
-	container-name: bites;
 }
 
 .list {
@@ -193,14 +190,35 @@
 }
 
 @container bites (min-width: 48rem) {
+	/* Same columns as the rows: the title right-aligned against the rule, the intro starting after it. */
+	.page__header {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 2.25rem minmax(0, 2fr);
+		column-gap: 1.5rem;
+		align-items: last baseline;
+	}
+
+	.page__title {
+		grid-column: 1;
+		text-align: right;
+	}
+
+	/* One line, sitting on the same baseline as the title. */
+	.page__intro {
+		grid-column: 3;
+		max-width: none;
+		text-align: left;
+	}
+
 	.list::before,
 	.row::after {
-		left: 50%;
+		/* The centre of the number column: a third of the free width, plus the first gap and half the badge. */
+		left: calc((100% - 5.25rem) / 3 + 2.625rem);
 	}
 
 	.row {
 		align-items: start;
-		grid-template-columns: 1fr 2.25rem 1fr;
+		grid-template-columns: minmax(0, 1fr) 2.25rem minmax(0, 2fr);
 		column-gap: 1.5rem;
 		padding: 2.5rem 0;
 	}

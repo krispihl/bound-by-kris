@@ -242,19 +242,40 @@
 	white-space: nowrap;
 }
 
-/* Same split as the bites: headings right-aligned against the centre line, the entries starting after it. */
+/* Same split as the bites: a third for the headings, right-aligned against the rule, and two thirds for the entries. */
 @container about (min-width: 48rem) {
+	/* Same columns as the sections: the title right-aligned against the rule, the intro starting after it. */
+	.page__header {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 2.25rem minmax(0, 2fr);
+		column-gap: 1.5rem;
+		align-items: last baseline;
+	}
+
+	.page__title {
+		grid-column: 1;
+		text-align: right;
+	}
+
+	/* One line, sitting on the same baseline as the title. */
+	.page__intro {
+		grid-column: 3;
+		max-width: none;
+		text-align: left;
+	}
+
 	.section {
 		--title-row-height: 3rem;
 
-		grid-template-columns: minmax(0, 1fr) 2.25rem minmax(0, 1fr);
+		grid-template-columns: minmax(0, 1fr) 2.25rem minmax(0, 2fr);
 		align-items: start;
 		column-gap: 1.5rem;
 		padding: 2.5rem 0;
-		background-position: 50% 0;
+		/* The centre of the number column: a third of the free width, plus the first gap and half the badge. */
+		background-position: calc((100% - 5.25rem) / 3 + 2.625rem) 0;
 
 		&::after {
-			left: 50%;
+			left: calc((100% - 5.25rem) / 3 + 2.625rem);
 		}
 	}
 
