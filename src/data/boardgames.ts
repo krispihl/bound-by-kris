@@ -1,28 +1,12 @@
 export type Boardgame = {
 	title: string
-	players: string
-	playTime: string
-	description: string
+	// e.g. '2–4 players'; absent for expansions, which need the base game.
+	players?: string
+	isExpansion: boolean
+	isEstonian: boolean
 }
 
-// Placeholder content.
-export const BOARDGAMES: Boardgame[] = [
-	{
-		title: 'Catan',
-		players: '3–4 players',
-		playTime: '60–90 min',
-		description: 'Trade, build and settle an island. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-	},
-	{
-		title: 'Carcassonne',
-		players: '2–5 players',
-		playTime: '30–45 min',
-		description: 'Place tiles and claim roads, cities and fields. Sed do eiusmod tempor incididunt ut labore.',
-	},
-	{
-		title: 'Ticket to Ride',
-		players: '2–5 players',
-		playTime: '45–60 min',
-		description: 'Collect train cards and connect cities across the map. Ut enim ad minim veniam, quis nostrud.',
-	},
-]
+// The games list lives in a Google Sheet, published to the web as CSV: GAME, PLAYERS and LANGUAGE columns (plus notes,
+// which are ignored). Editing the sheet updates the page without a redeploy.
+export const BOARDGAMES_CSV_URL =
+	'https://docs.google.com/spreadsheets/d/e/2PACX-1vRALL75t9rGVPz3ymvrCPXtT8sACjPk4AYj_07UgJIgU1VgTl7V3-fq92wOZjtZXQvSveN1OBFYz9rz/pub?gid=0&single=true&output=csv'
