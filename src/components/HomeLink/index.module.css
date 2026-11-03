@@ -7,13 +7,27 @@
 	padding: 0 1.5rem 2rem;
 }
 
+/* Matches the social icons on the homepage: dark icon, with an accent bar under it on hover. */
 .link {
+	position: relative;
 	display: block;
-	color: var(--amber-gold);
-	transition: color 0.2s;
+	color: var(--color-text);
 
-	&:hover {
-		color: var(--hot-fuchsia);
+	&::after {
+		content: '';
+		position: absolute;
+		right: 0;
+		bottom: -0.5rem;
+		left: 0;
+		height: 0.1875rem;
+		background: var(--color-accent);
+		transform: scaleX(0);
+		transition: transform 0.2s;
+	}
+
+	&:hover::after,
+	&:focus-visible::after {
+		transform: scaleX(1);
 	}
 }
 
@@ -24,7 +38,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.link {
+	.link::after {
 		transition: none;
 	}
 }
