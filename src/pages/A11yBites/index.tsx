@@ -1,3 +1,4 @@
+import type { MouseEvent } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
 import { BiteContent } from '../../components/BiteContent'
@@ -11,6 +12,22 @@ import styles from './index.module.css'
 export const A11yBites = () => {
 	const [openNumber, setOpenNumber] = useState<number | null>(null)
 	const listRef = useRef<HTMLUListElement>(null)
+
+	// Lets a click on the opened content close its bite, unless the reader is selecting text or using a link, a code block
+	// or a table inside it. A long bite collapses from under the pointer, so bring the closed row back if it ends up above.
+	const closeOnContentClick = (event: MouseEvent<HTMLDivElement>) => {
+		if (window.getSelection()?.toString() || (event.target instanceof Element && event.target.closest('a, button, [tabindex]'))) {
+			return
+		}
+		const row = event.currentTarget.closest('li')
+		setOpenNumber(null)
+		requestAnimationFrame(() => {
+			if (row && row.getBoundingClientRect().top < 0) {
+				const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+				row.scrollIntoView({ block: 'start', behavior: prefersReducedMotion ? 'auto' : 'smooth' })
+			}
+		})
+	}
 
 	// Opening a bite can leave it above the viewport (e.g. after closing a long one higher up), so bring its whole row back,
 	// including the space above the title.
@@ -86,7 +103,16 @@ export const A11yBites = () => {
 									</ol>
 								</nav>
 							) : null}
-							<div id={panelId} role="region" aria-labelledby={buttonId} className={styles.row__panel} hidden={!isOpen}>
+							{/* Mouse-only shortcut: keyboard and assistive tech close the bite with its title button, which stays the real control. */}
+							{/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */}
+							<div
+								id={panelId}
+								role="region"
+								aria-labelledby={buttonId}
+								className={styles.row__panel}
+								hidden={!isOpen}
+								onClick={closeOnContentClick}
+							>
 								{isOpen ? <BiteContent sections={sections} /> : null}
 							</div>
 						</li>

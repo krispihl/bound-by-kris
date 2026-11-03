@@ -34,6 +34,23 @@ describe('A11yBites', () => {
 		expect(screen.queryByRole('region', { name: 'Skip links' })).not.toBeInTheDocument()
 	})
 
+	it('closes an open bite on a click in its content, but not on a link inside it', async () => {
+		const user = userEvent.setup()
+		render(<A11yBites />)
+
+		const toggle = screen.getByRole('button', { name: 'Use of color' })
+		await user.click(toggle)
+		const region = screen.getByRole('region', { name: 'Use of color' })
+
+		const link = within(region).getAllByRole('link')[0]
+		link.addEventListener('click', (event) => event.preventDefault())
+		await user.click(link)
+		expect(toggle).toHaveAttribute('aria-expanded', 'true')
+
+		await user.click(within(region).getAllByRole('heading')[0])
+		expect(toggle).toHaveAttribute('aria-expanded', 'false')
+	})
+
 	it('keeps only one bite open at a time', async () => {
 		const user = userEvent.setup()
 		render(<A11yBites />)
