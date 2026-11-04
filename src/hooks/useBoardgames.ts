@@ -7,13 +7,24 @@ import { toBoardgames } from '../utils/toBoardgames'
 
 export type BoardgamesState = { status: 'loading' } | { status: 'error' } | { status: 'success'; games: Boardgame[] }
 
-// Loads the games from the published sheet. A failed request, or a sheet with no usable rows, ends in the error state,
-// which `retry` starts over from.
+// The games from the last successful load, kept for as long as the tab is open, so coming back to the page shows them
+// straight away. A reload starts empty and fetches the sheet again, so edits to it still show up.
+let cachedGames: Boardgame[] | null = null
+
+// For tests, which each need to start from an empty cache.
+export const clearBoardgamesCache = () => {
+	cachedGames = null
+}
+
+// Loads the games from the published sheet, or uses the ones already loaded in this tab. A failed request, or a sheet
+// with no usable rows, ends in the error state, which `retry` starts over from. Errors aren't cached.
 export const useBoardgames = () => {
-	const [state, setState] = useState<BoardgamesState>({ status: 'loading' })
+	const [state, setState] = useState<BoardgamesState>(() => (cachedGames ? { status: 'success', games: cachedGames } : { status: 'loading' }))
 	const [attempt, setAttempt] = useState(0)
 
 	useEffect(() => {
+		if (cachedGames) return
+
 		const controller = new AbortController()
 
 		fetch(BOARDGAMES_CSV_URL, { signal: controller.signal })
@@ -25,6 +36,7 @@ export const useBoardgames = () => {
 			})
 			.then((text) => {
 				const games = toBoardgames(parseCsv(text))
+				if (games.length > 0) cachedGames = games
 				setState(games.length > 0 ? { status: 'success', games } : { status: 'error' })
 			})
 			.catch(() => {

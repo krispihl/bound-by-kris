@@ -12,7 +12,7 @@ export const Boardgames = () => {
 		<div className={styles.page}>
 			<header className={styles.page__header}>
 				<h1 className={styles.page__title}>Board games</h1>
-				<p className={styles.page__intro}>Fancy to play a game or two?</p>
+				<p className={styles.page__intro}>Fancy a game or two?</p>
 			</header>
 
 			{state.status === 'loading' ? <Spinner label="Loading the games…" /> : null}

@@ -2,6 +2,8 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
+import { clearBoardgamesCache } from '../../hooks/useBoardgames'
+
 import { Boardgames } from '.'
 
 const CSV =
@@ -15,6 +17,7 @@ const mockFetch = (...responses: Response[]) => {
 
 afterEach(() => {
 	vi.unstubAllGlobals()
+	clearBoardgamesCache()
 })
 
 describe('Boardgames', () => {
