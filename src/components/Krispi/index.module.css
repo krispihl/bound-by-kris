@@ -1,0 +1,314 @@
+@keyframes blink {
+	0%,
+	92%,
+	100% {
+		transform: scaleY(1);
+	}
+
+	95% {
+		transform: scaleY(0.1);
+	}
+}
+
+@keyframes sway {
+	from {
+		transform: rotate(-6deg);
+	}
+
+	to {
+		transform: rotate(6deg);
+	}
+}
+
+/* How far the hands reach out ahead of the body, towards the head, as if on arms hidden behind the edge. Registered so a
+   placement can animate it, for example to grab the edge first and pull the body out after. */
+@property --krispi-reach {
+	syntax: '<length>';
+	inherits: true;
+	initial-value: 0;
+}
+
+/* Everything is sized from the body's width, which a placement can set with --krispi-size to scale the whole character. */
+.krispi {
+	--size: var(--krispi-size, 3rem);
+	--krispi-body: var(--navy-electric);
+	--krispi-light: color-mix(in srgb, var(--navy-electric) 55%, white);
+	--krispi-dark: color-mix(in srgb, var(--navy-electric) 55%, black);
+	/* The light comes from the top left of the screen, so shadows fall twice as far down as to the right. The direction
+	   is in Krispi's own frame, so a placement that turns Krispi sets it to whatever still points down and right on screen. */
+	--shadow-x: var(--krispi-shadow-x, 0.5);
+	--shadow-y: var(--krispi-shadow-y, 1);
+	/* The page it falls on, tinted with Krispi's own navy rather than darkened to a grey: light bouncing off a coloured
+	   body colours its shadow too, and it keeps the shadow soft instead of muddy. */
+	--shadow-color: color-mix(in oklch, var(--color-bg) 55%, var(--navy-electric));
+
+	position: relative;
+	display: block;
+	width: var(--size);
+	height: calc(var(--size) * 1.6);
+	border-radius: var(--size);
+	/* Just enough shading to look round: a touch lighter towards the light, with a soft inner shadow on the far side. */
+	background: radial-gradient(
+		circle at calc(50% - var(--shadow-x) * 30%) calc(50% - var(--shadow-y) * 25%),
+		color-mix(in srgb, var(--navy-electric) 85%, white),
+		var(--krispi-body) 60%
+	);
+	/* Layered like a real shadow: a tight, dark one where the body nearly touches the page, then ever wider and fainter
+	   ones further out, the larger ones pulled in a little so they don't spill past the sides. */
+	box-shadow:
+		inset calc(var(--size) * -0.08 * var(--shadow-x)) calc(var(--size) * -0.04 * var(--shadow-y)) calc(var(--size) * 0.12)
+			color-mix(in srgb, black 20%, transparent),
+		calc(var(--size) * 0.01 * var(--shadow-x)) calc(var(--size) * 0.01 * var(--shadow-y)) calc(var(--size) * 0.015)
+			color-mix(in srgb, var(--shadow-color) 35%, transparent),
+		calc(var(--size) * 0.04 * var(--shadow-x)) calc(var(--size) * 0.04 * var(--shadow-y)) calc(var(--size) * 0.06) calc(var(--size) * -0.01)
+			color-mix(in srgb, var(--shadow-color) 30%, transparent),
+		calc(var(--size) * 0.1 * var(--shadow-x)) calc(var(--size) * 0.1 * var(--shadow-y)) calc(var(--size) * 0.14) calc(var(--size) * -0.02)
+			color-mix(in srgb, var(--shadow-color) 25%, transparent),
+		calc(var(--size) * 0.22 * var(--shadow-x)) calc(var(--size) * 0.22 * var(--shadow-y)) calc(var(--size) * 0.3) calc(var(--size) * -0.04)
+			color-mix(in srgb, var(--shadow-color) 20%, transparent);
+}
+
+/* A speech bubble asking the reader a question, popping up above the head's top right corner while the mouse is over Krispi. The box
+   is a zero-size point there that the bubble grows up and to the right from, turned back by however much a placement
+   turns Krispi (--krispi-turn), so the bubble always stays upright. A turned placement also moves the point
+   (--krispi-bubble-left and --krispi-bubble-top), to whichever corner of the head is top right on screen. */
+.krispi__bubble {
+	position: absolute;
+	top: var(--krispi-bubble-top, 5%);
+	left: var(--krispi-bubble-left, 90%);
+	transform: rotate(calc(-1 * var(--krispi-turn, 0deg)));
+}
+
+.krispi__speech {
+	position: absolute;
+	bottom: 0.5rem;
+	left: -0.5rem;
+	padding: 0.25rem 0.75rem;
+	border: 0.125rem solid var(--navy-electric);
+	border-radius: 1rem;
+	background: var(--color-surface);
+	color: var(--navy-electric);
+	font-family: var(--font-display);
+	font-size: 1rem;
+	font-weight: 600;
+	white-space: nowrap;
+	/* Lit from the top left like Krispi, but always upright, so its shadow needs no turning. */
+	box-shadow:
+		0.0625rem 0.125rem 0.125rem color-mix(in srgb, var(--shadow-color) 30%, transparent),
+		0.25rem 0.5rem 0.75rem color-mix(in srgb, var(--shadow-color) 20%, transparent);
+	opacity: 0;
+	visibility: hidden;
+	transform: scale(0.6);
+	transform-origin: bottom left;
+	transition:
+		opacity 0.2s ease,
+		transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+		visibility 0.2s;
+
+	/* The tail: a navy triangle hanging from the bottom edge near the left corner, pointing down at the head, with a
+	   white one inside it. The white one is inset by the border's width from the tail's two outer sides (the slanted
+	   one needs √2 times as much room for that) and starts a border's width up inside the bubble, growing by as much so
+	   its slanted side stays put. That covers the bubble's bottom border with room to spare, so the bubble opens into
+	   the tail with no line, not even a sliver, across it. */
+	&::before,
+	&::after {
+		--tail-size: 0.75rem;
+		--tail-border: 0.125rem;
+
+		content: '';
+		position: absolute;
+		top: 100%;
+		left: 0.75rem;
+		width: var(--tail-size);
+		height: var(--tail-size);
+		background: var(--navy-electric);
+		clip-path: polygon(0 0, 100% 0, 0 100%);
+	}
+
+	&::after {
+		top: calc(100% - var(--tail-border));
+		left: calc(0.75rem + var(--tail-border));
+		width: calc(var(--tail-size) - var(--tail-border) * 1.414);
+		height: calc(var(--tail-size) - var(--tail-border) * 1.414);
+		background: var(--color-surface);
+	}
+
+	/* Stays while the mouse is over the bubble too, since it counts as part of Krispi. */
+	.krispi:hover & {
+		opacity: 1;
+		visibility: visible;
+		transform: scale(1);
+	}
+}
+
+/* Three springy curls sprouting from the top of the head, swaying gently from their roots. The box is a zero-size point
+   just inside the top of the head, which each strand grows out of. */
+.krispi__hair {
+	position: absolute;
+	top: calc(var(--size) * 0.04);
+	left: 50%;
+	transform-origin: center;
+	/* The curls sit close to the head, so only a small, crisp shadow from the same light. A filter follows their shape. */
+	filter: drop-shadow(
+		calc(var(--size) * 0.03 * var(--shadow-x)) calc(var(--size) * 0.03 * var(--shadow-y)) calc(var(--size) * 0.02)
+			color-mix(in srgb, var(--shadow-color) 40%, transparent)
+	);
+	animation: sway 2.5s ease-in-out infinite alternate;
+}
+
+/* A thin stem with a curl at its tip: a ring sitting on the stem's side with its bottom left open, so the stem runs up
+   into it and curls over the top and down the other side. */
+.krispi__strand {
+	--strand-width: calc(var(--size) * 0.05);
+	--curl-size: calc(var(--size) * 0.16);
+
+	position: absolute;
+	bottom: 0;
+	left: calc(var(--strand-width) / -2);
+	width: var(--strand-width);
+	height: var(--strand-length);
+	border-radius: var(--strand-width);
+	background: var(--hot-fuchsia);
+	transform: rotate(var(--strand-tilt));
+	transform-origin: bottom center;
+
+	&::after {
+		content: '';
+		position: absolute;
+		bottom: calc(100% - var(--curl-size) / 2);
+		left: 0;
+		box-sizing: border-box;
+		width: var(--curl-size);
+		height: var(--curl-size);
+		border: var(--strand-width) solid var(--hot-fuchsia);
+		border-bottom-color: transparent;
+		border-radius: 50%;
+	}
+
+	&--left {
+		--strand-length: calc(var(--size) * 0.26);
+		--strand-tilt: -30deg;
+
+		/* Curls the other way, out over the side. */
+		&::after {
+			right: 0;
+			left: auto;
+		}
+	}
+
+	&--middle {
+		--strand-length: calc(var(--size) * 0.34);
+		--strand-tilt: 0deg;
+	}
+
+	&--right {
+		--strand-length: calc(var(--size) * 0.26);
+		--strand-tilt: 30deg;
+	}
+}
+
+.krispi__face {
+	position: absolute;
+	top: 24%;
+	left: 50%;
+	display: grid;
+	grid-template-columns: repeat(2, auto);
+	justify-content: center;
+	gap: 0 calc(var(--size) * 0.08);
+	width: 80%;
+	transform: translateX(-50%);
+	transition: transform 0.3s ease;
+}
+
+/* A white eyeball with a dark pupil and a glint, blinking every few seconds. */
+.krispi__eye {
+	position: relative;
+	width: calc(var(--size) * 0.26);
+	height: calc(var(--size) * 0.26);
+	border-radius: 50%;
+	background: radial-gradient(circle at 40% 35%, white 55%, #e3ddf2 100%);
+	box-shadow: inset 0 calc(var(--size) * -0.015) calc(var(--size) * 0.03) color-mix(in srgb, black 25%, transparent);
+	animation: blink 5s infinite;
+
+	&::after {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 48%;
+		height: 48%;
+		border-radius: 50%;
+		background: radial-gradient(circle at 32% 30%, white 0 14%, var(--color-text) 16%);
+		transform: translate(-50%, var(--pupil-y, -50%));
+		transition: transform 0.3s ease;
+	}
+}
+
+/* The bottom edge of a circle's border, which leaves a smiling curve. */
+.krispi__mouth {
+	grid-column: 1 / -1;
+	justify-self: center;
+	width: calc(var(--size) * 0.38);
+	height: calc(var(--size) * 0.22);
+	margin-top: calc(var(--size) * -0.08);
+	border: calc(var(--size) * 0.045) solid transparent;
+	border-bottom-color: var(--color-bg);
+	border-radius: 50%;
+}
+
+/* Three fingertips curled over an edge, side by side and pointing towards the head. Each is a little lighter than the
+   body with a dark outline, so the fingers stay distinct from each other. */
+.krispi__hand {
+	position: absolute;
+	display: grid;
+	grid-auto-flow: column;
+
+	/* One hand at each side of the body, with the innermost finger over it and the other two past it. A finger is 13%
+	   of the body's width with its border, so the hand reaches out by the other two. */
+	&--left {
+		left: -26%;
+	}
+
+	&--right {
+		right: -26%;
+	}
+}
+
+.krispi__finger {
+	width: calc(var(--size) * 0.1);
+	height: calc(var(--size) * 0.16);
+	border: calc(var(--size) * 0.015) solid var(--krispi-dark);
+	border-radius: var(--size) var(--size) 0 0;
+	background: linear-gradient(to right, var(--krispi-light), var(--navy-electric) 80%);
+	/* Fingers press flat against the edge, so their shadow is short and crisp. */
+	box-shadow: calc(var(--size) * 0.02 * var(--shadow-x)) calc(var(--size) * 0.02 * var(--shadow-y)) calc(var(--size) * 0.03)
+		color-mix(in srgb, var(--shadow-color) 45%, transparent);
+}
+
+/* Head first out from behind an edge, looking past it, with both hands gripping the edge. The edge crosses the body
+   --krispi-edge down from the top; a placement turns Krispi around that line and lines it up with the edge it hides
+   behind (it reads the same variable, so the two stay in step). */
+.krispi--peek {
+	--krispi-edge: 70%;
+	--pupil-y: -75%;
+
+	/* The fingers reach a little past the edge line, behind the edge like the body does, so their base never lands a
+	   fraction of a pixel short of it and leaves a sliver of page showing. */
+	& .krispi__hand {
+		top: calc(var(--krispi-edge) + var(--size) * 0.05);
+		transform: translateY(calc(-100% - var(--krispi-reach)));
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.krispi__hair,
+	.krispi__eye {
+		animation: none;
+	}
+
+	.krispi__face,
+	.krispi__eye::after,
+	.krispi__speech {
+		transition: none;
+	}
+}

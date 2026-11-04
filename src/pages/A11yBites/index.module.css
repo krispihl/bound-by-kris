@@ -449,6 +449,75 @@
 	}
 }
 
+/* Krispi slowly pulls itself out on its side from the left edge of the window as the reader starts scrolling: the
+   fingers grab the edge first, then the body follows them out, and it keeps peeking from there on; scrolling back up to
+   the top tucks it away again. Driven by how far the page has scrolled, in
+   rem rather than a percentage so opening a long bite doesn't change the timing. Only shown where scroll-driven
+   animations work and the reader hasn't asked for less motion; elsewhere it isn't there. */
+@keyframes peek {
+	/* Turned onto its side around the edge line of the peek pose, which sits at the middle of its width: -210% tucks the
+	   head, its hair and its shadow fully behind the window's edge, -50% puts that line on it. */
+	from {
+		--krispi-reach: 0;
+
+		transform: translateX(-210%) rotate(90deg);
+	}
+
+	/* The hands reach out to the window's edge while the body waits behind it: 160% of its width, the distance between
+	   the two translations. */
+	30% {
+		--krispi-reach: calc(var(--krispi-size) * 1.6);
+
+		transform: translateX(-210%) rotate(90deg);
+	}
+
+	/* Then the body catches up with them. The reach shrinks exactly as fast as the body moves, so the fingers stay put. */
+	to {
+		--krispi-reach: 0;
+
+		transform: translateX(-50%) rotate(90deg);
+	}
+}
+
+.peek {
+	display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	@supports (animation-timeline: scroll()) {
+		.peek {
+			--krispi-size: 2rem;
+			/* Turned a quarter clockwise, Krispi's own right and up point down and right on screen, keeping its shadow
+			   falling the same way as everything else lit from the top left. */
+			--krispi-shadow-x: 1;
+			--krispi-shadow-y: -0.5;
+			/* The speech bubble turns back upright, from the head's corner that ends up top right on screen. */
+			--krispi-turn: 90deg;
+			--krispi-bubble-left: 10%;
+			--krispi-bubble-top: 5%;
+
+			position: fixed;
+			top: 45%;
+			left: 0;
+			z-index: 5;
+			display: block;
+			transform: translateX(-210%) rotate(90deg);
+			/* Turns around the line where the hands grip, so the translations above line that up with the window's edge. */
+			transform-origin: 50% var(--krispi-edge);
+			animation: peek ease-in-out both;
+			animation-timeline: scroll(root);
+			/* Out over the first 45rem of scrolling, then held there by the fill for the rest of the page. */
+			animation-range: 0 45rem;
+		}
+	}
+}
+
+@media (min-width: 48rem) {
+	.peek {
+		--krispi-size: 3rem;
+	}
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.row__panel {
 		animation: none;
