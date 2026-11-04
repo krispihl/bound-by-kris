@@ -4,23 +4,31 @@ import { Link } from 'react-router-dom'
 
 import { ExternalLink } from '../../components/ExternalLink'
 import { Krispi } from '../../components/Krispi'
+import type { CvSection } from '../../data/cv'
 import { CV_SECTIONS } from '../../data/cv'
 import { useScrolledToBottom } from '../../hooks/useScrolledToBottom'
 
 import styles from './index.module.css'
 
-// Turns the section's link words in a paragraph into a link to that page; paragraphs without them stay plain text.
-const withLink = (paragraph: string, link?: { text: string; to: string }): ReactNode => {
+// Turns the section's link words in a paragraph into a link to that page, or to the other site in a new tab;
+// paragraphs without them stay plain text.
+const withLink = (paragraph: string, link?: CvSection['link']): ReactNode => {
 	const at = link ? paragraph.indexOf(link.text) : -1
 	if (!link || at === -1) return paragraph
 
 	return (
 		<>
 			{paragraph.slice(0, at)}
-			<Link className={styles.section__link} to={link.to}>
-				{link.text}
-				<FiArrowRight className={styles['section__link-icon']} aria-hidden="true" focusable="false" />
-			</Link>
+			{'href' in link ? (
+				<ExternalLink className={styles.section__link} href={link.href}>
+					{link.text}
+				</ExternalLink>
+			) : (
+				<Link className={styles.section__link} to={link.to}>
+					{link.text}
+					<FiArrowRight className={styles['section__link-icon']} aria-hidden="true" focusable="false" />
+				</Link>
+			)}
 			{paragraph.slice(at + link.text.length)}
 		</>
 	)
@@ -47,7 +55,7 @@ export const About = () => {
 								{section.heading}
 							</h2>
 							<div className={styles.section__body}>
-								{section.summary?.map((paragraph) => (
+								{[...(section.summary ?? []), ...(section.webSummary ?? [])].map((paragraph) => (
 									<p key={paragraph} className={styles.section__summary}>
 										{withLink(paragraph, section.link)}
 									</p>

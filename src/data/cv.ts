@@ -31,14 +31,16 @@ type CvEntry = {
 	note?: boolean
 }
 
-type CvSection = {
+export type CvSection = {
 	id: string
 	heading: string
 	// Paragraphs shown above the entries.
 	summary?: string[]
-	// Words in the summary that link to a page on this site, e.g. "board games" to the games list. The PDF keeps them as
-	// plain text.
-	link?: { text: string; to: string }
+	// Paragraphs shown after the summary on the site only, e.g. a pointer to somewhere the printed PDF can't link to.
+	webSummary?: string[]
+	// Words in the summary that link to a page on this site (to), e.g. "board games" to the games list, or to another
+	// site (href), opening in a new tab. The PDF keeps them as plain text.
+	link?: { text: string; to: string } | { text: string; href: string }
 	// Short skill names shown as tags between the summary and the entries.
 	tags?: string[]
 	entries: CvEntry[]
@@ -53,6 +55,11 @@ export const CV_SECTIONS: CvSection[] = [
 			"During last 2 years I led Pipedrive's public-web accessibility initiative through two mission-scale efforts. I scoped them, made the business case, prioritized WCAG audit findings, coordinated different teams and shipped many of the fixes myself.",
 			'I also led the engineering side of web experimentation and was voted "Experimenter of the Year" in a company-wide vote.',
 		],
+		webSummary: ['Read what colleagues say about working with me in my LinkedIn recommendations.'],
+		link: {
+			text: 'LinkedIn recommendations',
+			href: 'https://www.linkedin.com/in/kristina-pihl-97461a10a/details/recommendations/',
+		},
 		tags: [
 			'Web Accessibility (WCAG)',
 			'Design Systems',

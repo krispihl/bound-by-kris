@@ -66,4 +66,13 @@ describe('About', () => {
 		expect(within(interests).getByRole('link', { name: 'board games' })).toHaveAttribute('href', '/boardgames')
 		expect(interests).toHaveTextContent('Cycling, bikepacking, motorcycle touring, snowboarding, running, swimming, reading, board games')
 	})
+
+	it('links to the LinkedIn recommendations from the profile, opening them in a new tab', () => {
+		renderAbout()
+
+		const profile = screen.getByRole('region', { name: 'Profile' })
+		const link = within(profile).getByRole('link', { name: /^LinkedIn recommendations\s*\(opens in a new tab\)$/ })
+		expect(link).toHaveAttribute('href', 'https://www.linkedin.com/in/kristina-pihl-97461a10a/details/recommendations/')
+		expect(link).toHaveAttribute('target', '_blank')
+	})
 })
