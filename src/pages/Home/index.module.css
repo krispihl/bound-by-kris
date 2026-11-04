@@ -62,6 +62,9 @@
 	letter-spacing: -0.02em;
 	line-height: 0.85;
 	text-transform: uppercase;
+	/* Treated as artwork rather than text: it can't be selected, and the pointer stays an arrow over it. */
+	cursor: default;
+	user-select: none;
 }
 
 /* Runs between the two name rows; positioned in em so it stays centred in the gap between the letters at any size. */
@@ -78,6 +81,25 @@
 	animation: rule-draw 1.4s cubic-bezier(0.65, 0, 0.35, 1) both;
 }
 
+/* A copy of the name in the accent colour over the dark one, masked to a soft circle at the pointer, so the letters
+   light up wherever it moves. Only for devices that can hover, and faded in and out as the pointer enters and leaves. */
+.hero__glow {
+	position: absolute;
+	inset: 0;
+	color: var(--color-accent);
+	pointer-events: none;
+	opacity: 0;
+	mask-image: radial-gradient(circle 0.6em at var(--glow-x, 50%) var(--glow-y, 50%), #000 25%, transparent);
+	transition: opacity 0.3s ease;
+}
+
+@media (hover: hover) {
+	.hero__name:hover .hero__glow {
+		opacity: 1;
+	}
+}
+
+.hero__lines,
 .hero__line {
 	display: block;
 
@@ -135,5 +157,9 @@
 	.hero__letter,
 	.hero__rule {
 		animation: none;
+	}
+
+	.hero__glow {
+		transition: none;
 	}
 }
