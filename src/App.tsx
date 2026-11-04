@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import { HomeLink } from './components/HomeLink'
 import { Navbar } from './components/Navbar'
+import { ScrollToTop } from './components/ScrollToTop'
 import { About } from './pages/About'
 import { A11yBites } from './pages/A11yBites'
 import { Boardgames } from './pages/Boardgames'
@@ -11,6 +12,7 @@ import { Home } from './pages/Home'
 const App = () => {
 	return (
 		<BrowserRouter>
+			<ScrollToTop />
 			<Navbar />
 			<main>
 				<Routes>
