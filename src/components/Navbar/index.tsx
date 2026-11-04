@@ -10,7 +10,6 @@ const LINKS = [
 	{ to: '/', label: 'Home', note: 'page' },
 	{ to: '/about', label: 'About', note: 'me' },
 	{ to: '/a11y-bites', label: 'a11y bites', note: 'I wrote' },
-	{ to: '/books', label: 'Books', note: 'I read' },
 	{ to: '/boardgames', label: 'Board games', note: 'I play' },
 ]
 

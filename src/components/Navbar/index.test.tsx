@@ -40,7 +40,7 @@ describe('Navbar', () => {
 		const user = renderNavbar()
 		await user.click(screen.getByRole('button', { name: 'Menu' }))
 
-		await user.click(screen.getByRole('link', { name: 'Books I read' }))
+		await user.click(screen.getByRole('link', { name: 'Board games I play' }))
 
 		expect(screen.getByRole('button', { name: 'Menu' })).toHaveAttribute('aria-expanded', 'false')
 	})
@@ -49,6 +49,6 @@ describe('Navbar', () => {
 		renderNavbar()
 
 		expect(screen.getByRole('link', { name: 'Home page' })).toHaveAttribute('aria-current', 'page')
-		expect(screen.getByRole('link', { name: 'Books I read' })).not.toHaveAttribute('aria-current')
+		expect(screen.getByRole('link', { name: 'Board games I play' })).not.toHaveAttribute('aria-current')
 	})
 })
