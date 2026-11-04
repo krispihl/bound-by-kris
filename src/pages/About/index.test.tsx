@@ -31,6 +31,14 @@ describe('About', () => {
 		expect(within(work).getByRole('heading', { level: 4, name: 'Design System' })).toBeInTheDocument()
 	})
 
+	it('links to the PDF CV, opening it in a new tab', () => {
+		render(<About />)
+
+		const link = screen.getByRole('link', { name: /^Printable CV \(PDF\)\s*\(opens in a new tab\)$/ })
+		expect(link).toHaveAttribute('href', '/kristina-pihl-cv.pdf')
+		expect(link).toHaveAttribute('target', '_blank')
+	})
+
 	it('does not leave drafting notes on the page', () => {
 		render(<About />)
 

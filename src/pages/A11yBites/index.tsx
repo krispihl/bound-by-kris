@@ -138,7 +138,7 @@ export const A11yBites = () => {
 									<li key={resource.href} className={styles.resource}>
 										<a className={styles.resource__link} href={resource.href} target="_blank" rel="noopener noreferrer">
 											{resource.name}
-											<span className={styles.visuallyHidden}> (opens in a new tab)</span>
+											<span className="visually-hidden"> (opens in a new tab)</span>
 										</a>
 										<p className={styles.resource__description}>{resource.description}</p>
 									</li>

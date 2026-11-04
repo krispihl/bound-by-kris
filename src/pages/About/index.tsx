@@ -103,6 +103,17 @@ export const About = () => {
 					</section>
 				)
 			})}
+
+			<footer className={styles.page__footer}>
+				{/* A plain link, not a router one, so the browser opens the PDF in its own viewer with download and print. */}
+				<a className={styles.page__cv} href="/kristina-pihl-cv.pdf" target="_blank" rel="noopener noreferrer">
+					Printable CV (PDF)
+					<svg className={styles.page__cvIcon} viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+						<path d="M9 2h5v5M14 2 7 9M12 10v4H2V4h4" />
+					</svg>
+					<span className="visually-hidden"> (opens in a new tab)</span>
+				</a>
+			</footer>
 		</div>
 	)
 }

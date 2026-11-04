@@ -320,15 +320,6 @@
 	line-height: 1.5;
 }
 
-.visuallyHidden {
-	position: absolute;
-	width: 0.0625rem;
-	height: 0.0625rem;
-	overflow: hidden;
-	clip-path: inset(50%);
-	white-space: nowrap;
-}
-
 @container bites (min-width: 48rem) {
 	/* Same columns as the rows: the title right-aligned against the rule, the intro starting after it. */
 	.page__header {

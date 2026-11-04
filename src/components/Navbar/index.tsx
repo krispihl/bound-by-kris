@@ -11,7 +11,7 @@ const LINKS = [
 	{ to: '/about', label: 'About', note: 'me' },
 	{ to: '/a11y-bites', label: 'a11y bites', note: 'I wrote' },
 	{ to: '/books', label: 'Books', note: 'I read' },
-	{ to: '/boardgames', label: 'Boardgames', note: 'I play' },
+	{ to: '/boardgames', label: 'Board games', note: 'I play' },
 ]
 
 export const Navbar = () => {

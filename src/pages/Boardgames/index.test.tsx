@@ -21,7 +21,7 @@ describe('Boardgames', () => {
 		mockFetch(new Response(CSV))
 		render(<Boardgames />)
 
-		expect(screen.getByRole('heading', { level: 1, name: 'Boardgames' })).toBeInTheDocument()
+		expect(screen.getByRole('heading', { level: 1, name: 'Board games' })).toBeInTheDocument()
 		expect(screen.getByRole('status')).toHaveTextContent('Loading the games')
 
 		expect(await screen.findAllByRole('article')).toHaveLength(3)

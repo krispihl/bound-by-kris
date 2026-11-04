@@ -84,3 +84,13 @@ body {
 	font-size: 1.1rem;
 	color: var(--color-text-muted);
 }
+
+/* Hides text visually but keeps it for screen readers, e.g. "(opens in a new tab)" after an external link. */
+.visually-hidden {
+	position: absolute;
+	width: 0.0625rem;
+	height: 0.0625rem;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}

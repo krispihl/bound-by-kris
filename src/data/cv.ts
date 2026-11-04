@@ -46,7 +46,7 @@ export const CV_SECTIONS: CvSection[] = [
 		id: 'profile',
 		heading: 'Profile',
 		summary: [
-			"I'm a front-end / full-stack engineer who has spent 8 years working on a high-traffic SaaS public web platform. My main focus was public website, signup, CMS and our shared component library, where I was one of the main contributers.",
+			"I'm a front-end engineer with full-stack experience, who has spent 8 years working on a high-traffic SaaS public web platform. My main focus was public website, signup, CMS and our shared component library, where I was one of the main contributors.",
 			"During last 2 years I led Pipedrive's public-web accessibility initiative through two mission-scale efforts. I scoped them, made the business case, prioritized WCAG audit findings, coordinated different teams and shipped many of the fixes myself.",
 			'I also led the engineering side of web experimentation and was voted "Experimenter of the Year" in a company-wide vote.',
 		],
@@ -200,14 +200,15 @@ export const CV_SECTIONS: CvSection[] = [
 		],
 	},
 	{
-		id: 'outside-work',
-		heading: 'Outside work',
-		entries: [
-			{ title: 'Languages', detail: 'Estonian (native), English' },
-			{
-				title: 'Free time',
-				detail: 'I love to spend it outdoors: cycling, bikepacking, riding my motorcycle, snowboarding, camping etc. At home you would find me reading or playing boardgames.',
-			},
-		],
+		id: 'languages',
+		heading: 'Languages',
+		summary: ['Estonian (native), English'],
+		entries: [],
+	},
+	{
+		id: 'interests',
+		heading: 'Interests',
+		summary: ['Cycling, bikepacking, motorcycle touring, snowboarding, running, swimming, reading, board games'],
+		entries: [],
 	},
 ]

@@ -10,11 +10,11 @@ const renderAt = (path: string) =>
 		<MemoryRouter initialEntries={[path]}>
 			<ScrollToTop />
 			<Link to="/">Home</Link>
-			<Link to="/boardgames">Boardgames</Link>
+			<Link to="/boardgames">Board games</Link>
 			<Link to="/boardgames#letter-A">Letter A</Link>
 			<Routes>
 				<Route path="/" element={<p>Home page</p>} />
-				<Route path="/boardgames" element={<p>Boardgames page</p>} />
+				<Route path="/boardgames" element={<p>Board games page</p>} />
 			</Routes>
 		</MemoryRouter>
 	)

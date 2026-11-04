@@ -31,6 +31,37 @@
 	text-align: right;
 }
 
+/* Closes the page after the last section, lined up with the section text. */
+.page__footer {
+	padding: 2rem 0 0 3.25rem;
+}
+
+/* Changes colour on hover like the menu toggle; the arrow icon shows that it opens in a new tab. */
+.page__cv {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 0.25rem;
+	color: var(--color-text);
+	font-weight: 600;
+	text-decoration: none;
+	white-space: nowrap;
+	transition: color 0.3s;
+
+	&:hover {
+		color: var(--color-accent);
+	}
+}
+
+.page__cvIcon {
+	width: 0.75em;
+	height: 0.75em;
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.75;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
 /* Laid out like the a11y bites rows: a number badge on a vertical rule, the heading beside it and the entries after it. */
 .section {
 	position: relative;
@@ -62,7 +93,7 @@
 		transform: scaleY(1);
 	}
 
-	&:last-child {
+	&:last-of-type {
 		border-bottom: 1px solid var(--color-border);
 	}
 }
@@ -366,6 +397,18 @@
 		text-align: right;
 	}
 
+	.page__footer {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 2.25rem minmax(0, 2fr);
+		column-gap: 1.5rem;
+		padding-left: 0;
+	}
+
+	.page__cv {
+		grid-column: 3;
+		justify-self: start;
+	}
+
 	/* One line, sitting on the same baseline as the title. */
 	.page__intro {
 		grid-column: 3;
@@ -406,11 +449,19 @@
 	.section__body {
 		grid-column: 3;
 		grid-row: 1;
-		padding-top: 0.25rem;
+	}
+
+	/* The first line of the body, a paragraph or an entry title, is centred in the title row, level with the badge. */
+	.section__summary:first-child {
+		margin-top: calc((var(--title-row-height) - 1.7rem) / 2);
 	}
 
 	.entry {
 		padding-top: 0.25rem;
+
+		&:first-child {
+			padding-top: calc((var(--title-row-height) - 1.575rem) / 2);
+		}
 	}
 
 	.entry__head {
@@ -423,7 +474,8 @@
 @media (prefers-reduced-motion: reduce) {
 	.section::after,
 	.section__number,
-	.section__heading {
+	.section__heading,
+	.page__cv {
 		transition: none;
 	}
 }
