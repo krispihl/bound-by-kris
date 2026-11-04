@@ -69,4 +69,35 @@ describe('Boardgames', () => {
 		expect(await screen.findAllByRole('article')).toHaveLength(3)
 		expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 	})
+
+	it('narrows the list to the games matching the search, ignoring case and accents', async () => {
+		const user = userEvent.setup()
+		mockFetch(new Response(CSV))
+		render(<Boardgames />)
+
+		await user.type(await screen.findByRole('searchbox', { name: 'Search games' }), 'ÁLIAS')
+
+		expect(screen.getAllByRole('article')).toHaveLength(1)
+		expect(screen.getByRole('heading', { name: 'Alias' })).toBeInTheDocument()
+		expect(screen.getAllByRole('heading', { level: 2 }).map((heading) => heading.textContent)).toEqual(['A'])
+		expect(screen.getByText('1 of 3 games')).toHaveAttribute('aria-live', 'polite')
+	})
+
+	it('says so when nothing matches, and shows every game again once the search is cleared', async () => {
+		const user = userEvent.setup()
+		mockFetch(new Response(CSV))
+		render(<Boardgames />)
+
+		const search = await screen.findByRole('searchbox', { name: 'Search games' })
+		await user.type(search, 'chess')
+
+		expect(screen.queryAllByRole('article')).toHaveLength(0)
+		expect(screen.getByText('No games match “chess”.')).toBeInTheDocument()
+		expect(screen.getByText('0 of 3 games')).toBeInTheDocument()
+
+		await user.clear(search)
+
+		expect(screen.getAllByRole('article')).toHaveLength(3)
+		expect(screen.getByText('3 games on my shelf')).toBeInTheDocument()
+	})
 })

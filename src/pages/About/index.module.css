@@ -149,6 +149,40 @@
 	}
 }
 
+/* An arrow after the words shows they lead to another page, and an accent bar slides in under them on hover, like the
+   home link at the bottom of the page. Kept on one line, so the words and the arrow never split. */
+.section__link {
+	position: relative;
+	color: inherit;
+	text-decoration: none;
+	white-space: nowrap;
+
+	&::after {
+		content: '';
+		position: absolute;
+		right: 0;
+		bottom: -0.125rem;
+		left: 0;
+		height: 0.1875rem;
+		background: var(--color-accent);
+		transform: scaleX(0);
+		transition: transform 0.2s;
+	}
+
+	&:hover::after,
+	&:focus-visible::after {
+		transform: scaleX(1);
+	}
+}
+
+/* Sized to the text, like the new-tab icon, and drawn in the link's colour. */
+.section__link-icon {
+	width: 0.75em;
+	height: 0.75em;
+	margin-left: 0.25em;
+	vertical-align: -0.0625em;
+}
+
 .tags {
 	display: flex;
 	flex-wrap: wrap;
@@ -462,6 +496,7 @@
 	.section::after,
 	.section__number,
 	.section__heading,
+	.section__link::after,
 	.page__cv {
 		transition: none;
 	}

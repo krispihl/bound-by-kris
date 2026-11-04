@@ -1,7 +1,28 @@
+import type { ReactNode } from 'react'
+import { FiArrowRight } from 'react-icons/fi'
+import { Link } from 'react-router-dom'
+
 import { ExternalLink } from '../../components/ExternalLink'
 import { CV_SECTIONS } from '../../data/cv'
 
 import styles from './index.module.css'
+
+// Turns the section's link words in a paragraph into a link to that page; paragraphs without them stay plain text.
+const withLink = (paragraph: string, link?: { text: string; to: string }): ReactNode => {
+	const at = link ? paragraph.indexOf(link.text) : -1
+	if (!link || at === -1) return paragraph
+
+	return (
+		<>
+			{paragraph.slice(0, at)}
+			<Link className={styles.section__link} to={link.to}>
+				{link.text}
+				<FiArrowRight className={styles['section__link-icon']} aria-hidden="true" focusable="false" />
+			</Link>
+			{paragraph.slice(at + link.text.length)}
+		</>
+	)
+}
 
 export const About = () => {
 	return (
@@ -23,7 +44,7 @@ export const About = () => {
 						<div className={styles.section__body}>
 							{section.summary?.map((paragraph) => (
 								<p key={paragraph} className={styles.section__summary}>
-									{paragraph}
+									{withLink(paragraph, section.link)}
 								</p>
 							))}
 							{section.tags ? (

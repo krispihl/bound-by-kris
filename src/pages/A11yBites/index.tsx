@@ -2,6 +2,7 @@ import type { MouseEvent } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
 import { BiteContent } from '../../components/BiteContent'
+import { ExternalLink } from '../../components/ExternalLink'
 import { RichText } from '../../components/RichText'
 import { A11Y_BITES } from '../../data/a11yBites'
 import { A11Y_RESOURCES } from '../../data/a11yResources'
@@ -136,10 +137,9 @@ export const A11yBites = () => {
 							<ul className={styles.group__list}>
 								{group.resources.map((resource) => (
 									<li key={resource.href} className={styles.resource}>
-										<a className={styles.resource__link} href={resource.href} target="_blank" rel="noopener noreferrer">
+										<ExternalLink className={styles.resource__link} href={resource.href}>
 											{resource.name}
-											<span className="visually-hidden"> (opens in a new tab)</span>
-										</a>
+										</ExternalLink>
 										<p className={styles.resource__description}>{resource.description}</p>
 									</li>
 								))}

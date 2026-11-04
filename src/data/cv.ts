@@ -36,6 +36,9 @@ type CvSection = {
 	heading: string
 	// Paragraphs shown above the entries.
 	summary?: string[]
+	// Words in the summary that link to a page on this site, e.g. "board games" to the games list. The PDF keeps them as
+	// plain text.
+	link?: { text: string; to: string }
 	// Short skill names shown as tags between the summary and the entries.
 	tags?: string[]
 	entries: CvEntry[]
@@ -209,6 +212,7 @@ export const CV_SECTIONS: CvSection[] = [
 		id: 'interests',
 		heading: 'Interests',
 		summary: ['Cycling, bikepacking, motorcycle touring, snowboarding, running, swimming, reading, board games'],
+		link: { text: 'board games', to: '/boardgames' },
 		entries: [],
 	},
 ]

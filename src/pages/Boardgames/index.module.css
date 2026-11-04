@@ -8,11 +8,6 @@
 }
 
 .page__header {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: flex-end;
-	justify-content: space-between;
-	gap: 1rem 2rem;
 	padding-bottom: 2rem;
 }
 
@@ -21,13 +16,6 @@
 	font-family: var(--font-display);
 	font-size: clamp(2.5rem, 8vw, 4.5rem);
 	line-height: 1.05;
-}
-
-.page__intro {
-	max-width: 24rem;
-	margin: 0;
-	color: var(--color-text-muted);
-	text-align: right;
 }
 
 .status {
@@ -59,8 +47,41 @@
 	}
 }
 
+/* A plain field with a label above it, in the mono caps of the count below. */
+.search {
+	display: grid;
+	gap: 0.5rem;
+	max-width: 24rem;
+}
+
+.search__label {
+	color: var(--navy-electric);
+	font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+	font-size: 0.8125rem;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.search__input {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 0.625rem 0.875rem;
+	border: 1px solid var(--color-border);
+	border-radius: 0;
+	background: var(--color-surface);
+	color: var(--color-text);
+	font: inherit;
+	font-size: 1rem;
+	transition: border-color 0.2s ease;
+
+	&:hover,
+	&:focus-visible {
+		border-color: var(--navy-electric);
+	}
+}
+
 .count {
-	margin: 1rem 0 1.75rem;
+	margin: 1.5rem 0 1.75rem;
 	color: var(--navy-electric);
 	font-family: ui-monospace, 'SF Mono', Menlo, monospace;
 	font-size: 0.8125rem;
@@ -160,6 +181,7 @@
 
 @media (prefers-reduced-motion: reduce) {
 	.status__retry,
+	.search__input,
 	.game__link {
 		transition: none;
 	}
