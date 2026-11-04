@@ -68,6 +68,18 @@ body {
 	font-family: var(--font-display);
 }
 
+/* At least the window's height (less the body's default 0.5rem margins), with the page content taking up the spare
+   room, so the home link after it stays in the bottom corner even on a short page. */
+#root {
+	display: flex;
+	flex-direction: column;
+	min-height: calc(100dvh - 1rem);
+}
+
+main {
+	flex: 1;
+}
+
 .container {
 	max-width: 800px;
 	margin: 4rem auto;
