@@ -85,8 +85,10 @@
 	}
 }
 
-/* Decorative: the number only echoes the order the headings already have. */
+/* Decorative: the number only echoes the order the headings already have. Named as an anchor, so Krispi can line up
+   with the rule it sits on (several badges share the name, and the last one wins). */
 .section__number {
+	anchor-name: --section-number;
 	position: relative;
 	z-index: 1;
 	grid-column: 1;
@@ -492,12 +494,54 @@
 	}
 }
 
+/* Once the reader has scrolled all the way to the end of the page, Krispi slowly rises from below the bottom of the
+   window, under the CV link and centred on the sections' vertical rule, until a little over half its body shows;
+   scrolling back up sinks it out of sight again, a little quicker. Its eyes wait while it's hidden, so its first
+   glance up at the link comes soon after it appears. Only shown where anchor positioning works;
+   elsewhere it isn't there. */
+.peek {
+	display: none;
+}
+
+@supports (anchor-name: --section-number) {
+	.peek {
+		--krispi-size: 2rem;
+		--krispi-eyes: paused;
+
+		position: fixed;
+		bottom: 0;
+		/* Centred on the rule, which runs through the middle of the number badges. */
+		left: calc(anchor(--section-number center) - var(--krispi-size) / 2);
+		z-index: 5;
+		display: block;
+		/* 130% sinks the head and its hair fully below the window's edge. */
+		transform: translateY(130%);
+		transition: transform 0.6s ease-in;
+
+		/* 40% shows the top 60% of the body, down to just below the smile. */
+		&--up {
+			--krispi-eyes: running;
+
+			transform: translateY(40%);
+			transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
+		}
+	}
+}
+
+@media (min-width: 48rem) {
+	.peek {
+		--krispi-size: 3rem;
+	}
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.section::after,
 	.section__number,
 	.section__heading,
 	.section__link::after,
-	.page__cv {
+	.page__cv,
+	.peek,
+	.peek--up {
 		transition: none;
 	}
 }

@@ -10,6 +10,41 @@
 	}
 }
 
+/* How far the pupils are glanced away from where they'd look otherwise, as a share of the pupil's own size. Registered
+   so the glance animates these rather than the pupil's transform: a transform animation gets drawn on a layer of its
+   own, which blurs once Krispi sits a fraction of a pixel off the grid, while moving the pupil by its position snaps
+   it to whole pixels and makes it jump. */
+@property --glance-x {
+	syntax: '<percentage>';
+	inherits: false;
+	initial-value: 0%;
+}
+
+@property --glance-y {
+	syntax: '<percentage>';
+	inherits: false;
+	initial-value: 0%;
+}
+
+/* Two blinks long. Just after the first blink, the pupils move up to the top right, as far as the eyeball allows,
+   stay there for a moment and come back well before the second, so every glance has two blinks between it and the
+   next. */
+@keyframes glance {
+	0%,
+	51%,
+	74%,
+	100% {
+		--glance-x: 0%;
+		--glance-y: 0%;
+	}
+
+	55%,
+	70% {
+		--glance-x: 30%;
+		--glance-y: -30%;
+	}
+}
+
 @keyframes sway {
 	from {
 		transform: rotate(-6deg);
@@ -229,6 +264,9 @@
 	background: radial-gradient(circle at 40% 35%, white 55%, #e3ddf2 100%);
 	box-shadow: inset 0 calc(var(--size) * -0.015) calc(var(--size) * 0.03) color-mix(in srgb, black 25%, transparent);
 	animation: blink 5s infinite;
+	/* A placement can hold the eyes still, for example while Krispi is out of sight; the glance waits with them, so
+	   the two stay in step. */
+	animation-play-state: var(--krispi-eyes, running);
 
 	&::after {
 		content: '';
@@ -239,8 +277,24 @@
 		height: 48%;
 		border-radius: 50%;
 		background: radial-gradient(circle at 32% 30%, white 0 14%, var(--color-text) 16%);
-		transform: translate(-50%, var(--pupil-y, -50%));
+		transform: translate(calc(-50% + var(--glance-x)), calc(var(--pupil-y, -50%) + var(--glance-y)));
 		transition: transform 0.3s ease;
+	}
+}
+
+/* Blinking and glancing both start 2.5s into the blink's cycle, so the first blink comes soon after Krispi appears,
+   rather than five seconds later, and the first glance right after it. They share the start, so the glance still
+   falls between two blinks. */
+.krispi--glance {
+	& .krispi__eye {
+		animation-delay: -2.5s;
+	}
+
+	/* No transition on the pupil here, which would trail every step of the glance and soften it. */
+	& .krispi__eye::after {
+		transition: none;
+		animation: glance 10s -2.5s ease-in-out infinite;
+		animation-play-state: var(--krispi-eyes, running);
 	}
 }
 
@@ -302,7 +356,9 @@
 
 @media (prefers-reduced-motion: reduce) {
 	.krispi__hair,
-	.krispi__eye {
+	.krispi__eye,
+	.krispi--glance .krispi__eye,
+	.krispi--glance .krispi__eye::after {
 		animation: none;
 	}
 

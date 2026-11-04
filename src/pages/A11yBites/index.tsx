@@ -152,7 +152,7 @@ export const A11yBites = () => {
 				</section>
 			</div>
 			{/* Outside the page, whose container query would otherwise pin this fixed element to the page instead of the window. */}
-			<Krispi pose="peek" className={styles.peek} />
+			<Krispi pose="peek" says="Learned anything new?" className={styles.peek} />
 		</>
 	)
 }

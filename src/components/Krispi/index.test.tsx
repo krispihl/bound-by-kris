@@ -23,10 +23,24 @@ describe('Krispi', () => {
 		expect(container.querySelector('[class*="krispi__hand--right"]')).toBeInTheDocument()
 	})
 
-	it('asks a question in its speech bubble', () => {
-		const { getByText } = render(<Krispi />)
+	it('says what it is given in its speech bubble', () => {
+		const { getByText } = render(<Krispi says="Learned anything new?" />)
 
 		expect(getByText('Learned anything new?')).toBeInTheDocument()
+	})
+
+	it('has no speech bubble when it has nothing to say', () => {
+		const { container } = render(<Krispi />)
+
+		expect(container.querySelector('[class*="krispi__bubble"]')).not.toBeInTheDocument()
+	})
+
+	it('glances up between blinks only when asked to', () => {
+		const { container, rerender } = render(<Krispi />)
+		expect(container.firstElementChild?.className).not.toContain('krispi--glance')
+
+		rerender(<Krispi glances />)
+		expect(container.firstElementChild?.className).toContain('krispi--glance')
 	})
 
 	it('keeps the class a placement passes in', () => {

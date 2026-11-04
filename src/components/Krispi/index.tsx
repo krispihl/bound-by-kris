@@ -1,12 +1,24 @@
 import styles from './index.module.css'
 
-type KrispiPose = 'idle' | 'peek'
+type KrispiProps = {
+	pose?: 'idle' | 'peek'
+	// What Krispi says in a speech bubble while the mouse is over it; without it, there's no bubble.
+	says?: string
+	// Every few blinks, Krispi glances up to the top right between two of them, then looks back at the reader.
+	glances?: boolean
+	className?: string
+}
 
-// Krispi, the site's pill-shaped mascot, drawn in CSS. Only decoration, so screen readers skip it, the question in its
-// speech bubble included: it just chats when the mouse is over it. Where it sits and how it moves is up to the page
+const POSE_CLASSES = {
+	idle: '',
+	peek: styles['krispi--peek'],
+}
+
+// Krispi, the site's pill-shaped mascot, drawn in CSS. Only decoration, so screen readers skip it, anything it says in
+// its speech bubble included: it just chats when the mouse is over it. Where it sits and how it moves is up to the page
 // placing it (through className); the pose sets the face and hands.
-export const Krispi = ({ pose = 'idle', className }: { pose?: KrispiPose; className?: string }) => {
-	const classes = [styles.krispi, pose === 'peek' ? styles['krispi--peek'] : '', className].filter(Boolean).join(' ')
+export const Krispi = ({ pose = 'idle', says, glances = false, className }: KrispiProps) => {
+	const classes = [styles.krispi, POSE_CLASSES[pose], glances && styles['krispi--glance'], className].filter(Boolean).join(' ')
 
 	return (
 		<span className={classes} aria-hidden="true">
@@ -29,9 +41,11 @@ export const Krispi = ({ pose = 'idle', className }: { pose?: KrispiPose; classN
 						</span>
 					))
 				: null}
-			<span className={styles.krispi__bubble}>
-				<span className={styles.krispi__speech}>Learned anything new?</span>
-			</span>
+			{says ? (
+				<span className={styles.krispi__bubble}>
+					<span className={styles.krispi__speech}>{says}</span>
+				</span>
+			) : null}
 		</span>
 	)
 }
