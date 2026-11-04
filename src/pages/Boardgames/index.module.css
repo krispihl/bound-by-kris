@@ -90,7 +90,7 @@
 
 .list {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
 	gap: 1.5rem 2rem;
 	margin: 0;
 	padding: 0;
@@ -103,6 +103,17 @@
 	font-size: 1.1875rem;
 	font-weight: 600;
 	line-height: 1.3;
+}
+
+/* Changes colour on hover like the menu toggle; the icon after the title shows it opens in a new tab. */
+.game__link {
+	color: inherit;
+	text-decoration: none;
+	transition: color 0.3s;
+
+	&:hover {
+		color: var(--color-accent);
+	}
 }
 
 .game__meta {
@@ -148,7 +159,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.status__retry {
+	.status__retry,
+	.game__link {
 		transition: none;
 	}
 }

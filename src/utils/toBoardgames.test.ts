@@ -31,6 +31,23 @@ describe('toBoardgames', () => {
 		])
 	})
 
+	it('keeps web links from the LINK column and drops anything else', () => {
+		const rows = [
+			['GAME', 'PLAYERS', 'LANGUAGE', 'NOTES', 'LINK'],
+			['Azul', '2 - 4', '', '', ' https://boardgamegeek.com/boardgame/230802/azul '],
+			['Mõttemeister', '2', 'EST', '', ''],
+			['Bad', '2', '', '', 'javascript:alert(1)'],
+			['Typo', '2', '', '', 'boardgamegeek.com/boardgame/1'],
+		]
+
+		expect(toBoardgames(rows).map((game) => [game.title, game.link])).toEqual([
+			['Azul', 'https://boardgamegeek.com/boardgame/230802/azul'],
+			['Bad', undefined],
+			['Mõttemeister', undefined],
+			['Typo', undefined],
+		])
+	})
+
 	it('skips rows without a game name', () => {
 		expect(
 			toBoardgames([

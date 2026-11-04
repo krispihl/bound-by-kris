@@ -14,6 +14,17 @@ const formatPlayers = (value: string) => {
 	return value
 }
 
+// The sheet can be edited by hand, so only web addresses are kept as links; anything else, like a typo or a
+// `javascript:` URL, is dropped.
+const toLink = (value: string) => {
+	try {
+		const url = new URL(value)
+		return url.protocol === 'https:' || url.protocol === 'http:' ? url.href : undefined
+	} catch {
+		return undefined
+	}
+}
+
 // Turns the sheet's rows into games, sorted by title. Columns are found by their header names (the language one only by
 // its start, so a typo there still matches), and rows without a game name are skipped.
 export const toBoardgames = (rows: string[][]): Boardgame[] => {
@@ -25,6 +36,7 @@ export const toBoardgames = (rows: string[][]): Boardgame[] => {
 	const titleColumn = findColumn(header, /^game$/i)
 	const playersColumn = findColumn(header, /^players$/i)
 	const languageColumn = findColumn(header, /^lang/i)
+	const linkColumn = findColumn(header, /^link$/i)
 	if (titleColumn === -1) {
 		return []
 	}
@@ -37,6 +49,7 @@ export const toBoardgames = (rows: string[][]): Boardgame[] => {
 			}
 			const players = row[playersColumn]?.trim() ?? ''
 			const isExpansion = /^expansion$/i.test(players)
+			const link = toLink(row[linkColumn]?.trim() ?? '')
 
 			return [
 				{
@@ -44,6 +57,7 @@ export const toBoardgames = (rows: string[][]): Boardgame[] => {
 					players: players && !isExpansion ? formatPlayers(players) : undefined,
 					isExpansion,
 					isEstonian: /^est$/i.test(row[languageColumn]?.trim() ?? ''),
+					link,
 				},
 			]
 		})

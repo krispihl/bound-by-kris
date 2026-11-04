@@ -36,11 +36,8 @@
 	padding: 2rem 0 0 3.25rem;
 }
 
-/* Changes colour on hover like the menu toggle; the arrow icon shows that it opens in a new tab. */
+/* Changes colour on hover like the menu toggle. */
 .page__cv {
-	display: inline-flex;
-	align-items: baseline;
-	gap: 0.25rem;
 	color: var(--color-text);
 	font-weight: 600;
 	text-decoration: none;
@@ -50,16 +47,6 @@
 	&:hover {
 		color: var(--color-accent);
 	}
-}
-
-.page__cvIcon {
-	width: 0.75em;
-	height: 0.75em;
-	fill: none;
-	stroke: currentColor;
-	stroke-width: 1.75;
-	stroke-linecap: round;
-	stroke-linejoin: round;
 }
 
 /* Laid out like the a11y bites rows: a number badge on a vertical rule, the heading beside it and the entries after it. */

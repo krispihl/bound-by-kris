@@ -4,7 +4,8 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { Boardgames } from '.'
 
-const CSV = 'GAME,PLAYERS,LANGUAGE,NOTES\nAzul,2 - 4,,\nAlias,4 - 12,EST,\n7 wonders leaders,Expansion,,'
+const CSV =
+	'GAME,PLAYERS,LANGUAGE,NOTES,LINK\nAzul,2 - 4,,,https://boardgamegeek.com/boardgame/230802/azul\nAlias,4 - 12,EST,,\n7 wonders leaders,Expansion,,,'
 
 const mockFetch = (...responses: Response[]) => {
 	const fetchMock = vi.fn<typeof fetch>()
@@ -41,6 +42,17 @@ describe('Boardgames', () => {
 		const leaders = screen.getByRole('heading', { name: '7 wonders leaders' }).closest('article')
 		expect(leaders).toHaveTextContent('Expansion')
 		expect(leaders).not.toHaveTextContent('players')
+	})
+
+	it('links a game title to its page in a new tab, and leaves games without a link as plain text', async () => {
+		mockFetch(new Response(CSV))
+		render(<Boardgames />)
+
+		const azul = await screen.findByRole('link', { name: /^Azul\s*\(opens in a new tab\)$/ })
+		expect(azul).toHaveAttribute('href', 'https://boardgamegeek.com/boardgame/230802/azul')
+		expect(azul).toHaveAttribute('target', '_blank')
+		expect(screen.getAllByRole('link')).toHaveLength(1)
+		expect(screen.getByRole('heading', { name: 'Alias' })).toBeInTheDocument()
 	})
 
 	it('shows an error with a retry that loads the games', async () => {

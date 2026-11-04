@@ -1,0 +1,13 @@
+.end {
+	white-space: nowrap;
+}
+
+/* Sized to the link's text and drawn in its colour, so it changes with the link on hover. */
+.icon {
+	width: 0.75em;
+	height: 0.75em;
+	margin-left: 0.3em;
+	/* The icon's drawing stops 2 of its 24 units above the edge of its box, so this drops the box by that much and the
+	   drawn bottom sits on the text's baseline. */
+	vertical-align: -0.0625em;
+}

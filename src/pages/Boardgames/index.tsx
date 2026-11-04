@@ -1,3 +1,4 @@
+import { ExternalLink } from '../../components/ExternalLink'
 import { useBoardgames } from '../../hooks/useBoardgames'
 import { groupByLetter } from '../../utils/groupByLetter'
 
@@ -41,7 +42,15 @@ export const Boardgames = () => {
 									{group.games.map((game) => (
 										<li key={game.title}>
 											<article>
-												<h3 className={styles.game__title}>{game.title}</h3>
+												<h3 className={styles.game__title}>
+													{game.link ? (
+														<ExternalLink className={styles.game__link} href={game.link}>
+															{game.title}
+														</ExternalLink>
+													) : (
+														game.title
+													)}
+												</h3>
 												<p className={styles.game__meta}>
 													{game.isExpansion ? <span className={styles.tag}>Expansion</span> : game.players}
 													{game.isEstonian ? (
