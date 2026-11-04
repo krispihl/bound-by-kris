@@ -1,0 +1,89 @@
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* Turned 45° further than the arc, which puts the dot on the arc's leading end. */
+@keyframes chase {
+	from {
+		transform: rotate(45deg);
+	}
+
+	to {
+		transform: rotate(405deg);
+	}
+}
+
+.spinner {
+	display: flex;
+	justify-content: center;
+	padding: 4rem 0;
+}
+
+.spinner__ring {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 6.5rem;
+	height: 6.5rem;
+	border: 0.1875rem solid var(--color-border);
+	border-radius: 50%;
+}
+
+/* Covers the ring's grey border with accent on two sides, so a quarter-turn arc runs round it. */
+.spinner__arc {
+	position: absolute;
+	inset: -0.1875rem;
+	border: 0.1875rem solid transparent;
+	border-top-color: var(--color-accent);
+	border-right-color: var(--color-accent);
+	border-radius: 50%;
+	animation: spin 2s linear infinite;
+}
+
+/* A full-size box that turns, carrying the dot on its edge round the ring. */
+.spinner__dot {
+	position: absolute;
+	inset: -0.1875rem;
+	animation: chase 2s linear infinite;
+
+	&::after {
+		content: '';
+		position: absolute;
+		top: 50%;
+		right: -0.21875rem;
+		width: 0.625rem;
+		height: 0.625rem;
+		border-radius: 50%;
+		background: var(--color-accent);
+		box-shadow: 0 0 0.5rem 0.125rem color-mix(in srgb, var(--color-accent) 50%, transparent);
+		transform: translateY(-50%);
+	}
+}
+
+/* In the small mono caps used for the games count. */
+.spinner__text {
+	color: var(--navy-electric);
+	font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+	font-size: 0.75rem;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+/* Holds still as a plain ring with its arc, which still reads as loading. */
+@media (prefers-reduced-motion: reduce) {
+	.spinner__arc,
+	.spinner__dot {
+		animation: none;
+	}
+
+	.spinner__dot {
+		transform: rotate(45deg);
+	}
+}

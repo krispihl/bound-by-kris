@@ -1,4 +1,5 @@
 import { ExternalLink } from '../../components/ExternalLink'
+import { Spinner } from '../../components/Spinner'
 import { useBoardgames } from '../../hooks/useBoardgames'
 import { groupByLetter } from '../../utils/groupByLetter'
 
@@ -14,11 +15,7 @@ export const Boardgames = () => {
 				<p className={styles.page__intro}>Fancy to play a game or two?</p>
 			</header>
 
-			{state.status === 'loading' ? (
-				<p className={styles.status} role="status">
-					Loading the games…
-				</p>
-			) : null}
+			{state.status === 'loading' ? <Spinner label="Loading the games…" /> : null}
 
 			{state.status === 'error' ? (
 				<div className={styles.status} role="alert">
