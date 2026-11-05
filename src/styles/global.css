@@ -2,6 +2,8 @@ html {
 	font-size: 16px;
 	/* Keeps the scrollbar's space reserved on pages too short to scroll, so the layout doesn't shift between pages. */
 	scrollbar-gutter: stable;
+	/* Anything scrolled to, from an in-page link or by tabbing onto it, stops below the header bar instead of under it. */
+	scroll-padding-top: var(--header-height);
 }
 
 /* Chromium and Safari ignore the ::-webkit-scrollbar rules below once scrollbar-color is set, so Firefox gets the
@@ -56,6 +58,12 @@ html {
      the colour for gold (gold alone would not reach 3:1 against the page background). */
 	--color-focus: var(--navy-electric);
 	--focus-width: 0.1875rem;
+
+	/* The fixed bar across the top that holds the menu button. */
+	--header-height: 5.25rem;
+	/* The fade under it, which text scrolling up passes through before it goes under the bar. It fits in the room every
+	   page leaves between the bar and its first text, so it doesn't dim anything at the top of the page. */
+	--header-fade: 1.25rem;
 }
 
 :focus-visible {

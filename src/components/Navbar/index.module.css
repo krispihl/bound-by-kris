@@ -1,5 +1,31 @@
-.toggle {
+/* A bar across the top of the window, in the page's own colour so it doesn't look separate, that page content scrolls
+   under instead of behind the menu button. Every page leaves this much room above its first text, so it hides nothing
+   at the top of the page. The open menu fills the window from inside it, over the bar. */
+.header {
 	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	z-index: 10;
+	height: var(--header-height);
+	background: var(--color-bg);
+
+	/* Below the bar, so text fades out on its way under it instead of being cut off at a hard edge. */
+	&::after {
+		content: '';
+		position: absolute;
+		top: 100%;
+		right: 0;
+		left: 0;
+		height: var(--header-fade);
+		background: linear-gradient(var(--color-bg), transparent);
+		pointer-events: none;
+	}
+}
+
+/* Centred in the header bar: 1.5rem above and below its 2.25rem height. */
+.toggle {
+	position: absolute;
 	top: 1.5rem;
 	right: 2rem;
 	z-index: 20;

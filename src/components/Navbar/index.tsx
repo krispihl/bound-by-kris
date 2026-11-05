@@ -22,7 +22,7 @@ export const Navbar = () => {
 	useScrollLock(isOpen)
 
 	return (
-		<header>
+		<header className={styles.header}>
 			<button
 				type="button"
 				className={`${styles.toggle}${isOpen ? ` ${styles['toggle--open']}` : ''}`}

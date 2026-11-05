@@ -19,22 +19,35 @@
 }
 
 .hero {
+	/* The top padding ends below the header bar and its fade (less the body's 0.5rem margin), so when the page is
+	   scrolled all the way, the name stops just clear of them instead of going under. */
+	--hero-padding-top: calc(var(--header-height) + var(--header-fade) - 0.5rem);
+
 	box-sizing: border-box;
-	padding: 1.5rem 2rem 1rem;
+	padding: var(--hero-padding-top) 2rem 1rem;
 	/* The tight line height lets the glyph boxes spill past the bottom edge, which would otherwise add a scrollbar. */
 	overflow: clip;
 	container-type: inline-size;
 	container-name: hero;
+
+	/* On a wide but short window, a name sized from the full width wouldn't fit on the first screen with room for the
+	   footer below it, so the page could scroll it under the header bar. The hero narrows and centres instead, as wide as
+	   lets the name (1.7 × 21% of the width inside the padding) fit with 4.5rem to spare: 1rem for the body margins,
+	   the vertical padding, and the footer's minimum height. */
+	@mixin not-mobile {
+		max-width: calc((100dvh - 1rem - var(--hero-padding-top) - 1rem - 4.5rem) / 0.357 + 4rem);
+		margin-inline: auto;
+	}
 }
 
 /* The title block and the footer share these so the whitespace above the name and the scrollable whitespace below it
    match. The first screen is gap + intro + name; the gap is whatever is left of the viewport (1rem makes up for the
-   default 0.5rem body margin on each side, 2.5rem for the hero's vertical padding, 4.3rem for the two-line intro
-   plus the space under it). */
+   default 0.5rem body margin on each side, then the hero's vertical padding, and 4.3rem for the two-line intro plus
+   the space under it). Scrolling the footer's height moves the name up by the gap, to just below the header bar. */
 .hero__title,
 .hero__footer {
 	--name-size: 19.5cqi;
-	--gap: max(2rem, calc(100dvh - 1rem - 2.5rem - 4.3rem - 1.7 * var(--name-size)));
+	--gap: max(2rem, calc(100dvh - 1rem - var(--hero-padding-top) - 1rem - 4.3rem - 1.7 * var(--name-size)));
 }
 
 .hero__title {
@@ -131,7 +144,7 @@
 		--name-size: 21cqi;
 
 		/* The intro leaves the flow here, so there is no intro height to subtract. */
-		--gap: max(2rem, calc(100dvh - 1rem - 2.5rem - 1.7 * var(--name-size)));
+		--gap: max(2rem, calc(100dvh - 1rem - var(--hero-padding-top) - 1rem - 1.7 * var(--name-size)));
 	}
 
 	/* Centred in the free space left of PIHL: PIHL is about 2.35em wide, and its capitals centre about 0.42em above the
