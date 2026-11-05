@@ -39,9 +39,10 @@ const BlockView = ({ block }: { block: Block }) => {
 			)
 		case 'callout':
 			return (
-				<aside className={styles.callout}>
+				// A note rather than an <aside>: outside a <section>, an <aside> is a complementary landmark of its own.
+				<div className={styles.callout} role="note">
 					<RichText text={block.text} />
-				</aside>
+				</div>
 			)
 		case 'quote': {
 			const { quote, author } = splitQuote(block.text)
@@ -57,9 +58,10 @@ const BlockView = ({ block }: { block: Block }) => {
 		}
 		case 'code':
 			return (
-				// Scrollable region must be keyboard reachable.
+				// Focusable so a keyboard can scroll code wider than the page, and named so it says why when focused, as the
+				// table below is.
 				// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-				<pre className={styles.code} tabIndex={0}>
+				<pre className={styles.code} tabIndex={0} role="group" aria-label="Code example, scrollable">
 					<code>{block.code}</code>
 				</pre>
 			)

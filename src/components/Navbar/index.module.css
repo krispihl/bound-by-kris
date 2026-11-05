@@ -70,8 +70,8 @@
 		position: absolute;
 		left: 0;
 		width: 100%;
-		height: 2px;
-		background: currentColor;
+		/* A border rather than a background, as forced colors mode strips backgrounds and the lines would vanish. */
+		border-top: 2px solid currentColor;
 		transition:
 			transform 0.3s,
 			top 0.3s;
@@ -172,6 +172,14 @@
 			color: var(--color-divider);
 		}
 	}
+}
+
+/* The current page's name is underlined as well as coloured, so it doesn't rely on colour alone. Only the name, not the
+   space or the note after it. */
+.link--active .label {
+	text-decoration: underline;
+	text-decoration-thickness: 0.06em;
+	text-underline-offset: 0.12em;
 }
 
 .note {

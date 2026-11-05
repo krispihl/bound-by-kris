@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
 import { useEscapeKey } from '../../hooks/useEscapeKey'
@@ -16,14 +16,40 @@ const LINKS = [
 export const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false)
 
+	const headerRef = useRef<HTMLElement>(null)
+	const toggleRef = useRef<HTMLButtonElement>(null)
+
 	const close = useCallback(() => setIsOpen(false), [])
 
-	useEscapeKey(isOpen, close)
+	// Escape can be pressed on a menu link, which then hides, so focus goes back to the toggle rather than to the page.
+	const closeAndRefocus = useCallback(() => {
+		setIsOpen(false)
+		toggleRef.current?.focus()
+	}, [])
+
+	useEscapeKey(isOpen, closeAndRefocus)
 	useScrollLock(isOpen)
 
+	// The open menu covers the whole window, so the page beside the header (main and the footer) is made inert while it
+	// is: Tab stays between the toggle and the menu links instead of reaching links hidden behind it.
+	useEffect(() => {
+		const parent = headerRef.current?.parentElement
+		if (!isOpen || !parent) {
+			return
+		}
+
+		const siblings = Array.from(parent.children).filter((child) => child !== headerRef.current)
+		siblings.forEach((sibling) => sibling.setAttribute('inert', ''))
+
+		return () => {
+			siblings.forEach((sibling) => sibling.removeAttribute('inert'))
+		}
+	}, [isOpen])
+
 	return (
-		<header className={styles.header}>
+		<header ref={headerRef} className={styles.header}>
 			<button
+				ref={toggleRef}
 				type="button"
 				className={`${styles.toggle}${isOpen ? ` ${styles['toggle--open']}` : ''}`}
 				aria-expanded={isOpen}
@@ -43,7 +69,7 @@ export const Navbar = () => {
 								className={({ isActive }) => `${styles.link}${isActive ? ` ${styles['link--active']}` : ''}`}
 								onClick={close}
 							>
-								{label} <span className={styles.note}>{note}</span>
+								<span className={styles.label}>{label}</span> <span className={styles.note}>{note}</span>
 							</NavLink>
 						</li>
 					))}

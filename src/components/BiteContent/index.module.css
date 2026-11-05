@@ -179,7 +179,7 @@
 	}
 }
 
-/* Roomier typography when the modal is wide */
+/* Roomier typography when the bite's panel is wide */
 @container (min-width: 40rem) {
 	.heading {
 		font-size: 1.5rem;

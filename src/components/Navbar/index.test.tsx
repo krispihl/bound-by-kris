@@ -9,6 +9,9 @@ const renderNavbar = () => {
 	render(
 		<MemoryRouter>
 			<Navbar />
+			<main>
+				<a href="#behind">Link behind the menu</a>
+			</main>
 		</MemoryRouter>
 	)
 
@@ -34,6 +37,27 @@ describe('Navbar', () => {
 		await user.keyboard('{Escape}')
 
 		expect(screen.getByRole('button', { name: 'Menu' })).toHaveAttribute('aria-expanded', 'false')
+	})
+
+	it('moves focus back to the toggle when Escape is pressed on a menu link', async () => {
+		const user = renderNavbar()
+		await user.click(screen.getByRole('button', { name: 'Menu' }))
+		screen.getByRole('link', { name: 'About me' }).focus()
+
+		await user.keyboard('{Escape}')
+
+		expect(screen.getByRole('button', { name: 'Menu' })).toHaveFocus()
+	})
+
+	it('makes the page behind the open menu inert', async () => {
+		const user = renderNavbar()
+		const main = screen.getByRole('main')
+
+		await user.click(screen.getByRole('button', { name: 'Menu' }))
+		expect(main).toHaveAttribute('inert')
+
+		await user.click(screen.getByRole('button', { name: 'Close' }))
+		expect(main).not.toHaveAttribute('inert')
 	})
 
 	it('closes when a link is clicked', async () => {
