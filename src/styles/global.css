@@ -71,6 +71,12 @@ html {
 	outline-offset: 0.25rem;
 }
 
+/* A page's heading takes focus after moving to another page, only so the next Tab and a screen reader start there. It
+   isn't a control, so it shows no ring. */
+h1[tabindex='-1']:focus {
+	outline: none;
+}
+
 body {
 	background-color: var(--color-bg);
 	color: var(--color-text);

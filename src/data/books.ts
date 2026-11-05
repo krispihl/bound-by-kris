@@ -1,5 +1,7 @@
 export type Book = {
 	title: string
+	// The title's language when it isn't English, e.g. 'et', so a screen reader reads it with the right pronunciation.
+	titleLang?: string
 	titleEN?: string
 	readTime: string
 	author: string
@@ -22,6 +24,7 @@ I have tried to implement some learnings to my life and some have been more succ
 	},
 	{
 		title: 'Hõbedamängiga mees',
+		titleLang: 'et',
 		titleEN: 'The Hallmarked Man',
 		readTime: 'January 2026',
 		author: 'Robert Galbraith',
@@ -29,6 +32,7 @@ I have tried to implement some learnings to my life and some have been more succ
 	},
 	{
 		title: 'Vaevatud maa',
+		titleLang: 'et',
 		titleEN: 'Broken Country',
 		readTime: 'January 2026',
 		author: 'Clare Leslie Hall',
@@ -36,6 +40,7 @@ I have tried to implement some learnings to my life and some have been more succ
 	},
 	{
 		title: 'Aju vabadus',
+		titleLang: 'et',
 		readTime: 'January 2026',
 		author: 'Jaan Aru',
 		review: `This is a new book by Estonian brain scientist Jaan Aru. He studies how our brain works and is passionate about writing about science so that everyone can understand. The topic of this book is to discuss about “brain freedom” VS “brainfreedom”. (It’s a play with words in Estonian.) When can we say that our brain is free? If our thoughts are being manipulated, how can we understand it and how can we fight back. Why is our first thought not always right, but why does it seem right? Is this the problem or is the actual problem that we don’t want to stop and think about it, that we might have not been right in the first place? And why is thinking so damn hard?? There were places in this book where I definitely had an “ahhaa” moment - yes, this is me as well! I have been there. For example a place he calls “thinking holes”. Your brain makes one and the same assumption each time and even if it’s the wrong one you end up in your thinking hole that gets bigger and deeper. Your thought must be the right one! The only way to get out of that is to find someone who argues. We need to discuss and we need to argue and we need to see facts from different angels. No one man knows it all. It’s our collective brain that makes us shine, not any one brain alone. Very important fact is also that to discover new things or prove new theories you need to convince people that it MIGHT be right. If your idea is just too ahead of time, it might be right, but you will never get anywhere with it. It also touches the topic about social media and other things on screens that just lock us in for hours and hours. It might seem that our brain also might get something out of it, but actually we are just following the “outer guide”. We are not forced to make our own decisions and find our own answers. We are just given a plot to follow, not a mystery to solve.The second part of the book focuses on AI. How it’s supposed to make us smarter, but it’s the opposite. Why? Because humans are lazy! If they can get by easier, they will follow that path. Yes, AI could potentially be a helper, but instead we use it as a crutch. Thinking is hard! If we can avoid it, we will. So we just start to more or less blindly lean on AI to help us do the thinking for us. But the problem is that AI does not have novel ideas. It just combines and generates things from already existing information. As time gets by we start to lose more and more of the less common ideas and fall in the land of mediocrity.Also AI driven social media will try to generate the “most appropriate” content just for you. We do not need to consider any counter arguments, uncomfortable facts or different views. The world becomes a place of shattered reality. It would be like we all end up living in parallel universes, where even agreeing on a problem is a problem.
@@ -43,6 +48,7 @@ And there are so many more interesting topics in this book, which I do not even 
 	},
 	{
 		title: 'Üks elu, üks planeet',
+		titleLang: 'et',
 		titleEN: 'A Life on Our Planet',
 		readTime: 'January 2026',
 		author: 'David Attenborough',
@@ -62,6 +68,7 @@ And there are so many more interesting topics in this book, which I do not even 
 	},
 	{
 		title: 'Kõik pimeduse värvid',
+		titleLang: 'et',
 		titleEN: 'All the Colors of the Dark',
 		readTime: 'February 2026',
 		author: 'Chris Whitaker',

@@ -1,6 +1,10 @@
+import { usePageTitle } from '../../hooks/usePageTitle'
+
 import styles from './index.module.css'
 
 export const NotFound = () => {
+	usePageTitle('Page not found')
+
 	return (
 		<div className={styles.page}>
 			{/* Starts with what the page is for screen readers, which the quote alone wouldn't say. */}

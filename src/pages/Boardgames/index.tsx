@@ -1,16 +1,33 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { ExternalLink } from '../../components/ExternalLink'
 import { Spinner } from '../../components/Spinner'
 import { useBoardgames } from '../../hooks/useBoardgames'
+import { usePageTitle } from '../../hooks/usePageTitle'
 import { groupByLetter } from '../../utils/groupByLetter'
 import { matchesSearch } from '../../utils/matchesSearch'
 
 import styles from './index.module.css'
 
 export const Boardgames = () => {
+	usePageTitle('Board games')
+
 	const { state, retry } = useBoardgames()
 	const [search, setSearch] = useState('')
+	const isRetrying = useRef(false)
+	const searchRef = useRef<HTMLInputElement>(null)
+	const retryRef = useRef<HTMLButtonElement>(null)
+
+	// "Try again" is replaced by the spinner, so focus would fall back to the page. Once the retry settles, it goes to
+	// the search field if the games loaded, or back to the button if they failed again.
+	useEffect(() => {
+		if (!isRetrying.current || state.status === 'loading') {
+			return
+		}
+		isRetrying.current = false
+		const target = state.status === 'success' ? searchRef.current : retryRef.current
+		target?.focus()
+	}, [state.status])
 
 	const games = state.status === 'success' ? state.games : []
 	const found = games.filter((game) => matchesSearch(game.title, search))
@@ -27,7 +44,15 @@ export const Boardgames = () => {
 			{state.status === 'error' ? (
 				<div className={styles.status} role="alert">
 					<p className={styles.status__text}>The games list didn’t load.</p>
-					<button type="button" className={styles.status__retry} onClick={retry}>
+					<button
+						ref={retryRef}
+						type="button"
+						className={styles.status__retry}
+						onClick={() => {
+							isRetrying.current = true
+							retry()
+						}}
+					>
 						Try again
 					</button>
 				</div>
@@ -40,6 +65,7 @@ export const Boardgames = () => {
 							Search games
 						</label>
 						<input
+							ref={searchRef}
 							id="game-search"
 							className={styles.search__input}
 							type="search"
@@ -69,7 +95,7 @@ export const Boardgames = () => {
 										{group.games.map((game) => (
 											<li key={game.title}>
 												<article>
-													<h3 className={styles.game__title}>
+													<h3 className={styles.game__title} lang={game.titleLang}>
 														{game.link ? (
 															<ExternalLink className={styles.game__link} href={game.link}>
 																{game.title}

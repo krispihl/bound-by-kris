@@ -50,12 +50,9 @@
 }
 
 .book {
-	border-top: 1px solid var(--color-border);
-}
-
-.details {
 	position: relative;
 	padding-left: 1.5rem;
+	border-top: 1px solid var(--color-border);
 
 	/* The highlighted vertical line, drawn from the top while the book is open. */
 	&::before {
@@ -72,26 +69,33 @@
 		transition: transform 0.2s ease-out;
 	}
 
-	&[open]::before {
+	&--open::before {
 		transform: scaleY(1);
 		transition-duration: 0.3s;
 		transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 	}
 }
 
-.summary {
+.heading {
+	margin: 0;
+	font: inherit;
+}
+
+/* The whole title row is the button: the title and author on the left, a chevron on the right. */
+.toggle {
 	display: grid;
 	grid-template-columns: 1fr auto;
 	align-items: center;
 	column-gap: 1.5rem;
+	box-sizing: border-box;
+	width: 100%;
 	padding: 2.5rem 0;
+	border: 0;
+	background: none;
+	color: inherit;
+	font: inherit;
+	text-align: inherit;
 	cursor: pointer;
-	list-style: none;
-
-	/* Hide the native marker in Safari; the chevron below replaces it. */
-	&::-webkit-details-marker {
-		display: none;
-	}
 
 	&::after {
 		content: '';
@@ -112,18 +116,17 @@
 	}
 
 	&:hover .title,
-	.details[open] & .title {
+	.book--open & .title {
 		color: var(--hot-fuchsia);
 	}
 
-	.details[open] &::after {
+	.book--open &::after {
 		transform: rotate(-135deg);
 	}
 }
 
 .title {
 	grid-column: 1;
-	margin: 0;
 	color: var(--color-text);
 	font-family: var(--font-display);
 	font-size: clamp(1.5rem, 3.2cqi, 2.5rem);
@@ -153,8 +156,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.details::before,
-	.summary::after,
+	.book::before,
+	.toggle::after,
 	.title {
 		transition: none;
 	}

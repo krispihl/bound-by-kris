@@ -2,6 +2,8 @@ import type { PointerEvent } from 'react'
 
 import { Cursor } from '../../components/Cursor'
 
+import { usePageTitle } from '../../hooks/usePageTitle'
+
 import styles from './index.module.css'
 
 const FIRST_NAME = 'Kristina'
@@ -37,6 +39,8 @@ const renderName = () => (
 )
 
 export const Home = () => {
+	usePageTitle()
+
 	return (
 		<>
 			<div className={styles.hero}>

@@ -7,11 +7,14 @@ import { Krispi } from '../../components/Krispi'
 import { RichText } from '../../components/RichText'
 import { A11Y_BITES } from '../../data/a11yBites'
 import { A11Y_RESOURCES } from '../../data/a11yResources'
+import { usePageTitle } from '../../hooks/usePageTitle'
 import { getBiteSections } from '../../utils/biteSections'
 
 import styles from './index.module.css'
 
 export const A11yBites = () => {
+	usePageTitle('a11y bites')
+
 	const [openNumber, setOpenNumber] = useState<number | null>(null)
 	const listRef = useRef<HTMLUListElement>(null)
 

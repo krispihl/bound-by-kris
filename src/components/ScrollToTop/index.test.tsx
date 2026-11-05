@@ -12,10 +12,12 @@ const renderAt = (path: string) =>
 			<Link to="/">Home</Link>
 			<Link to="/boardgames">Board games</Link>
 			<Link to="/boardgames#letter-A">Letter A</Link>
-			<Routes>
-				<Route path="/" element={<p>Home page</p>} />
-				<Route path="/boardgames" element={<p>Board games page</p>} />
-			</Routes>
+			<main>
+				<Routes>
+					<Route path="/" element={<h1>Home page</h1>} />
+					<Route path="/boardgames" element={<h1>Board games page</h1>} />
+				</Routes>
+			</main>
 		</MemoryRouter>
 	)
 
@@ -45,5 +47,22 @@ describe('ScrollToTop', () => {
 		await user.click(screen.getByRole('link', { name: 'Letter A' }))
 
 		expect(scrollTo).not.toHaveBeenCalled()
+	})
+
+	it('moves focus to the new page heading when navigating to another page', async () => {
+		const user = userEvent.setup()
+		vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+		renderAt('/boardgames')
+
+		await user.click(screen.getByRole('link', { name: 'Home' }))
+
+		expect(screen.getByRole('heading', { level: 1, name: 'Home page' })).toHaveFocus()
+	})
+
+	it('leaves focus alone on the first page load', () => {
+		vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+		renderAt('/boardgames')
+
+		expect(screen.getByRole('heading', { level: 1, name: 'Board games page' })).not.toHaveFocus()
 	})
 })

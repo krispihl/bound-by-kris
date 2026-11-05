@@ -63,4 +63,19 @@ describe('toBoardgames', () => {
 		expect(toBoardgames([])).toEqual([])
 		expect(toBoardgames([['NAME'], ['Azul']])).toEqual([])
 	})
+
+	it('keeps a title language code from the TITLE LANG column and drops anything else', () => {
+		const rows = [
+			['GAME', 'PLAYERS', 'LANGUAGE', 'TITLE LANG'],
+			['Hundimäng', '8 - 18', 'EST', ' et '],
+			['Codenames', '2 - 8', 'EST', ''],
+			['Typo', '2', '', 'Estonian'],
+		]
+
+		expect(toBoardgames(rows).map(({ title, titleLang }) => ({ title, titleLang }))).toEqual([
+			{ title: 'Codenames', titleLang: undefined },
+			{ title: 'Hundimäng', titleLang: 'et' },
+			{ title: 'Typo', titleLang: undefined },
+		])
+	})
 })

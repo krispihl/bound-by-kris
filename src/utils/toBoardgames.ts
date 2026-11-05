@@ -25,6 +25,9 @@ const toLink = (value: string) => {
 	}
 }
 
+// A language code such as 'et' or 'en-GB'; anything else in the cell is ignored rather than put in a lang attribute.
+const toLang = (value: string) => (/^[a-z]{2,3}(-[a-z]{2})?$/i.test(value) ? value : undefined)
+
 // Turns the sheet's rows into games, sorted by title. Columns are found by their header names (the language one only by
 // its start, so a typo there still matches), and rows without a game name are skipped.
 export const toBoardgames = (rows: string[][]): Boardgame[] => {
@@ -37,6 +40,7 @@ export const toBoardgames = (rows: string[][]): Boardgame[] => {
 	const playersColumn = findColumn(header, /^players$/i)
 	const languageColumn = findColumn(header, /^lang/i)
 	const linkColumn = findColumn(header, /^link$/i)
+	const titleLangColumn = findColumn(header, /^title lang/i)
 	if (titleColumn === -1) {
 		return []
 	}
@@ -57,6 +61,7 @@ export const toBoardgames = (rows: string[][]): Boardgame[] => {
 					players: players && !isExpansion ? formatPlayers(players) : undefined,
 					isExpansion,
 					isEstonian: /^est$/i.test(row[languageColumn]?.trim() ?? ''),
+					titleLang: toLang(row[titleLangColumn]?.trim() ?? ''),
 					link,
 				},
 			]

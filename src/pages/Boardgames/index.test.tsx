@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
@@ -68,6 +68,17 @@ describe('Boardgames', () => {
 
 		expect(await screen.findAllByRole('article')).toHaveLength(3)
 		expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+		expect(screen.getByRole('searchbox', { name: 'Search games' })).toHaveFocus()
+	})
+
+	it('keeps focus on the retry button when the retry fails too', async () => {
+		const user = userEvent.setup()
+		mockFetch(new Response('', { status: 500 }), new Response('', { status: 500 }))
+		render(<Boardgames />)
+
+		await user.click(await screen.findByRole('button', { name: 'Try again' }))
+
+		await waitFor(() => expect(screen.getByRole('button', { name: 'Try again' })).toHaveFocus())
 	})
 
 	it('narrows the list to the games matching the search, ignoring case and accents', async () => {

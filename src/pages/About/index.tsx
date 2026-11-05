@@ -7,6 +7,7 @@ import { Krispi } from '../../components/Krispi'
 import type { CvSection } from '../../data/cv'
 import { CV_SECTIONS } from '../../data/cv'
 import { useScrolledToBottom } from '../../hooks/useScrolledToBottom'
+import { usePageTitle } from '../../hooks/usePageTitle'
 
 import styles from './index.module.css'
 
@@ -35,6 +36,7 @@ const withLink = (paragraph: string, link?: CvSection['link']): ReactNode => {
 }
 
 export const About = () => {
+	usePageTitle('About')
 	const atBottom = useScrolledToBottom()
 
 	return (

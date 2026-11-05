@@ -23,7 +23,11 @@ export const ExternalLink = ({ href, className, children }: ExternalLinkProps) =
 				{text?.slice(breakAt)}
 				<FiExternalLink className={styles.icon} aria-hidden="true" focusable="false" />
 			</span>
-			<span className="visually-hidden"> (opens in a new tab)</span>
+			{/* Marked English, as the link's own text may be in another language (an Estonian game title). */}
+			<span className="visually-hidden" lang="en">
+				{' '}
+				(opens in a new tab)
+			</span>
 		</a>
 	)
 }
