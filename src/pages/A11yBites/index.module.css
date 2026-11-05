@@ -475,15 +475,15 @@
 @media (prefers-reduced-motion: no-preference) {
 	@supports (animation-timeline: scroll()) {
 		.peek {
-			--krispi-size: 2rem;
+			--krispi-size: 1.75rem;
 			/* Turned a quarter clockwise, Krispi's own right and up point down and right on screen, keeping its shadow
 			   falling the same way as everything else lit from the top left. */
 			--krispi-shadow-x: 1;
 			--krispi-shadow-y: -0.5;
-			/* The speech bubble turns back upright, from the head's corner that ends up top right on screen. */
+			/* The dismiss button turns back upright, at the head's corner that ends up top right on screen. */
 			--krispi-turn: 90deg;
-			--krispi-bubble-left: 10%;
-			--krispi-bubble-top: 5%;
+			--krispi-corner-left: -25%;
+			--krispi-corner-top: -10%;
 
 			position: fixed;
 			top: 45%;
@@ -497,13 +497,19 @@
 			animation-timeline: scroll(root);
 			/* Out over the first 45rem of scrolling, then held there by the fill for the rest of the page. */
 			animation-range: 0 45rem;
+
+			/* Out all the way while its dismiss button has keyboard focus, so the button is never focused out of sight. */
+			&:focus-within {
+				animation: none;
+				transform: translateX(-50%) rotate(90deg);
+			}
 		}
 	}
 }
 
 @mixin not-mobile {
 	.peek {
-		--krispi-size: 3rem;
+		--krispi-size: 2.25rem;
 	}
 }
 

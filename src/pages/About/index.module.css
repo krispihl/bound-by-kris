@@ -503,7 +503,7 @@
 
 @supports (anchor-name: --section-number) {
 	.peek {
-		--krispi-size: 2rem;
+		--krispi-size: 1.75rem;
 		--krispi-eyes: paused;
 
 		position: fixed;
@@ -516,19 +516,27 @@
 		transform: translateY(130%);
 		transition: transform 0.6s ease-in;
 
-		/* 40% shows the top 60% of the body, down to just below the smile. */
-		&--up {
+		/* 40% shows the top 60% of the body, down to just below the smile. Up while its dismiss button has keyboard focus
+		   too, so the button is never focused out of sight. */
+		&--up,
+		&:focus-within {
 			--krispi-eyes: running;
 
 			transform: translateY(40%);
 			transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
+		}
+
+		/* Straight up for the button, rather than the slow rise. */
+		&:focus-within {
+			transition-duration: 0.3s;
+			transition-delay: 0s;
 		}
 	}
 }
 
 @mixin not-mobile {
 	.peek {
-		--krispi-size: 3rem;
+		--krispi-size: 2.25rem;
 	}
 }
 

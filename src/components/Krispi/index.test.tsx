@@ -1,13 +1,33 @@
-import { render } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { afterEach, describe, expect, it } from 'vitest'
 
 import { Krispi } from '.'
 
-describe('Krispi', () => {
-	it('is hidden from screen readers', () => {
-		const { container } = render(<Krispi />)
+afterEach(() => {
+	localStorage.clear()
+})
 
-		expect(container.firstElementChild).toHaveAttribute('aria-hidden', 'true')
+describe('Krispi', () => {
+	it('hides the drawing from screen readers, leaving only the button that hides Krispi', () => {
+		const { container } = render(<Krispi pose="peek" />)
+
+		const parts = Array.from(container.firstElementChild?.children ?? []).filter((part) => !part.querySelector('button'))
+		expect(parts.length).toBeGreaterThan(0)
+		parts.forEach((part) => expect(part).toHaveAttribute('aria-hidden', 'true'))
+		expect(screen.getByRole('button', { name: 'Hide the Krispi mascot' })).toBeInTheDocument()
+	})
+
+	it('goes away when dismissed, and stays away after that', async () => {
+		const user = userEvent.setup()
+		const { container, unmount } = render(<Krispi />)
+
+		await user.click(screen.getByRole('button', { name: 'Hide the Krispi mascot' }))
+		expect(container).toBeEmptyDOMElement()
+
+		unmount()
+		const { container: again } = render(<Krispi />)
+		expect(again).toBeEmptyDOMElement()
 	})
 
 	it('has no hands when idle', () => {
@@ -21,18 +41,6 @@ describe('Krispi', () => {
 
 		expect(container.querySelector('[class*="krispi__hand--left"]')).toBeInTheDocument()
 		expect(container.querySelector('[class*="krispi__hand--right"]')).toBeInTheDocument()
-	})
-
-	it('says what it is given in its speech bubble', () => {
-		const { getByText } = render(<Krispi says="Learned anything new?" />)
-
-		expect(getByText('Learned anything new?')).toBeInTheDocument()
-	})
-
-	it('has no speech bubble when it has nothing to say', () => {
-		const { container } = render(<Krispi />)
-
-		expect(container.querySelector('[class*="krispi__bubble"]')).not.toBeInTheDocument()
 	})
 
 	it('glances up between blinks only when asked to', () => {

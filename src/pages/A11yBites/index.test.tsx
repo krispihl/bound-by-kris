@@ -12,7 +12,8 @@ describe('A11yBites', () => {
 
 		expect(screen.getByRole('heading', { level: 1, name: 'a11y bites' })).toBeInTheDocument()
 
-		const toggles = screen.getAllByRole('button')
+		// Krispi's dismiss button is the only other button on the page, and it doesn't expand anything.
+		const toggles = screen.getAllByRole('button').filter((button) => button.hasAttribute('aria-expanded'))
 		expect(toggles).toHaveLength(A11Y_BITES.length)
 		toggles.forEach((toggle) => expect(toggle).toHaveAttribute('aria-expanded', 'false'))
 	})
