@@ -528,7 +528,7 @@
 	}
 }
 
-@media (min-width: 48rem) {
+@mixin not-mobile {
 	.peek {
 		--krispi-size: 3rem;
 	}

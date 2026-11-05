@@ -1,0 +1,9 @@
+{
+	"version": 1.1,
+	"atDirectives": [
+		{
+			"name": "@mixin",
+			"description": "A PostCSS mixin, replaced at build time. The breakpoint mixins (mobile-only, not-mobile, tablet-only, mobile-and-tablet, desktop-only) wrap their content in the media query from src/styles/breakpoints.ts."
+		}
+	]
+}
