@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
@@ -54,7 +54,8 @@ describe('Boardgames', () => {
 		const azul = await screen.findByRole('link', { name: /^Azul\s*\(opens in a new tab\)$/ })
 		expect(azul).toHaveAttribute('href', 'https://boardgamegeek.com/boardgame/230802/azul')
 		expect(azul).toHaveAttribute('target', '_blank')
-		expect(screen.getAllByRole('link')).toHaveLength(1)
+		// The only other link is the skip link, which isn't a game's.
+		expect(screen.getAllByRole('article').flatMap((game) => within(game).queryAllByRole('link'))).toHaveLength(1)
 		expect(screen.getByRole('heading', { name: 'Alias' })).toBeInTheDocument()
 	})
 
@@ -110,5 +111,31 @@ describe('Boardgames', () => {
 
 		expect(screen.getAllByRole('article')).toHaveLength(3)
 		expect(screen.getByText('3 games on my shelf')).toBeInTheDocument()
+	})
+
+	it('offers a skip link right after the search, which lands past the last game', async () => {
+		const user = userEvent.setup()
+		mockFetch(new Response(CSV))
+		render(<Boardgames />)
+
+		await user.click(await screen.findByRole('searchbox', { name: 'Search games' }))
+		await user.tab()
+
+		const skip = screen.getByRole('link', { name: 'Skip past the games list' })
+		expect(skip).toHaveFocus()
+		const end = screen.getByText('End of the games list')
+		expect(skip).toHaveAttribute('href', `#${end.id}`)
+		expect(end).toHaveAttribute('tabindex', '-1')
+		expect(screen.getAllByRole('article').at(-1)?.compareDocumentPosition(end)).toBe(Node.DOCUMENT_POSITION_FOLLOWING)
+	})
+
+	it('has no skip link when nothing matches the search', async () => {
+		const user = userEvent.setup()
+		mockFetch(new Response(CSV))
+		render(<Boardgames />)
+
+		await user.type(await screen.findByRole('searchbox', { name: 'Search games' }), 'chess')
+
+		expect(screen.queryByRole('link', { name: 'Skip past the games list' })).not.toBeInTheDocument()
 	})
 })

@@ -81,13 +81,62 @@
 	}
 }
 
-.count {
+/* The count, with the skip link beside it while that has focus. */
+.summary {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem 1rem;
+	align-items: center;
 	margin: 1.5rem 0 1.75rem;
+}
+
+.count {
+	margin: 0;
 	color: var(--navy-electric);
 	font-family: ui-monospace, 'SF Mono', Menlo, monospace;
 	font-size: 0.8125rem;
 	letter-spacing: 0.04em;
 	text-transform: uppercase;
+}
+
+/* Out of sight until focused, then shown beside the count. Padded to a 44px tall target (WCAG AAA), and the negative
+   margin keeps the line no taller than the count, so showing it doesn't push the list down. */
+.skip {
+	position: relative;
+	z-index: 1;
+	margin-block: -1rem;
+	padding: 0.75rem 1rem;
+	border: 0.0625rem solid var(--color-border);
+	background: var(--color-surface);
+	color: var(--color-link);
+	font-weight: 600;
+	line-height: 1.25;
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+
+	&:not(:focus) {
+		position: absolute;
+		width: 0.0625rem;
+		height: 0.0625rem;
+		padding: 0;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+
+	&:hover {
+		color: var(--color-accent-text);
+	}
+
+	/* Too narrow for both on one line, where it would wrap onto a line of its own and push the list down, so it shows
+	   just under the count instead, over the top of the list. */
+	@mixin mobile-only {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		margin: 0.5rem 0 0;
+	}
 }
 
 /* A long list, so the games sit under their first letter: one full-width band per letter, its games flowing left to

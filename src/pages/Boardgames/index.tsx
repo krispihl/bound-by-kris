@@ -77,47 +77,63 @@ export const Boardgames = () => {
 						/>
 					</search>
 
-					{/* Read out as it changes, so screen reader users hear how many games are left without leaving the search box. */}
-					<p className={styles.count} aria-live="polite">
-						{isSearching ? `${found.length} of ${games.length} games` : `${games.length} games on my shelf`}
-					</p>
+					<div className={styles.summary}>
+						{/* Read out as it changes, so screen reader users hear how many games are left without leaving the search box. */}
+						<p className={styles.count} aria-live="polite">
+							{isSearching ? `${found.length} of ${games.length} games` : `${games.length} games on my shelf`}
+						</p>
+						{/* Tabbing past every game takes well over a hundred presses, so keyboard users can jump to the end of the list
+						    in one. Shows only once focused, as the first stop after the search, beside the count. */}
+						{found.length > 0 ? (
+							<a className={styles.skip} href="#games-end">
+								Skip past the games list
+							</a>
+						) : null}
+					</div>
 
 					{found.length === 0 ? (
 						<p className={styles.status}>No games match “{search.trim()}”.</p>
 					) : (
-						<div className={styles.groups}>
-							{groupByLetter(found).map((group) => (
-								// A div, not a <section>, so the letters don't each become a landmark region; their headings are enough to move by.
-								<div key={group.letter} className={styles.group}>
-									<h2 id={`letter-${group.letter}`} className={styles.group__letter}>
-										{group.letter}
-									</h2>
-									<ul className={styles.list}>
-										{group.games.map((game) => (
-											<li key={game.title}>
-												<article>
-													<h3 className={styles.game__title} lang={game.titleLang}>
-														{game.link ? (
-															<ExternalLink className={styles.game__link} href={game.link}>
-																{game.title}
-															</ExternalLink>
-														) : (
-															game.title
-														)}
-													</h3>
-													<p className={styles.game__meta}>
-														{game.isExpansion ? <span className={styles.tag}>Expansion</span> : game.players}
-														{game.isEstonian ? (
-															<span className={`${styles.tag} ${styles['tag--language']}`}>Estonian</span>
-														) : null}
-													</p>
-												</article>
-											</li>
-										))}
-									</ul>
-								</div>
-							))}
-						</div>
+						<>
+							<div className={styles.groups}>
+								{groupByLetter(found).map((group) => (
+									// A div, not a <section>, so the letters don't each become a landmark region; their headings are enough to move by.
+									<div key={group.letter} className={styles.group}>
+										<h2 id={`letter-${group.letter}`} className={styles.group__letter}>
+											{group.letter}
+										</h2>
+										<ul className={styles.list}>
+											{group.games.map((game) => (
+												<li key={game.title}>
+													<article>
+														<h3 className={styles.game__title} lang={game.titleLang}>
+															{game.link ? (
+																<ExternalLink className={styles.game__link} href={game.link}>
+																	{game.title}
+																</ExternalLink>
+															) : (
+																game.title
+															)}
+														</h3>
+														<p className={styles.game__meta}>
+															{game.isExpansion ? <span className={styles.tag}>Expansion</span> : game.players}
+															{game.isEstonian ? (
+																<span className={`${styles.tag} ${styles['tag--language']}`}>Estonian</span>
+															) : null}
+														</p>
+													</article>
+												</li>
+											))}
+										</ul>
+									</div>
+								))}
+							</div>
+							{/* Where the skip link lands. Focusable from script only, so the next Tab goes on to what follows the list,
+							    and a screen reader says where focus went. */}
+							<p id="games-end" className="visually-hidden" tabIndex={-1}>
+								End of the games list
+							</p>
+						</>
 					)}
 				</>
 			) : null}
