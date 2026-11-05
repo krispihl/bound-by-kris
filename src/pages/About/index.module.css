@@ -96,7 +96,7 @@
 	height: 1.5rem;
 	border: 1px solid var(--color-border);
 	background: var(--color-bg);
-	color: var(--navy-electric);
+	color: var(--color-label);
 	font-family: ui-monospace, 'SF Mono', Menlo, monospace;
 	font-size: 0.75rem;
 	transition:
@@ -108,9 +108,9 @@
 	}
 
 	.section:hover & {
-		border-color: var(--navy-electric);
-		background: var(--navy-electric);
-		color: var(--color-bg);
+		border-color: var(--color-fill);
+		background: var(--color-fill);
+		color: var(--color-on-fill);
 	}
 }
 
@@ -127,7 +127,7 @@
 
 	/* Like the bites titles: muted at rest, fuchsia while the section is hovered. */
 	.section:hover & {
-		color: var(--hot-fuchsia);
+		color: var(--color-accent);
 	}
 }
 
@@ -461,7 +461,7 @@
 			bottom: 0;
 			left: calc((100% - 5.25rem) / 3 + 2.625rem);
 			width: 1px;
-			background: var(--navy-electric);
+			background: var(--color-border-strong);
 			transform: scaleY(0);
 			transform-origin: top;
 			transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);

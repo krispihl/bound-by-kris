@@ -46,7 +46,7 @@
 .page__rule {
 	height: 0.25rem;
 	margin: 1.5rem -2rem 2rem;
-	background: var(--amber-gold);
+	background: var(--color-divider);
 	transform-origin: left;
 	animation: rule-draw 1.4s cubic-bezier(0.65, 0, 0.35, 1) both;
 }

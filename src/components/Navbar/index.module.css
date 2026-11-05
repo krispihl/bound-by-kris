@@ -69,9 +69,9 @@
 	}
 
 	&--open {
-		--color-focus: var(--amber-gold);
+		--color-focus: var(--color-focus-on-fill);
 
-		color: var(--color-bg);
+		color: var(--color-on-fill);
 
 		&:hover {
 			color: var(--color-divider);
@@ -122,7 +122,7 @@
 }
 
 .menu {
-	--color-focus: var(--amber-gold);
+	--color-focus: var(--color-focus-on-fill);
 
 	position: fixed;
 	inset: 0;
@@ -138,7 +138,7 @@
 	overscroll-behavior: contain;
 	/* Tabbing back up scrolls a link only as far as below the band (see ::before), not under it. */
 	scroll-padding-top: var(--header-height);
-	background: var(--navy-electric);
+	background: var(--color-fill);
 	/* Grows from the toggle, which sits the scrollbar's width further in while the menu is open. */
 	clip-path: circle(0 at calc(100% - 3rem - var(--scrollbar-width, 0rem)) 2.5rem);
 	visibility: hidden;
@@ -165,14 +165,14 @@
 		flex-shrink: 0;
 		height: calc(var(--header-height) + var(--header-fade));
 		margin-bottom: calc(-1 * var(--header-fade));
-		background: linear-gradient(var(--navy-electric) var(--header-height), transparent);
+		background: linear-gradient(var(--color-fill) var(--header-height), transparent);
 		pointer-events: none;
 
 		/* For visitors who ask for less transparency, a hard edge instead. */
 		@media (prefers-reduced-transparency: reduce) {
 			height: var(--header-height);
 			margin-bottom: 0;
-			background: var(--navy-electric);
+			background: var(--color-fill);
 		}
 	}
 }
@@ -202,7 +202,7 @@
 .link {
 	display: inline-block;
 	padding: 0.5rem 0;
-	color: var(--color-bg);
+	color: var(--color-on-fill);
 	text-decoration: none;
 	font-size: clamp(2.5rem, 10vw, 5rem);
 	font-weight: 700;

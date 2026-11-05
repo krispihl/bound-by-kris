@@ -97,7 +97,7 @@
 
 	&:hover,
 	.row--open & {
-		color: var(--hot-fuchsia);
+		color: var(--color-accent);
 	}
 }
 
@@ -112,7 +112,7 @@
 	height: 1.5rem;
 	border: 1px solid var(--color-border);
 	background: var(--color-bg);
-	color: var(--navy-electric);
+	color: var(--color-label);
 	font-family: ui-monospace, 'SF Mono', Menlo, monospace;
 	font-size: 0.75rem;
 	transition:
@@ -120,9 +120,9 @@
 		color 0.2s ease;
 
 	.row--open & {
-		border-color: var(--navy-electric);
-		background: var(--navy-electric);
-		color: var(--color-bg);
+		border-color: var(--color-fill);
+		background: var(--color-fill);
+		color: var(--color-on-fill);
 	}
 }
 
@@ -218,7 +218,7 @@
 }
 
 .contents__number {
-	color: var(--navy-electric);
+	color: var(--color-label);
 	font-family: ui-monospace, 'SF Mono', Menlo, monospace;
 	font-size: 0.75rem;
 }
@@ -229,7 +229,7 @@
 	margin-top: 6rem;
 	padding: 2rem 1.5rem;
 	border: 1px solid var(--color-border);
-	border-top: 0.25rem solid var(--navy-electric);
+	border-top: 0.25rem solid var(--color-border-strong);
 	background: var(--color-surface);
 }
 
@@ -260,7 +260,7 @@
 	margin: 0 0 1rem;
 	padding-bottom: 0.5rem;
 	border-bottom: 1px solid var(--color-border);
-	color: var(--navy-electric);
+	color: var(--color-label);
 	font-family: ui-monospace, 'SF Mono', Menlo, monospace;
 	font-size: 0.8125rem;
 	font-weight: 400;
@@ -363,7 +363,7 @@
 	}
 
 	.row::after {
-		background: var(--navy-electric);
+		background: var(--color-border-strong);
 		transform: scaleY(0);
 		transform-origin: top;
 		transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);

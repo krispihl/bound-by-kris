@@ -55,7 +55,7 @@
 }
 
 .search__label {
-	color: var(--navy-electric);
+	color: var(--color-label);
 	font-family: ui-monospace, 'SF Mono', Menlo, monospace;
 	font-size: 0.8125rem;
 	letter-spacing: 0.04em;
@@ -77,7 +77,7 @@
 
 	&:hover,
 	&:focus-visible {
-		border-color: var(--navy-electric);
+		border-color: var(--color-border-strong);
 	}
 }
 
@@ -93,7 +93,7 @@
 
 .count {
 	margin: 0;
-	color: var(--navy-electric);
+	color: var(--color-label);
 	font-family: ui-monospace, 'SF Mono', Menlo, monospace;
 	font-size: 0.8125rem;
 	letter-spacing: 0.04em;
@@ -228,12 +228,12 @@
 	line-height: 1.6;
 
 	&--language {
-		border-left-color: var(--navy-electric);
-		background: color-mix(in srgb, var(--navy-electric) 7%, var(--color-surface));
+		border-left-color: var(--color-border-strong);
+		background: color-mix(in srgb, var(--color-border-strong) 7%, var(--color-surface));
 
 		/* Stronger for visitors who ask for more contrast, like the other chips (see --color-chip). */
 		@media (prefers-contrast: more) {
-			background: color-mix(in srgb, var(--navy-electric) 14%, var(--color-surface));
+			background: color-mix(in srgb, var(--color-border-strong) 14%, var(--color-surface));
 		}
 	}
 }

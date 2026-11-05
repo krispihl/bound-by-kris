@@ -122,7 +122,7 @@
 	}
 	/* Thinner as the name gets smaller, so it doesn't outweigh the letters on a phone. */
 	height: clamp(0.125rem, 0.015em, 0.25rem);
-	background: var(--amber-gold);
+	background: var(--color-divider);
 	transform: translateY(-50%);
 	transform-origin: left;
 	animation: rule-draw 1.4s cubic-bezier(0.65, 0, 0.35, 1) both;

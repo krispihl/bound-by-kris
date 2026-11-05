@@ -1,11 +1,11 @@
-/* A small fuchsia dot with a soft glow fading out around it, like the light that follows the
+/* A small accent-coloured dot with a soft glow fading out around it, like the light that follows the
    pointer over the name on the homepage. Placed by the transform set on each frame; the negative margin centres it on
    the pointer. Drawn just above the page background and under everything else, so text and icons stay on top of it,
    and never in the way of a click. */
 .cursor {
 	--cursor-size: 0.5rem;
-	--cursor-glow: color-mix(in srgb, var(--hot-fuchsia) 90%, transparent);
-	--cursor-haze: color-mix(in srgb, var(--hot-fuchsia) 50%, transparent);
+	--cursor-glow: color-mix(in srgb, var(--color-accent) 90%, transparent);
+	--cursor-haze: color-mix(in srgb, var(--color-accent) 50%, transparent);
 
 	position: fixed;
 	top: 0;
@@ -15,7 +15,7 @@
 	height: var(--cursor-size);
 	margin: calc(var(--cursor-size) / -2);
 	border-radius: 50%;
-	background: var(--hot-fuchsia);
+	background: var(--color-accent);
 	box-shadow:
 		0 0 0.5rem 0.125rem var(--cursor-glow),
 		0 0 1.25rem 0.375rem var(--cursor-haze);

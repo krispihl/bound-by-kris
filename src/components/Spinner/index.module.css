@@ -69,7 +69,7 @@
 
 /* In the small mono caps used for the games count. */
 .spinner__text {
-	color: var(--navy-electric);
+	color: var(--color-label);
 	font-family: ui-monospace, 'SF Mono', Menlo, monospace;
 	font-size: 0.75rem;
 	letter-spacing: 0.04em;

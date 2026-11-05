@@ -66,8 +66,9 @@
 /* Everything is sized from the body's width, which a placement can set with --krispi-size to scale the whole character. */
 .krispi {
 	--size: var(--krispi-size, 3rem);
-	/* The body's colour, which the shading, fingers and shadow all mix from, and the hair's. Both are softened towards
-	   the page, so Krispi stays a quiet extra beside the content rather than the boldest thing on the page. */
+	/* The body's colour, which the shading, fingers and shadow all mix from, and the hair's. They're Krispi's own, so
+	   straight from the brand palette rather than a page role, but both are softened towards the page, so Krispi stays
+	   a quiet extra beside the content rather than the boldest thing on the page, whatever that page's colour is. */
 	--krispi-body: color-mix(in srgb, var(--navy-electric) 70%, var(--color-bg));
 	--krispi-hair: color-mix(in srgb, var(--hot-fuchsia) 60%, var(--color-bg));
 	--krispi-light: color-mix(in srgb, var(--krispi-body) 55%, white);
@@ -138,10 +139,10 @@
 	width: 1.5rem;
 	height: 1.5rem;
 	padding: 0;
-	border: 0.125rem solid var(--navy-electric);
+	border: 0.125rem solid var(--color-border-strong);
 	border-radius: 50%;
 	background: var(--color-surface);
-	color: var(--navy-electric);
+	color: var(--color-label);
 	cursor: pointer;
 	/* Lit from the top left like Krispi, but always upright, so its shadow needs no turning. */
 	box-shadow:

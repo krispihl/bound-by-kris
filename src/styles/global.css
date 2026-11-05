@@ -61,11 +61,21 @@ html {
 	--color-link: var(--navy-electric);
 	--color-divider: var(--amber-gold);
 	--color-border: #e5e3f0;
+	/* A line that stands out where --color-border wouldn't: the rules drawn on hover or open, a field's hover edge and
+	   accent edges on cards. */
+	--color-border-strong: var(--navy-electric);
+	/* The small mono labels: counts, numbers, field labels and list titles. */
+	--color-label: var(--navy-electric);
+	/* A solid block of colour, such as the open menu or a highlighted number badge, with the text that goes on it and the
+	   focus ring that shows against it (gold alone would not reach 3:1 against the page background, but does on navy). */
+	--color-fill: var(--navy-electric);
+	--color-on-fill: var(--color-bg);
+	--color-focus-on-fill: var(--amber-gold);
 	/* A faint accent tint for chips and tags. */
 	--color-chip: color-mix(in srgb, var(--color-accent) 7%, var(--color-surface));
 
-	/* The one focus ring for the whole site. Navy is visible on the page background; the menu sits on navy, so it swaps
-     the colour for gold (gold alone would not reach 3:1 against the page background). */
+	/* The one focus ring for the whole site. Navy is visible on the page background; the menu sits on the fill, so it
+     swaps the colour for --color-focus-on-fill. */
 	--color-focus: var(--navy-electric);
 	--focus-width: 0.1875rem;
 

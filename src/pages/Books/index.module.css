@@ -62,7 +62,7 @@
 		bottom: 0;
 		left: 0;
 		width: 2px;
-		background: var(--navy-electric);
+		background: var(--color-border-strong);
 		transform: scaleY(0);
 		transform-origin: top;
 		/* Closing: the content vanishes at once, so the line retracts quickly without an ease-in hesitation. */
@@ -117,7 +117,7 @@
 
 	&:hover .title,
 	.book--open & .title {
-		color: var(--hot-fuchsia);
+		color: var(--color-accent);
 	}
 
 	.book--open &::after {
