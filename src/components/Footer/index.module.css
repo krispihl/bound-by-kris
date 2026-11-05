@@ -45,3 +45,12 @@
 		transition: none;
 	}
 }
+
+/* Forced colors (e.g. Windows Contrast Themes) clear backgrounds, which is all the hover bar is, so it's drawn in the theme's
+   highlight colour instead. */
+@media (forced-colors: active) {
+	.link::after {
+		forced-color-adjust: none;
+		background: Highlight;
+	}
+}

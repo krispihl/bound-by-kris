@@ -521,3 +521,27 @@
 		transition: none;
 	}
 }
+
+/* Forced colors (e.g. Windows Contrast Themes) clear backgrounds, which is how the rule, the open bite's line and badge, the intro's
+   closing rule and the link bars are drawn, so they use the theme's own colours instead: text colour for the lines,
+   highlight for what's open or hovered. */
+@media (forced-colors: active) {
+	.list::before,
+	.row--open .row__summary::after {
+		forced-color-adjust: none;
+		background: CanvasText;
+	}
+
+	.row::after,
+	.resource__link::after {
+		forced-color-adjust: none;
+		background: Highlight;
+	}
+
+	.row--open .row__number {
+		forced-color-adjust: none;
+		border-color: Highlight;
+		background: Highlight;
+		color: HighlightText;
+	}
+}

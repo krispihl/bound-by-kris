@@ -70,3 +70,17 @@
 		animation: none;
 	}
 }
+
+/* Forced colors (e.g. Windows Contrast Themes) clear backgrounds, which is all the rule is, so it's drawn in the theme's
+   text colour instead. They also paint a backing behind each line of text, and the code's tight line height lets its
+   backing reach up over the title, so the title is lifted above it. */
+@media (forced-colors: active) {
+	.page__title {
+		position: relative;
+	}
+
+	.page__rule {
+		forced-color-adjust: none;
+		background: CanvasText;
+	}
+}

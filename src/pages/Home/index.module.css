@@ -201,3 +201,12 @@
 		transition: none;
 	}
 }
+
+/* Forced colors (e.g. Windows Contrast Themes) clear backgrounds, which is all the rule is, so it's drawn in the theme's text colour
+   instead. */
+@media (forced-colors: active) {
+	.hero__rule {
+		forced-color-adjust: none;
+		background: CanvasText;
+	}
+}

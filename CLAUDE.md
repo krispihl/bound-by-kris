@@ -17,7 +17,7 @@
 - **TypeScript:** Strict mode enabled. **Never use `any`**. Use `type` for props. Inline a props type directly in the function signature when it has only 1-2 fields; name a separate `type` only for larger prop sets.
 - **Styling:** CSS Modules with BEM naming. Modifiers use `block--modifier` syntax and are nested inside the block class using PostCSS nesting (e.g. `&--active` inside `.link`).
 - **Breakpoints:** For window-width changes use the mixins `@mixin mobile-only`, `not-mobile`, `tablet-only`, `mobile-and-tablet` and `desktop-only` (built in `postcss.config.js`) instead of writing `@media (min-width: …)` by hand; in code use `useBreakpoint()` (`isMobile`, `isTablet`, `isDesktop`, `isMobileOrTablet`). Both read their widths from `src/styles/breakpoints.ts`, the one place to change them. Container queries (`@container`) are still the right tool when a layout depends on its own width rather than the window's.
-- **Sizing:** Always use `rem` units for sizing (`font-size`, `width`, `height`, `margin`, `padding`, `gap`, etc.) — never `px`. The root `html` element sets `font-size: 16px` in `src/styles/global.css`, so `1rem = 16px` (e.g. `1rem` = 16px, `1.5rem` = 24px).
+- **Sizing:** Always use `rem` units for sizing (`font-size`, `width`, `height`, `margin`, `padding`, `gap`, etc.) — never `px`. The root `html` element sets `font-size: 100%` in `src/styles/global.css`, so the site follows the visitor's default text size: `1rem = 16px` at the browser default (e.g. `1rem` = 16px, `1.5rem` = 24px).
 - **State:** Context API
 - **Data Fetching:** Fetch
 

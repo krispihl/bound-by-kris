@@ -368,3 +368,11 @@
 		transition: none;
 	}
 }
+
+/* Krispi is a picture made of shapes, which forced colors (e.g. Windows Contrast Themes) would strip down to a few stray
+   outlines, so it keeps its own colours there, as an image would. */
+@media (forced-colors: active) {
+	.krispi {
+		forced-color-adjust: none;
+	}
+}

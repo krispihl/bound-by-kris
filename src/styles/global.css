@@ -1,5 +1,6 @@
 html {
-	font-size: 16px;
+	/* The visitor's own default text size (16px unless they changed it), which every rem then scales from. */
+	font-size: 100%;
 	/* Keeps the scrollbar's space reserved on pages too short to scroll, so the layout doesn't shift between pages. */
 	scrollbar-gutter: stable;
 	/* Anything scrolled to, from an in-page link or by tabbing onto it, stops below the header bar instead of under it. */

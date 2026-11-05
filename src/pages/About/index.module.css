@@ -543,3 +543,38 @@
 		transition: none;
 	}
 }
+
+/* Forced colors (e.g. Windows Contrast Themes) clear backgrounds, which is how the rule, its highlight, the hovered badge, the link bars
+   and the timeline are drawn, so they use the theme's own colours instead: text colour for the lines, highlight for
+   what's hovered or current. The rule is drawn by the highlight's element, at full height, since the sections'
+   background can't be kept without keeping the colours of everything in them. */
+@media (forced-colors: active) {
+	.section::after {
+		forced-color-adjust: none;
+		background: CanvasText;
+		transform: none;
+	}
+
+	.section:hover .section__number {
+		forced-color-adjust: none;
+		border-color: Highlight;
+		background: Highlight;
+		color: HighlightText;
+	}
+
+	.section__link::after {
+		forced-color-adjust: none;
+		background: Highlight;
+	}
+
+	.step::after {
+		forced-color-adjust: none;
+		background: CanvasText;
+	}
+
+	.step--current::before {
+		forced-color-adjust: none;
+		border-color: Highlight;
+		background: Highlight;
+	}
+}
