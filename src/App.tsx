@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
-import { HomeLink } from './components/HomeLink'
+import { Footer } from './components/Footer'
 import { Navbar } from './components/Navbar'
 import { SecretGate } from './components/SecretGate'
 import { ScrollToTop } from './components/ScrollToTop'
@@ -38,7 +38,7 @@ const App = () => {
 					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</main>
-			<HomeLink />
+			<Footer />
 		</BrowserRouter>
 	)
 }

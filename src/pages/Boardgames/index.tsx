@@ -60,7 +60,8 @@ export const Boardgames = () => {
 					) : (
 						<div className={styles.groups}>
 							{groupByLetter(found).map((group) => (
-								<section key={group.letter} className={styles.group} aria-labelledby={`letter-${group.letter}`}>
+								// A div, not a <section>, so the letters don't each become a landmark region; their headings are enough to move by.
+								<div key={group.letter} className={styles.group}>
 									<h2 id={`letter-${group.letter}`} className={styles.group__letter}>
 										{group.letter}
 									</h2>
@@ -87,7 +88,7 @@ export const Boardgames = () => {
 											</li>
 										))}
 									</ul>
-								</section>
+								</div>
 							))}
 						</div>
 					)}

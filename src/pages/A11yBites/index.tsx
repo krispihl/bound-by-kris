@@ -132,11 +132,12 @@ export const A11yBites = () => {
 					</header>
 					<div className={styles.resources__groups}>
 						{A11Y_RESOURCES.map((group, index) => (
-							<section key={group.title} className={styles.group} aria-labelledby={`resources-group-${index}`}>
+							// A div, not a <section>, so it isn't a region of its own inside Resources; its heading names the list instead.
+							<div key={group.title} className={styles.group}>
 								<h3 id={`resources-group-${index}`} className={styles.group__title}>
 									{group.title}
 								</h3>
-								<ul className={styles.group__list}>
+								<ul className={styles.group__list} aria-labelledby={`resources-group-${index}`}>
 									{group.resources.map((resource) => (
 										<li key={resource.href} className={styles.resource}>
 											<ExternalLink className={styles.resource__link} href={resource.href}>
@@ -146,7 +147,7 @@ export const A11yBites = () => {
 										</li>
 									))}
 								</ul>
-							</section>
+							</div>
 						))}
 					</div>
 				</section>

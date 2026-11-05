@@ -66,8 +66,8 @@ describe('A11yBites', () => {
 		render(<A11yBites />)
 
 		const resources = screen.getByRole('region', { name: 'Resources' })
-		const blogs = within(resources).getByRole('region', { name: 'Blogs' })
-		const docs = within(resources).getByRole('region', { name: 'Documentation for building' })
+		const blogs = within(resources).getByRole('list', { name: 'Blogs' })
+		const docs = within(resources).getByRole('list', { name: 'Documentation for building' })
 
 		expect(within(blogs).getAllByRole('link')).toHaveLength(3)
 		expect(within(docs).getAllByRole('link')).toHaveLength(3)

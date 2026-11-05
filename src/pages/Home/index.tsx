@@ -1,7 +1,6 @@
 import type { PointerEvent } from 'react'
 
 import { Cursor } from '../../components/Cursor'
-import { SocialLinks } from '../../components/SocialLinks'
 
 import styles from './index.module.css'
 
@@ -52,9 +51,6 @@ export const Home = () => {
 						</span>
 					</h1>
 				</div>
-				<footer className={styles.hero__footer}>
-					<SocialLinks />
-				</footer>
 			</div>
 			{/* Kept outside the hero: as a size container it would hold the glow's fixed position inside itself. */}
 			<Cursor />

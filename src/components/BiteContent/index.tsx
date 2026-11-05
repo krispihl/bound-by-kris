@@ -65,8 +65,10 @@ const BlockView = ({ block }: { block: Block }) => {
 			)
 		case 'table':
 			return (
+				// Focusable so a keyboard can scroll a table wider than the page, and named so it says why when focused. A group
+				// rather than a region, so it isn't a landmark nested inside the bite's own region.
 				// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-				<div className={styles.tableWrapper} tabIndex={0} role="region" aria-label="Table, scrollable">
+				<div className={styles.tableWrapper} tabIndex={0} role="group" aria-label="Table, scrollable">
 					<table className={styles.table}>
 						<thead>
 							<tr>
@@ -106,12 +108,9 @@ export const BiteContent = ({ sections }: { sections: BiteSection[] }) => {
 					return <Blocks key="intro" blocks={section.blocks} />
 				}
 
+				// A div, not a <section>, so it isn't a region nested in the bite's own panel region; its heading is enough to move by.
 				return (
-					<section
-						key={section.heading.id}
-						className={`${styles.section}${section.isIssues ? ` ${styles['section--issues']}` : ''}`}
-						aria-labelledby={section.heading.id}
-					>
+					<div key={section.heading.id} className={`${styles.section}${section.isIssues ? ` ${styles['section--issues']}` : ''}`}>
 						<h3 id={section.heading.id} className={styles.heading}>
 							<span className={styles.heading__badge} aria-hidden="true">
 								{section.heading.label}
@@ -119,7 +118,7 @@ export const BiteContent = ({ sections }: { sections: BiteSection[] }) => {
 							<RichText text={section.heading.text} />
 						</h3>
 						<Blocks blocks={section.blocks} />
-					</section>
+					</div>
 				)
 			})}
 		</div>

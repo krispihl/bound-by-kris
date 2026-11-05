@@ -30,29 +30,38 @@
 	container-type: inline-size;
 	container-name: hero;
 
-	/* On a wide but short window, a name sized from the full width wouldn't fit on the first screen with room for the
-	   footer below it, so the page could scroll it under the header bar. The hero narrows and centres instead, as wide as
-	   lets the name (1.7 × 21% of the width inside the padding) fit with 4.5rem to spare: 1rem for the body margins,
-	   the vertical padding, and the footer's minimum height. */
-	@mixin not-mobile {
-		max-width: calc((100dvh - 1rem - var(--hero-padding-top) - 1rem - 4.5rem) / 0.357 + 4rem);
-		margin-inline: auto;
+	/* The height the name has on the first screen: the window less the body margins, the vertical padding and the 4.5rem
+	   the footer needs below it. */
+	--name-room: calc(100dvh - 1rem - var(--hero-padding-top) - 1rem - 4.5rem);
+
+	/* On a short window, a name sized from the full width wouldn't fit on the first screen with the footer below it, so
+	   the page could scroll it under the header bar. The hero narrows and centres instead, as wide as lets the name (1.7
+	   × 21% of the width inside the padding) fit. */
+	max-width: calc(var(--name-room) / 0.357 + 4rem);
+	margin-inline: auto;
+
+	/* Below about 29.75rem of height that width drops under the 48rem where the intro moves above the name, so the cap
+	   allows for the intro's 4.3rem and the smaller name (1.7 × 19.5%) instead. Worked out from the hero's 6rem of top
+	   padding, as a media query can't read it. */
+	@media (height < 29.75rem) {
+		max-width: calc((var(--name-room) - 4.3rem) / 0.3315 + 4rem);
 	}
 }
 
-/* The title block and the footer share these so the whitespace above the name and the scrollable whitespace below it
-   match. The first screen is gap + intro + name; the gap is whatever is left of the viewport (1rem makes up for the
-   default 0.5rem body margin on each side, then the hero's vertical padding, and 4.3rem for the two-line intro plus
-   the space under it). Scrolling the footer's height moves the name up by the gap, to just below the header bar. */
-.hero__title,
-.hero__footer {
+/* The whitespace above the name and the scrollable whitespace below it match. The first screen is gap + intro + name;
+   the gap is whatever is left of the viewport (1rem makes up for the default 0.5rem body margin on each side, then the
+   hero's vertical padding, and 4.3rem for the two-line intro plus the space under it). Scrolling down the whitespace
+   below moves the name up by the gap, to just below the header bar. */
+.hero__title {
 	--name-size: 19.5cqi;
 	--gap: max(2rem, calc(100dvh - 1rem - var(--hero-padding-top) - 1rem - 4.3rem - 1.7 * var(--name-size)));
 }
 
 .hero__title {
 	position: relative;
-	margin-top: var(--gap);
+	/* Below it, the gap again, less the 4rem that the site footer with the social links after the page takes up. At
+	   least 0.5rem, so the links keep 4.5rem of room on a short window. */
+	margin: var(--gap) 0 max(0.5rem, calc(var(--gap) - 4rem));
 }
 
 .hero__intro {
@@ -125,22 +134,8 @@
 	animation: letter-in 0.8s ease-out both;
 }
 
-/* The scrollable whitespace below the name, with the social links at its bottom right, in line with the menu button
-   (the negative margin cancels the body's 0.5rem margin, so the right edge is 2rem from the window). */
-.hero__footer {
-	box-sizing: border-box;
-	display: flex;
-	align-items: flex-end;
-	justify-content: flex-end;
-	height: var(--gap);
-	min-height: 4.5rem;
-	margin-right: -0.5rem;
-	padding-bottom: 1rem;
-}
-
 @container hero (min-width: 48rem) {
-	.hero__title,
-	.hero__footer {
+	.hero__title {
 		--name-size: 21cqi;
 
 		/* The intro leaves the flow here, so there is no intro height to subtract. */

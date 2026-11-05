@@ -12,13 +12,6 @@ describe('Home', () => {
 		expect(screen.getByText(/Frontend developer passionate about accessibility/)).toBeInTheDocument()
 	})
 
-	it('links to the social profiles', () => {
-		render(<Home />)
-
-		expect(screen.getByRole('link', { name: /GitHub/ })).toBeInTheDocument()
-		expect(screen.getByRole('link', { name: /LinkedIn/ })).toBeInTheDocument()
-	})
-
 	it('moves the glow to the pointer without changing the heading name', async () => {
 		const user = userEvent.setup()
 		render(<Home />)
