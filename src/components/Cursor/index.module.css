@@ -1,0 +1,35 @@
+/* A small fuchsia dot with a soft glow fading out around it, like the light that follows the
+   pointer over the name on the homepage. Placed by the transform set on each frame; the negative margin centres it on
+   the pointer. Drawn just above the page background and under everything else, so text and icons stay on top of it,
+   and never in the way of a click. */
+.cursor {
+	--cursor-size: 0.5rem;
+	--cursor-glow: color-mix(in srgb, var(--hot-fuchsia) 90%, transparent);
+	--cursor-haze: color-mix(in srgb, var(--hot-fuchsia) 50%, transparent);
+
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: -1;
+	width: var(--cursor-size);
+	height: var(--cursor-size);
+	margin: calc(var(--cursor-size) / -2);
+	border-radius: 50%;
+	background: var(--hot-fuchsia);
+	box-shadow:
+		0 0 0.5rem 0.125rem var(--cursor-glow),
+		0 0 1.25rem 0.375rem var(--cursor-haze);
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+
+	/* Shown once the pointer moves, and faded out when it leaves the window. */
+	&--visible {
+		opacity: 1;
+	}
+
+	/* Faded out again over links and buttons, so their text stays easy to read. */
+	&--faded {
+		opacity: 0;
+	}
+}

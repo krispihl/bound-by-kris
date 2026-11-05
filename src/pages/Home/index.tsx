@@ -1,5 +1,6 @@
 import type { PointerEvent } from 'react'
 
+import { Cursor } from '../../components/Cursor'
 import { SocialLinks } from '../../components/SocialLinks'
 
 import styles from './index.module.css'
@@ -38,21 +39,25 @@ const renderName = () => (
 
 export const Home = () => {
 	return (
-		<div className={styles.hero}>
-			<div className={styles.hero__title}>
-				<p className={styles.hero__intro}>Frontend developer passionate about accessibility and fond of good design.</p>
-				<h1 className={styles.hero__name} aria-label={`${FIRST_NAME} ${LAST_NAME}`} onPointerMove={followPointer}>
-					{renderName()}
-					<span className={styles.hero__rule} aria-hidden="true" />
-					{/* The same name again in the accent colour on top, shown only in a circle around the pointer. */}
-					<span className={styles.hero__glow} aria-hidden="true">
+		<>
+			<div className={styles.hero}>
+				<div className={styles.hero__title}>
+					<p className={styles.hero__intro}>Frontend developer passionate about accessibility and fond of good design.</p>
+					<h1 className={styles.hero__name} aria-label={`${FIRST_NAME} ${LAST_NAME}`} onPointerMove={followPointer}>
 						{renderName()}
-					</span>
-				</h1>
+						<span className={styles.hero__rule} aria-hidden="true" />
+						{/* The same name again in the accent colour on top, shown only in a circle around the pointer. */}
+						<span className={styles.hero__glow} aria-hidden="true">
+							{renderName()}
+						</span>
+					</h1>
+				</div>
+				<footer className={styles.hero__footer}>
+					<SocialLinks />
+				</footer>
 			</div>
-			<footer className={styles.hero__footer}>
-				<SocialLinks />
-			</footer>
-		</div>
+			{/* Kept outside the hero: as a size container it would hold the glow's fixed position inside itself. */}
+			<Cursor />
+		</>
 	)
 }
