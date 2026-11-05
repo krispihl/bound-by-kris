@@ -13,6 +13,9 @@ const MAX_SQUASH = 0.3
 // Anything that can be clicked or typed into. The glow fades out over these, so it never gets in the way of reading
 // what they say.
 const INTERACTIVE = 'a, button, input, select, textarea, label, summary, [role="button"]'
+// The fixed header bar, whose own background would cover the glow, and its open menu, which should keep covering it.
+const HEADER = 'header'
+const MENU = 'nav'
 
 // Used on the homepage only. A small fuchsia glow that trails the pointer and stretches the faster it moves. The real cursor stays as it is; this
 // only follows it. Drawn straight to the style on each frame, so moving the pointer doesn't re-render anything, and the
@@ -57,6 +60,8 @@ export const Cursor = () => {
 			}
 			const overInteractive = event.target instanceof Element && event.target.closest(INTERACTIVE) !== null
 			element.classList.toggle(styles['cursor--faded'], overInteractive)
+			const overHeaderBar = event.target instanceof Element && event.target.closest(HEADER) !== null && event.target.closest(MENU) === null
+			element.classList.toggle(styles['cursor--raised'], overHeaderBar)
 			if (!frame) frame = requestAnimationFrame(draw)
 		}
 
