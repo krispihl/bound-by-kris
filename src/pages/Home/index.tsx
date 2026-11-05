@@ -45,7 +45,12 @@ export const Home = () => {
 		<>
 			<div className={styles.hero}>
 				<div className={styles.hero__title}>
-					<h1 className={styles.hero__name} aria-label={`${FIRST_NAME} ${LAST_NAME}`} onPointerMove={followPointer}>
+					<h1 className={styles.hero__name} onPointerMove={followPointer}>
+						{/* The name as text for screen readers, marked Estonian so it is said the Estonian way. An aria-label can't
+						    carry its own language, so the name is real text here and the letters below are hidden instead. */}
+						<span className="visually-hidden" lang="et">
+							{FIRST_NAME} {LAST_NAME}
+						</span>
 						{renderName()}
 						<span className={styles.hero__rule} aria-hidden="true" />
 						{/* The same name again in the accent colour on top, shown only in a circle around the pointer. */}

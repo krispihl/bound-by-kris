@@ -9,6 +9,7 @@ describe('Home', () => {
 		render(<Home />)
 
 		expect(screen.getByRole('heading', { level: 1, name: 'Kristina Pihl' })).toBeInTheDocument()
+		expect(screen.getByText('Kristina Pihl')).toHaveAttribute('lang', 'et')
 		expect(screen.getByText(/Frontend developer passionate about accessibility/)).toBeInTheDocument()
 	})
 
