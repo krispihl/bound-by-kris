@@ -13,9 +13,17 @@ const MAX_SQUASH = 0.3
 // Anything that can be clicked or typed into. The glow fades out over these, so it never gets in the way of reading
 // what they say.
 const INTERACTIVE = 'a, button, input, select, textarea, label, summary, [role="button"]'
-// The fixed header bar, whose own background would cover the glow, and its open menu, which should keep covering it.
+// The fixed header bar, whose own background would cover the glow, and its menu, which should keep covering it.
 const HEADER = 'header'
 const MENU = 'nav'
+
+// Over the header bar while its menu is hidden. Once the menu shows (until it has finished closing), it covers the bar,
+// so the glow stays under it there too, even over the Close button, which isn't inside the menu.
+const isOverHeaderBar = (target: EventTarget | null) => {
+	const header = target instanceof Element ? target.closest(HEADER) : null
+	const menu = header?.querySelector(MENU)
+	return header !== null && (!menu || getComputedStyle(menu).visibility === 'hidden')
+}
 
 // Used on the homepage only. A small fuchsia glow that trails the pointer and stretches the faster it moves. The real cursor stays as it is; this
 // only follows it. Drawn straight to the style on each frame, so moving the pointer doesn't re-render anything, and the
@@ -60,8 +68,7 @@ export const Cursor = () => {
 			}
 			const overInteractive = event.target instanceof Element && event.target.closest(INTERACTIVE) !== null
 			element.classList.toggle(styles['cursor--faded'], overInteractive)
-			const overHeaderBar = event.target instanceof Element && event.target.closest(HEADER) !== null && event.target.closest(MENU) === null
-			element.classList.toggle(styles['cursor--raised'], overHeaderBar)
+			element.classList.toggle(styles['cursor--raised'], isOverHeaderBar(event.target))
 			if (!frame) frame = requestAnimationFrame(draw)
 		}
 

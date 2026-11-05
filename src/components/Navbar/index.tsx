@@ -7,14 +7,20 @@ import { useScrollLock } from '../../hooks/useScrollLock'
 import styles from './index.module.css'
 
 const LINKS = [
-	{ to: '/', label: 'Home', note: 'page' },
-	{ to: '/about', label: 'About', note: 'me' },
-	{ to: '/a11y-bites', label: 'a11y bites', note: 'I wrote' },
-	{ to: '/boardgames', label: 'Board games', note: 'I play' },
+	{ to: '/', label: 'Home' },
+	{ to: '/about', label: 'About' },
+	{ to: '/a11y-bites', label: 'a11y bites' },
+	{ to: '/boardgames', label: 'Board games' },
 ]
 
 export const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false)
+	// The page stays locked until the menu has finished closing, not just until it starts to: unlocking brings the
+	// scrollbar back, and its strip would cut off the edge of the menu while it is still shrinking away.
+	const [isLocked, setIsLocked] = useState(false)
+	if (isOpen && !isLocked) {
+		setIsLocked(true)
+	}
 
 	const headerRef = useRef<HTMLElement>(null)
 	const toggleRef = useRef<HTMLButtonElement>(null)
@@ -28,7 +34,7 @@ export const Navbar = () => {
 	}, [])
 
 	useEscapeKey(isOpen, closeAndRefocus)
-	useScrollLock(isOpen)
+	useScrollLock(isLocked)
 
 	// The open menu covers the whole window, so the page beside the header (main and the footer) is made inert while it
 	// is: Tab stays between the toggle and the menu links instead of reaching links hidden behind it.
@@ -60,16 +66,26 @@ export const Navbar = () => {
 				<span className={styles.toggleIcon} aria-hidden="true" />
 			</button>
 
-			<nav id="site-menu" aria-label="Main" className={`${styles.menu}${isOpen ? ` ${styles['menu--open']}` : ''}`}>
+			<nav
+				id="site-menu"
+				aria-label="Main"
+				className={`${styles.menu}${isOpen ? ` ${styles['menu--open']}` : ''}`}
+				onTransitionEnd={(event) => {
+					// Visibility is the menu's last change on closing, with or without reduced motion.
+					if (!isOpen && event.target === event.currentTarget && event.propertyName === 'visibility') {
+						setIsLocked(false)
+					}
+				}}
+			>
 				<ul className={styles.list}>
-					{LINKS.map(({ to, label, note }) => (
+					{LINKS.map(({ to, label }) => (
 						<li key={to}>
 							<NavLink
 								to={to}
 								className={({ isActive }) => `${styles.link}${isActive ? ` ${styles['link--active']}` : ''}`}
 								onClick={close}
 							>
-								<span className={styles.label}>{label}</span> <span className={styles.note}>{note}</span>
+								{label}
 							</NavLink>
 						</li>
 					))}

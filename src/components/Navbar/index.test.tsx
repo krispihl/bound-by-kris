@@ -42,7 +42,7 @@ describe('Navbar', () => {
 	it('moves focus back to the toggle when Escape is pressed on a menu link', async () => {
 		const user = renderNavbar()
 		await user.click(screen.getByRole('button', { name: 'Menu' }))
-		screen.getByRole('link', { name: 'About me' }).focus()
+		screen.getByRole('link', { name: 'About' }).focus()
 
 		await user.keyboard('{Escape}')
 
@@ -64,7 +64,7 @@ describe('Navbar', () => {
 		const user = renderNavbar()
 		await user.click(screen.getByRole('button', { name: 'Menu' }))
 
-		await user.click(screen.getByRole('link', { name: 'Board games I play' }))
+		await user.click(screen.getByRole('link', { name: 'Board games' }))
 
 		expect(screen.getByRole('button', { name: 'Menu' })).toHaveAttribute('aria-expanded', 'false')
 	})
@@ -72,7 +72,7 @@ describe('Navbar', () => {
 	it('marks the current page link as active', () => {
 		renderNavbar()
 
-		expect(screen.getByRole('link', { name: 'Home page' })).toHaveAttribute('aria-current', 'page')
-		expect(screen.getByRole('link', { name: 'Board games I play' })).not.toHaveAttribute('aria-current')
+		expect(screen.getByRole('link', { name: 'Home' })).toHaveAttribute('aria-current', 'page')
+		expect(screen.getByRole('link', { name: 'Board games' })).not.toHaveAttribute('aria-current')
 	})
 })

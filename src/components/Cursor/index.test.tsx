@@ -41,6 +41,35 @@ describe('Cursor', () => {
 		expect(glow).not.toHaveClass(/cursor--faded/)
 	})
 
+	it('is drawn above the header bar, but stays under its menu while the menu shows', async () => {
+		useMouse()
+		const { container, rerender } = render(
+			<>
+				<Cursor />
+				<header>
+					<button type="button">Menu</button>
+					<nav style={{ visibility: 'hidden' }} />
+				</header>
+			</>
+		)
+		const glow = container.firstElementChild
+
+		await userEvent.pointer({ target: screen.getByRole('button', { name: 'Menu' }) })
+		expect(glow).toHaveClass(/cursor--raised/)
+
+		rerender(
+			<>
+				<Cursor />
+				<header>
+					<button type="button">Close</button>
+					<nav style={{ visibility: 'visible' }} />
+				</header>
+			</>
+		)
+		await userEvent.pointer({ target: screen.getByRole('button', { name: 'Close' }) })
+		expect(glow).not.toHaveClass(/cursor--raised/)
+	})
+
 	it('is hidden from screen readers', () => {
 		useMouse()
 		const { container } = render(<Cursor />)

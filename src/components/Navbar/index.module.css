@@ -27,7 +27,9 @@
 .toggle {
 	position: absolute;
 	top: 1.5rem;
-	right: 2rem;
+	/* While the menu is open the scrollbar is gone and the window is that much wider (see useScrollLock), so the button
+	   moves in by its width to stay where it was. */
+	right: calc(2rem + var(--scrollbar-width, 0rem));
 	z-index: 20;
 	display: flex;
 	align-items: center;
@@ -111,7 +113,8 @@
 	align-items: center;
 	justify-content: center;
 	background: var(--navy-electric);
-	clip-path: circle(0 at calc(100% - 3rem) 2.5rem);
+	/* Grows from the toggle, which sits the scrollbar's width further in while the menu is open. */
+	clip-path: circle(0 at calc(100% - 3rem - var(--scrollbar-width, 0rem)) 2.5rem);
 	visibility: hidden;
 	will-change: clip-path;
 	transition:
@@ -119,28 +122,30 @@
 		visibility 0s linear 0.8s;
 
 	&--open {
-		clip-path: circle(150vmax at calc(100% - 3rem) 2.5rem);
-		clip-path: circle(hypot(100vw, 100vh) at calc(100% - 3rem) 2.5rem);
+		clip-path: circle(150vmax at calc(100% - 3rem - var(--scrollbar-width, 0rem)) 2.5rem);
+		clip-path: circle(hypot(100vw, 100vh) at calc(100% - 3rem - var(--scrollbar-width, 0rem)) 2.5rem);
 		visibility: visible;
 		transition-delay: 0s;
 	}
 }
 
 .list {
+	box-sizing: border-box;
+	display: grid;
+	justify-items: end;
+	width: 100%;
 	margin: 0;
-	padding: 0;
+	/* On mobile and tablet the links line up on the right, with the Close button above (see .toggle). */
+	padding: 0 calc(2rem + var(--scrollbar-width, 0rem)) 0 0;
 	list-style: none;
-	text-align: left;
+	text-align: right;
 
-	/* On wide screens the links' shared left edge sits on the vertical centre line of the page. */
-	@mixin not-mobile {
-		box-sizing: border-box;
-		width: 100%;
-		padding-left: 50%;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: flex-start;
+	/* On desktop the column of links, as wide as its longest one, starts on the vertical centre line of the page, with
+	   the links still lined up on its right. */
+	@mixin desktop-only {
+		justify-content: start;
+		/* Half of the page's width, which leaves out the scrollbar's. */
+		padding: 0 0 0 calc((100% - var(--scrollbar-width, 0rem)) / 2);
 	}
 }
 
@@ -164,30 +169,18 @@
 		color: var(--color-divider);
 	}
 
+	/* The current page is underlined as well as coloured, so it doesn't rely on colour alone. */
 	&--active {
 		color: var(--color-accent);
+		text-decoration: underline;
+		text-decoration-thickness: 0.06em;
+		text-underline-offset: 0.12em;
 
 		&:hover,
 		&:focus-visible {
 			color: var(--color-divider);
 		}
 	}
-}
-
-/* The current page's name is underlined as well as coloured, so it doesn't rely on colour alone. Only the name, not the
-   space or the note after it. */
-.link--active .label {
-	text-decoration: underline;
-	text-decoration-thickness: 0.06em;
-	text-underline-offset: 0.12em;
-}
-
-.note {
-	/* The aside after the page name, much smaller than the link itself and white whatever state the link is in. */
-	color: var(--color-surface);
-	font-size: 0.3em;
-	font-weight: 400;
-	letter-spacing: 0.04em;
 }
 
 .menu--open .link {
