@@ -46,6 +46,7 @@ html {
 	--color-text-muted: #6b6b80;
 	--color-accent: var(--hot-fuchsia);
 	--color-accent-hover: var(--blaze-orange);
+	--color-link: var(--navy-electric);
 	--color-divider: var(--amber-gold);
 	--color-border: #e5e3f0;
 	/* A faint accent tint for chips and tags. */

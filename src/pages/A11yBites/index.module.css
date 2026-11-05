@@ -300,7 +300,7 @@
    slides in under it on hover. Kept on one line, so a name and its icon never split. */
 .resource__link {
 	position: relative;
-	color: var(--color-text);
+	color: var(--color-link);
 	font-weight: 600;
 	text-decoration: none;
 	white-space: nowrap;
