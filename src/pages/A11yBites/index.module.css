@@ -187,6 +187,7 @@
 
 /* Padded to a 44px tall target (WCAG AAA); the padding is also the space between the links. */
 .contents__link {
+	position: relative;
 	display: inline-flex;
 	gap: 0.625rem;
 	align-items: baseline;
@@ -199,6 +200,20 @@
 
 	&:hover {
 		color: var(--color-accent-text);
+	}
+
+	/* The focus ring goes round the text rather than the padding, which would bring it close to the links above and
+	   below. */
+	&:focus-visible {
+		outline: none;
+	}
+
+	&:focus-visible::before {
+		content: '';
+		position: absolute;
+		inset: 0.75rem 0;
+		outline: var(--focus-width) solid var(--color-focus);
+		outline-offset: 0.25rem;
 	}
 }
 
@@ -290,6 +305,19 @@
 	&:hover::after,
 	&:focus-visible::after {
 		transform: scaleX(1);
+	}
+
+	/* The focus ring goes round the name rather than the padding, which would bring it out over the description below. */
+	&:focus-visible {
+		outline: none;
+	}
+
+	&:focus-visible::before {
+		content: '';
+		position: absolute;
+		inset: 0.75rem 0;
+		outline: var(--focus-width) solid var(--color-focus);
+		outline-offset: 0.25rem;
 	}
 }
 

@@ -161,6 +161,15 @@
 	overflow-x: auto;
 }
 
+/* Both scroll, so they take focus. Their ring is drawn just inside the edge, over the box's own padding and border,
+   so it doesn't cover the text right above and below the box. */
+.code,
+.tableWrapper {
+	&:focus-visible {
+		outline-offset: calc(-1 * var(--focus-width));
+	}
+}
+
 .table {
 	width: 100%;
 	border-collapse: collapse;

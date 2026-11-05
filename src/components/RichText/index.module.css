@@ -6,4 +6,10 @@
 	&:hover {
 		color: var(--color-accent-text);
 	}
+
+	/* Right against the text, as a link in a paragraph has the lines above and below it close by, and a ring further
+	   out would cover them. */
+	&:focus-visible {
+		outline-offset: 0;
+	}
 }

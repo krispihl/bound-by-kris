@@ -37,6 +37,7 @@
 /* Changes colour on hover like the menu toggle. */
 .page__cv {
 	/* A 44px tall target (WCAG AAA), with the text where it was. */
+	position: relative;
 	display: inline-block;
 	margin-block: -0.75rem;
 	padding-block: 0.75rem;
@@ -48,6 +49,19 @@
 
 	&:hover {
 		color: var(--color-accent-text);
+	}
+
+	/* The focus ring goes round the text rather than the padding, which would bring it out over the text nearby. */
+	&:focus-visible {
+		outline: none;
+	}
+
+	&:focus-visible::before {
+		content: '';
+		position: absolute;
+		inset: 0.75rem 0;
+		outline: var(--focus-width) solid var(--color-focus);
+		outline-offset: 0.25rem;
 	}
 }
 
@@ -158,6 +172,12 @@
 	&:hover::after,
 	&:focus-visible::after {
 		transform: scaleX(1);
+	}
+
+	/* Right against the text, like the links in the a11y bites, so the ring doesn't cover the words beside the link or
+	   the lines above and below it. */
+	&:focus-visible {
+		outline-offset: 0;
 	}
 }
 
