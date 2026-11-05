@@ -1,0 +1,69 @@
+@keyframes heading-move {
+	from {
+		transform: translate(var(--heading-from-x), var(--heading-from-y));
+	}
+
+	to {
+		transform: translate(0, var(--heading-to-y)) scale(var(--heading-scale));
+	}
+}
+
+@keyframes heading-show {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+/* Measured from its text, which is only as wide as the words, wherever the page lines them up. */
+.heading__text {
+	display: inline-block;
+}
+
+/* Drawn in the header bar's slot (see .heading in the Navbar) at the heading's own size and shrunk from its top left
+   corner, so it can sit exactly over the heading. Hidden until the heading has been measured. */
+.copy {
+	position: absolute;
+	top: 0;
+	left: 0;
+	color: var(--color-text);
+	font-family: var(--font-display);
+	font-size: var(--heading-size);
+	font-weight: 700;
+	line-height: 1.05;
+	white-space: nowrap;
+	transform-origin: 0 0;
+	opacity: 0;
+}
+
+/* Only where the animation can follow the scrolling; elsewhere the heading scrolls away as usual. */
+@supports (animation-timeline: scroll()) {
+	/* The copy takes the heading's place from the start, and moves over the first stretch of scrolling (see
+	   PageHeading for how far). */
+	@media (prefers-reduced-motion: no-preference) {
+		.heading[data-measured] {
+			opacity: 0;
+		}
+
+		.copy[data-measured] {
+			opacity: 1;
+			animation: heading-move linear both;
+			animation-timeline: scroll(root);
+			animation-range: 0rem var(--heading-end);
+		}
+	}
+
+	/* Without the movement, the heading scrolls under the bar as usual, and the copy fades in already in place while
+	   it does. */
+	@media (prefers-reduced-motion: reduce) {
+		.copy[data-measured] {
+			transform: translate(0, var(--heading-to-y)) scale(var(--heading-scale));
+			animation: heading-show linear both;
+			animation-timeline: scroll(root);
+			animation-range: var(--heading-under) var(--heading-gone);
+		}
+	}
+}

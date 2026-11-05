@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 
 import { ExternalLink } from '../../components/ExternalLink'
 import { Krispi } from '../../components/Krispi'
+import { PageHeading } from '../../components/PageHeading'
 import type { CvSection } from '../../data/cv'
 import { CV_SECTIONS } from '../../data/cv'
 import { useScrolledToBottom } from '../../hooks/useScrolledToBottom'
@@ -43,7 +44,7 @@ export const About = () => {
 		<>
 			<div className={styles.page}>
 				<header className={styles.page__header}>
-					<h1 className={styles.page__title}>About</h1>
+					<PageHeading className={styles.page__title}>About</PageHeading>
 					<p className={styles.page__intro}>Overview of my background and skills.</p>
 				</header>
 

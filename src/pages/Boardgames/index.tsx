@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { ExternalLink } from '../../components/ExternalLink'
+import { PageHeading } from '../../components/PageHeading'
 import { Spinner } from '../../components/Spinner'
 import { useBoardgames } from '../../hooks/useBoardgames'
 import { usePageTitle } from '../../hooks/usePageTitle'
@@ -36,7 +37,7 @@ export const Boardgames = () => {
 	return (
 		<div className={styles.page}>
 			<header className={styles.page__header}>
-				<h1 className={styles.page__title}>Board games</h1>
+				<PageHeading className={styles.page__title}>Board games</PageHeading>
 			</header>
 
 			{state.status === 'loading' ? <Spinner label="Loading the games…" /> : null}

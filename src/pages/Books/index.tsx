@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { PageHeading } from '../../components/PageHeading'
 import type { Book } from '../../data/books'
 import { BOOKS } from '../../data/books'
 import { usePageTitle } from '../../hooks/usePageTitle'
@@ -53,7 +54,7 @@ export const Books = () => {
 	return (
 		<div className={styles.page}>
 			<header className={styles.page__header}>
-				<h1 className={styles.page__title}>Books</h1>
+				<PageHeading className={styles.page__title}>Books</PageHeading>
 				<p className={styles.page__intro}>My book journey starts here.</p>
 			</header>
 

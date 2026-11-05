@@ -23,6 +23,18 @@
 	}
 }
 
+/* Where the page heading settles: on the left of the bar and halfway down it, lined up with the page content
+   (the body's 0.5rem margin and the page's 2rem padding, out to the 90rem the pages stop at). While the menu is open
+   the bar is the scrollbar's width wider (see .toggle), which the content doesn't move by. Over the fade below the bar,
+   which the heading passes through on its way up, and under the open menu. */
+.heading {
+	position: absolute;
+	z-index: 1;
+	top: 50%;
+	left: max(2.5rem, calc((100% - var(--scrollbar-width, 0rem)) / 2 - 43rem));
+	pointer-events: none;
+}
+
 /* Centred in the header bar: 1.5rem above and below its 2.25rem height. */
 .toggle {
 	position: absolute;

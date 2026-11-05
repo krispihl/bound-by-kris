@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
+import { HEADER_HEADING_ID } from '../PageHeading'
 import { useEscapeKey } from '../../hooks/useEscapeKey'
 import { useScrollLock } from '../../hooks/useScrollLock'
 
@@ -54,6 +55,8 @@ export const Navbar = () => {
 
 	return (
 		<header ref={headerRef} className={styles.header}>
+			{/* Where the page heading settles once the page has scrolled (see PageHeading). */}
+			<div id={HEADER_HEADING_ID} className={styles.heading} />
 			<button
 				ref={toggleRef}
 				type="button"

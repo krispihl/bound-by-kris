@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { BiteContent } from '../../components/BiteContent'
 import { ExternalLink } from '../../components/ExternalLink'
 import { Krispi } from '../../components/Krispi'
+import { PageHeading } from '../../components/PageHeading'
 import { RichText } from '../../components/RichText'
 import { A11Y_BITES } from '../../data/a11yBites'
 import { A11Y_RESOURCES } from '../../data/a11yResources'
@@ -53,7 +54,7 @@ export const A11yBites = () => {
 		<>
 			<div className={styles.page}>
 				<header className={styles.page__header}>
-					<h1 className={styles.page__title}>a11y bites</h1>
+					<PageHeading className={styles.page__title}>a11y bites</PageHeading>
 					<p className={styles.page__intro}>
 						Bite-sized accessibility lessons I initially made for my team.
 						<br />

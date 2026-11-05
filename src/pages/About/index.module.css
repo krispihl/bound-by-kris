@@ -8,12 +8,11 @@
 	counter-reset: section;
 }
 
+/* On mobile and tablet the title has a row of its own, with the intro below it, like on the a11y bites page. */
 .page__header {
 	display: flex;
-	flex-wrap: wrap;
-	align-items: flex-end;
-	justify-content: space-between;
-	gap: 1rem 2rem;
+	flex-direction: column;
+	gap: 1rem;
 	padding-bottom: 2rem;
 }
 
@@ -28,7 +27,6 @@
 .page__intro {
 	margin: 0;
 	color: var(--color-text-muted);
-	text-align: right;
 }
 
 /* Closes the page after the last section, lined up with the section text. */
@@ -122,8 +120,9 @@
 	min-width: 0;
 }
 
+/* Capped in characters rather than rem, so lines stay a readable length (about 75 characters) at any text size. */
 .section__summary {
-	max-width: 44rem;
+	max-width: 75ch;
 	margin: 0;
 	line-height: 1.7;
 
@@ -170,7 +169,7 @@
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0.5rem;
-	max-width: 44rem;
+	max-width: 75ch;
 	margin: 1.5rem 0 0;
 	padding: 0;
 	list-style: none;
@@ -253,7 +252,7 @@
 
 /* Each highlight leads with a bold label on its own line, kept to a readable line length. */
 .highlights {
-	max-width: 42rem;
+	max-width: 75ch;
 	margin: 1.25rem 0 0;
 	padding: 0;
 	list-style: none;
@@ -417,8 +416,6 @@
 	/* One line, sitting on the same baseline as the title. */
 	.page__intro {
 		grid-column: 3;
-		max-width: none;
-		text-align: left;
 	}
 
 	.section {
