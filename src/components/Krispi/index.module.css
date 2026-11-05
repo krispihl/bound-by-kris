@@ -292,6 +292,23 @@
 		transform: translate(calc(-50% + var(--glance-x)), calc(var(--pupil-y, -50%) + var(--glance-y)));
 		transition: transform 0.3s ease;
 	}
+
+	/* An eyelid in the body's colour, drooping towards the outer corner, which only shows when Krispi is sad. Over the
+	   pupil, so it hides the top of it. */
+	&::before {
+		content: '';
+		position: absolute;
+		z-index: 1;
+		inset: 0;
+		border-radius: 50%;
+		background: linear-gradient(var(--lid-angle, 165deg), var(--krispi-body) 36%, var(--krispi-dark) 36% 42%, transparent 42%);
+		opacity: 0;
+		transition: opacity 0.3s ease;
+	}
+
+	& + & {
+		--lid-angle: 195deg;
+	}
 }
 
 /* Blinking and glancing both start 2.5s into the blink's cycle, so the first blink comes soon after Krispi appears,
@@ -320,6 +337,7 @@
 	border: calc(var(--size) * 0.045) solid transparent;
 	border-bottom-color: var(--color-bg);
 	border-radius: 50%;
+	transition: transform 0.3s ease;
 }
 
 /* Three fingertips curled over an edge, side by side and pointing towards the head. Each is a little lighter than the
@@ -363,6 +381,24 @@
 	& .krispi__hand {
 		top: calc(var(--krispi-edge) + var(--size) * 0.05);
 		transform: translateY(calc(-100% - var(--krispi-reach)));
+	}
+}
+
+/* Sad to see the dismiss button: while the mouse is over Krispi or the button has focus, the eyelids droop, the pupils
+   look down and the smile turns over into a small frown. Touch screens show the button all the time but can't hover,
+   so there Krispi isn't sad until the button is pressed. The frown is flipped with transform, which the burst's own translate and rotate
+   add to, so Krispi stays sad as it bursts. */
+.krispi:hover,
+.krispi:has(.krispi__dismiss:focus-visible),
+.krispi--leaving {
+	--pupil-y: -25%;
+
+	& .krispi__eye::before {
+		opacity: 1;
+	}
+
+	& .krispi__mouth {
+		transform: translateY(calc(var(--size) * 0.1)) scale(0.75, -0.6);
 	}
 }
 
@@ -528,7 +564,9 @@
 	}
 
 	.krispi__face,
+	.krispi__eye::before,
 	.krispi__eye::after,
+	.krispi__mouth,
 	.krispi__dismiss {
 		transition: none;
 	}
