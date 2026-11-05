@@ -45,7 +45,6 @@ export const Home = () => {
 		<>
 			<div className={styles.hero}>
 				<div className={styles.hero__title}>
-					<p className={styles.hero__intro}>Frontend developer passionate about accessibility and fond of good design.</p>
 					<h1 className={styles.hero__name} aria-label={`${FIRST_NAME} ${LAST_NAME}`} onPointerMove={followPointer}>
 						{renderName()}
 						<span className={styles.hero__rule} aria-hidden="true" />
@@ -54,6 +53,8 @@ export const Home = () => {
 							{renderName()}
 						</span>
 					</h1>
+					{/* After the name in the source, so it reads name first; on a wide page it moves up beside PIHL. */}
+					<p className={styles.hero__intro}>Frontend developer passionate about accessibility and fond of good design.</p>
 				</div>
 			</div>
 			{/* Kept outside the hero: as a size container it would hold the glow's fixed position inside itself. */}

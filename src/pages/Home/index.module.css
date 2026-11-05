@@ -28,57 +28,74 @@
 	/* The tight line height lets the glyph boxes spill past the bottom edge, which would otherwise add a scrollbar. */
 	overflow: clip;
 	container-type: inline-size;
-	container-name: hero;
 
 	/* The height the name has on the first screen: the window less the body margins, the vertical padding and the 4.5rem
 	   the footer needs below it. */
 	--name-room: calc(100dvh - 1rem - var(--hero-padding-top) - 1rem - 4.5rem);
 
+	/* The height of the intro below the name: two lines at 1.4 line height plus the 1.5rem above them. */
+	--intro-room: calc(2 * 1.4 * 1rem + 1.5rem);
+
+	@mixin mobile-only {
+		--intro-room: calc(2 * 1.4 * 0.875rem + 1.5rem);
+	}
+
 	/* On a short window, a name sized from the full width wouldn't fit on the first screen with the footer below it, so
-	   the page could scroll it under the header bar. The hero narrows and centres instead, as wide as lets the name (1.7
-	   × 21% of the width inside the padding) fit. */
-	max-width: calc(var(--name-room) / 0.357 + 4rem);
+	   the page could scroll it under the header bar. The hero narrows and centres instead, as wide as lets the name (1.82
+	   × 21% of the width inside the padding) and the intro below it fit. */
+	max-width: calc((var(--name-room) - var(--intro-room)) / 0.3822 + 4rem);
 	margin-inline: auto;
 
-	/* Below about 29.75rem of height that width drops under the 48rem where the intro moves above the name, so the cap
-	   allows for the intro's 4.3rem and the smaller name (1.7 × 19.5%) instead. Worked out from the hero's 6rem of top
-	   padding, as a media query can't read it. */
-	@media (height < 29.75rem) {
-		max-width: calc((var(--name-room) - 4.3rem) / 0.3315 + 4rem);
+	/* On desktop the intro sits beside PIHL and the rows close up, so only the name (1.7 × 21%) has to fit. */
+	@mixin desktop-only {
+		max-width: calc(var(--name-room) / 0.357 + 4rem);
 	}
 }
 
-/* The whitespace above the name and the scrollable whitespace below it match. The first screen is gap + intro + name;
-   the gap is whatever is left of the viewport (1rem makes up for the default 0.5rem body margin on each side, then the
-   hero's vertical padding, and 4.3rem for the two-line intro plus the space under it). Scrolling down the whitespace
-   below moves the name up by the gap, to just below the header bar. */
+/* The gap is whatever the name and intro leave of the viewport (1rem makes up for the default 0.5rem body margin on
+   each side, then the hero's vertical padding, and the intro's own height). On mobile
+   and tablet it is split above and below them; on desktop it is all above, with as much scrollable whitespace below,
+   so scrolling down moves the name up to just below the header bar. */
 .hero__title {
-	--name-size: 19.5cqi;
-	--gap: max(2rem, calc(100dvh - 1rem - var(--hero-padding-top) - 1rem - 4.3rem - 1.7 * var(--name-size)));
+	--name-size: 21cqi;
+	/* Extra space between KRISTINA and PIHL, in em of the name: on a smaller name the rows would otherwise crowd the line. */
+	--row-gap: 0.12;
+	--gap: max(2rem, calc(100dvh - 1rem - var(--hero-padding-top) - 1rem - var(--intro-room) - (1.7 + var(--row-gap)) * var(--name-size)));
 }
 
 .hero__title {
 	position: relative;
-	/* Below it, the gap again, less the 4rem that the site footer with the social links after the page takes up. At
-	   least 0.5rem, so the links keep 4.5rem of room on a short window. */
-	margin: var(--gap) 0 max(0.5rem, calc(var(--gap) - 4rem));
+	/* With the intro below the name, the two sit centred between the header bar and the footer, and the page doesn't
+	   scroll: the gap less the footer's 4rem is split so that the 1.25rem header fade above and the hero's 1rem bottom
+	   padding below come out even. */
+	margin: max(0.5rem, calc((var(--gap) - 4.25rem) / 2)) 0 max(0.5rem, calc((var(--gap) - 3.75rem) / 2));
 }
 
 .hero__intro {
 	max-width: 20rem;
-	margin: 0 0 1.5rem;
+	/* Lined up with the right edge of PIHL above it. */
+	margin: 1.5rem 0 0 auto;
 	font-size: 1rem;
 	line-height: 1.4;
+	text-align: right;
+	text-wrap: balance;
 
-	/* Starts with KRISTINA, as the first thing in the lower row: PIHL then fades in under TINA. */
-	animation: letter-in 0.8s ease-out both;
+	@mixin mobile-only {
+		font-size: 0.875rem;
+	}
+
+	/* Below the name, it fades in once KRISTINA has (8 letters × 0.1s). */
+	animation: letter-in 0.8s ease-out 0.8s both;
 }
 
-/* Sized from the page width so "KRISTINA" always spans the full row. */
+/* Sized from the page width so "KRISTINA" always spans the full row. Fraunces widens its letters at smaller sizes
+   (its optical size axis), which would leave KRISTINA short of the right edge on a tablet and past it on a phone, so the
+   optical size is held at its largest, where KRISTINA is 4.74em wide at every size. */
 .hero__name {
 	position: relative;
 	margin: 0;
 	font-family: var(--font-display);
+	font-variation-settings: 'opsz' 144;
 	font-size: var(--name-size);
 	font-weight: 900;
 	letter-spacing: -0.02em;
@@ -92,11 +109,18 @@
 /* Runs between the two name rows; positioned in em so it stays centred in the gap between the letters at any size. */
 .hero__rule {
 	position: absolute;
-	top: 0.86em;
-	/* Bleeds into the hero's side padding so it spans the full page width. */
-	right: -2rem;
-	left: -2rem;
-	height: 0.25rem;
+	top: calc((0.86 + var(--row-gap) / 2) * 1em);
+	/* Bleeds into the hero's side padding: on desktop across the full page width, on mobile and tablet only to 2rem from
+	   the window edges, in line with the menu button (0.5rem past the name, as the body's margin makes up the rest). */
+	right: -0.5rem;
+	left: -0.5rem;
+
+	@mixin desktop-only {
+		right: -2rem;
+		left: -2rem;
+	}
+	/* Thinner as the name gets smaller, so it doesn't outweigh the letters on a phone. */
+	height: clamp(0.125rem, 0.015em, 0.25rem);
 	background: var(--amber-gold);
 	transform: translateY(-50%);
 	transform-origin: left;
@@ -125,6 +149,7 @@
 	display: block;
 
 	&--right {
+		margin-top: calc(var(--row-gap) * 1em);
 		text-align: right;
 	}
 }
@@ -134,12 +159,17 @@
 	animation: letter-in 0.8s ease-out both;
 }
 
-@container hero (min-width: 48rem) {
+/* From desktop up, the intro moves up beside PIHL. */
+@mixin desktop-only {
 	.hero__title {
-		--name-size: 21cqi;
+		--row-gap: 0;
 
 		/* The intro leaves the flow here, so there is no intro height to subtract. */
 		--gap: max(2rem, calc(100dvh - 1rem - var(--hero-padding-top) - 1rem - 1.7 * var(--name-size)));
+
+		/* Below it, the gap again, less the 4rem that the site footer with the social links after the page takes up. At
+		   least 0.5rem, so the links keep 4.5rem of room on a short window. */
+		margin: var(--gap) 0 max(0.5rem, calc(var(--gap) - 4rem));
 	}
 
 	/* Centred in the free space left of PIHL: PIHL is about 2.35em wide, and its capitals centre about 0.42em above the
@@ -154,8 +184,9 @@
 		margin: 0;
 		padding: 0 max(1rem, calc((100cqi - 2.35 * var(--name-size) - 20rem) / 2));
 		text-align: center;
-		text-wrap: balance;
 		transform: translateY(50%);
+		/* Starts with KRISTINA, as the first thing in the lower row: PIHL then fades in under TINA. */
+		animation-delay: 0s;
 	}
 }
 
