@@ -47,7 +47,7 @@
 	transition: color 0.3s;
 
 	&:hover {
-		color: var(--color-accent);
+		color: var(--color-accent-text);
 	}
 }
 

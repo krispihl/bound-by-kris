@@ -4,6 +4,6 @@
 	text-underline-offset: 0.15em;
 
 	&:hover {
-		color: var(--color-accent-hover);
+		color: var(--color-accent-text);
 	}
 }
