@@ -31,7 +31,7 @@
 
 .status__retry {
 	margin-top: 1rem;
-	padding: 0.5rem 1rem;
+	padding: 0.75rem 1rem;
 	border: 1px solid var(--color-text);
 	background: none;
 	color: var(--color-text);
@@ -65,7 +65,7 @@
 .search__input {
 	box-sizing: border-box;
 	width: 100%;
-	padding: 0.625rem 0.875rem;
+	padding: 0.6875rem 0.875rem;
 	border: 1px solid var(--color-border);
 	border-radius: 0;
 	background: var(--color-surface);
@@ -126,8 +126,13 @@
 	line-height: 1.3;
 }
 
-/* Changes colour on hover like the menu toggle; the icon after the title shows it opens in a new tab. */
+/* Changes colour on hover like the menu toggle; the icon after the title shows it opens in a new tab. Padded out to a
+   44px tall target (WCAG AAA), more into the space above than the meta line below, and the negative margin keeps the
+   title where it was. */
 .game__link {
+	display: inline-block;
+	margin-block: -0.75rem -0.5rem;
+	padding-block: 0.75rem 0.5rem;
 	color: inherit;
 	text-decoration: none;
 	transition: color 0.3s;

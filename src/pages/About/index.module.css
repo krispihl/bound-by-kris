@@ -36,6 +36,10 @@
 
 /* Changes colour on hover like the menu toggle. */
 .page__cv {
+	/* A 44px tall target (WCAG AAA), with the text where it was. */
+	display: inline-block;
+	margin-block: -0.75rem;
+	padding-block: 0.75rem;
 	color: var(--color-link);
 	font-weight: 600;
 	text-decoration: none;

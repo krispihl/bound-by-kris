@@ -38,7 +38,7 @@
 /* Centred in the header bar: 1.5rem above and below its 2.25rem height. */
 .toggle {
 	position: absolute;
-	top: 1.5rem;
+	top: 1.125rem;
 	/* While the menu is open the scrollbar is gone and the window is that much wider (see useScrollLock), so the button
 	   moves in by its width to stay where it was. */
 	right: calc(2rem + var(--scrollbar-width, 0rem));
@@ -46,7 +46,8 @@
 	display: flex;
 	align-items: center;
 	gap: 0.75rem;
-	padding: 0.5rem 0;
+	/* Tall enough for a 44px target (WCAG AAA), with the label and icon where they were. */
+	padding: 0.875rem 0;
 	background: none;
 	border: 0;
 	color: var(--color-text);

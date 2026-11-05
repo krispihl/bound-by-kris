@@ -178,20 +178,19 @@
 	display: none;
 }
 
+/* The negative margin lines the first link's text up with the top of the column, as before the links were padded. */
 .contents {
-	margin: 0;
+	margin: -0.75rem 0 0;
 	padding: 0;
 	list-style: none;
-
-	& li + li {
-		margin-top: 0.75rem;
-	}
 }
 
+/* Padded to a 44px tall target (WCAG AAA); the padding is also the space between the links. */
 .contents__link {
 	display: inline-flex;
 	gap: 0.625rem;
 	align-items: baseline;
+	padding-block: 0.75rem;
 	color: var(--color-text-muted);
 	font-size: 0.9375rem;
 	line-height: 1.4;
@@ -265,9 +264,12 @@
 }
 
 /* Like the board games link on the About page: no underline, the new-tab icon marks it as a link, and an accent bar
-   slides in under it on hover. Kept on one line, so a name and its icon never split. */
+   slides in under it on hover. Kept on one line, so a name and its icon never split. Padded to a 44px tall target (WCAG
+   AAA). */
 .resource__link {
 	position: relative;
+	display: inline-block;
+	padding-block: 0.75rem;
 	color: var(--color-link);
 	font-weight: 600;
 	text-decoration: none;
@@ -277,7 +279,7 @@
 		content: '';
 		position: absolute;
 		right: 0;
-		bottom: -0.125rem;
+		bottom: 0.625rem;
 		left: 0;
 		height: 0.1875rem;
 		background: var(--color-accent);
@@ -292,7 +294,7 @@
 }
 
 .resource__description {
-	margin: 0.25rem 0 0;
+	margin: 0;
 	color: var(--color-text-muted);
 	font-size: 0.9375rem;
 	line-height: 1.5;
@@ -392,7 +394,8 @@
 
 	.contents {
 		position: sticky;
-		top: calc(var(--header-height) + 2rem);
+		/* 2rem under the header bar to the first link's text, less its padding. */
+		top: calc(var(--header-height) + 1.25rem);
 		text-align: right;
 	}
 
