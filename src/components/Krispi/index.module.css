@@ -79,36 +79,47 @@
 	/* The page it falls on, tinted with Krispi's own navy rather than darkened to a grey: light bouncing off a coloured
 	   body colours its shadow too, and it keeps the shadow soft instead of muddy. */
 	--shadow-color: color-mix(in oklch, var(--color-bg) 55%, var(--krispi-body));
+	/* How long the burst takes when Krispi is dismissed (see LEAVE_DURATION in the component, which must match). */
+	--leave-duration: 0.9s;
 
 	position: relative;
 	display: block;
 	width: var(--size);
 	height: calc(var(--size) * 1.6);
-	border-radius: var(--size);
-	/* Just enough shading to look round: a touch lighter towards the light, with a soft inner shadow on the far side. */
-	background: radial-gradient(
-		circle at calc(50% - var(--shadow-x) * 30%) calc(50% - var(--shadow-y) * 25%),
-		color-mix(in srgb, var(--krispi-body) 85%, white),
-		var(--krispi-body) 60%
-	);
-	/* Layered like a real shadow: a tight, dark one where the body nearly touches the page, then ever wider and fainter
-	   ones further out, the larger ones pulled in a little so they don't spill past the sides. */
-	box-shadow:
-		inset calc(var(--size) * -0.08 * var(--shadow-x)) calc(var(--size) * -0.04 * var(--shadow-y)) calc(var(--size) * 0.12)
-			color-mix(in srgb, black 20%, transparent),
-		calc(var(--size) * 0.01 * var(--shadow-x)) calc(var(--size) * 0.01 * var(--shadow-y)) calc(var(--size) * 0.015)
-			color-mix(in srgb, var(--shadow-color) 35%, transparent),
-		calc(var(--size) * 0.04 * var(--shadow-x)) calc(var(--size) * 0.04 * var(--shadow-y)) calc(var(--size) * 0.06) calc(var(--size) * -0.01)
-			color-mix(in srgb, var(--shadow-color) 30%, transparent),
-		calc(var(--size) * 0.1 * var(--shadow-x)) calc(var(--size) * 0.1 * var(--shadow-y)) calc(var(--size) * 0.14) calc(var(--size) * -0.02)
-			color-mix(in srgb, var(--shadow-color) 25%, transparent),
-		calc(var(--size) * 0.22 * var(--shadow-x)) calc(var(--size) * 0.22 * var(--shadow-y)) calc(var(--size) * 0.3) calc(var(--size) * -0.04)
-			color-mix(in srgb, var(--shadow-color) 20%, transparent);
+
+	/* The body, drawn behind the face and hair rather than on Krispi itself, so it can burst on its own when Krispi is
+	   dismissed while the rest flies apart. */
+	&::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: var(--size);
+		/* Just enough shading to look round: a touch lighter towards the light, with a soft inner shadow on the far side. */
+		background: radial-gradient(
+			circle at calc(50% - var(--shadow-x) * 30%) calc(50% - var(--shadow-y) * 25%),
+			color-mix(in srgb, var(--krispi-body) 85%, white),
+			var(--krispi-body) 60%
+		);
+		/* Layered like a real shadow: a tight, dark one where the body nearly touches the page, then ever wider and fainter
+		   ones further out, the larger ones pulled in a little so they don't spill past the sides. */
+		box-shadow:
+			inset calc(var(--size) * -0.08 * var(--shadow-x)) calc(var(--size) * -0.04 * var(--shadow-y)) calc(var(--size) * 0.12)
+				color-mix(in srgb, black 20%, transparent),
+			calc(var(--size) * 0.01 * var(--shadow-x)) calc(var(--size) * 0.01 * var(--shadow-y)) calc(var(--size) * 0.015)
+				color-mix(in srgb, var(--shadow-color) 35%, transparent),
+			calc(var(--size) * 0.04 * var(--shadow-x)) calc(var(--size) * 0.04 * var(--shadow-y)) calc(var(--size) * 0.06) calc(var(--size) * -0.01)
+				color-mix(in srgb, var(--shadow-color) 30%, transparent),
+			calc(var(--size) * 0.1 * var(--shadow-x)) calc(var(--size) * 0.1 * var(--shadow-y)) calc(var(--size) * 0.14) calc(var(--size) * -0.02)
+				color-mix(in srgb, var(--shadow-color) 25%, transparent),
+			calc(var(--size) * 0.22 * var(--shadow-x)) calc(var(--size) * 0.22 * var(--shadow-y)) calc(var(--size) * 0.3) calc(var(--size) * -0.04)
+				color-mix(in srgb, var(--shadow-color) 20%, transparent);
+	}
 }
 
-/* The point the dismiss button is centred on: just out past the head's top right corner, clear of the face. It is turned back by however much a
-   placement turns Krispi (--krispi-turn), so the button always stays upright, and a turned placement also moves it
-   (--krispi-corner-left and --krispi-corner-top) to whichever corner of the head is top right on screen. */
+/* The point the dismiss button is centred on: out past the head's top right corner, clear of the face. It is turned
+   back by however much a placement turns Krispi (--krispi-turn), so the button always stays upright, and a turned
+   placement also moves it (--krispi-corner-left and --krispi-corner-top) to whichever corner of the head is top right
+   on screen. */
 .krispi__corner {
 	position: absolute;
 	top: var(--krispi-corner-top, -15%);
@@ -165,6 +176,15 @@
 
 	@media (hover: none) {
 		opacity: 1;
+	}
+
+	/* Gone at once when pressed, though it keeps focus until Krispi is removed, so a placement that brings Krispi out
+	   while the button is focused keeps it out for the burst. */
+	.krispi.krispi--leaving & {
+		opacity: 0;
+		outline: none;
+		pointer-events: none;
+		transition: none;
 	}
 }
 
@@ -343,6 +363,159 @@
 	& .krispi__hand {
 		top: calc(var(--krispi-edge) + var(--size) * 0.05);
 		transform: translateY(calc(-100% - var(--krispi-reach)));
+	}
+}
+
+/* Dismissed: Krispi squashes down as if bracing itself, then bursts. The body pops into a puff of smoke while the
+   hair, eyes, mouth and hands fly off in every direction, spinning and fading. Every part runs for the same
+   --leave-duration, which the component waits out before removing Krispi, with the burst at the same point in each. */
+@keyframes krispi-pop {
+	0% {
+		scale: 1;
+	}
+
+	22% {
+		scale: 1.15 0.85;
+		opacity: 1;
+		animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+	}
+
+	32% {
+		scale: 1.25;
+		opacity: 1;
+	}
+
+	50%,
+	100% {
+		scale: 0.2;
+		opacity: 0;
+	}
+}
+
+@keyframes krispi-smoke {
+	0%,
+	28% {
+		scale: 0.4;
+		opacity: 0;
+	}
+
+	36% {
+		opacity: 0.9;
+		animation-timing-function: ease-out;
+	}
+
+	100% {
+		scale: 1.8;
+		opacity: 0;
+	}
+}
+
+@keyframes krispi-fly {
+	0%,
+	28% {
+		translate: 0 0;
+		rotate: 0deg;
+		opacity: 1;
+		animation-timing-function: cubic-bezier(0.2, 0.8, 0.4, 1);
+	}
+
+	60% {
+		opacity: 1;
+	}
+
+	100% {
+		translate: var(--fly-x) var(--fly-y);
+		rotate: var(--fly-turn);
+		opacity: 0;
+	}
+}
+
+.krispi {
+	/* The smoke: a few soft round clouds clustered over the body, hidden until the burst. */
+	&::after {
+		--smoke: color-mix(in srgb, var(--krispi-body) 30%, var(--color-bg));
+
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: calc(var(--size) * 1.6);
+		height: calc(var(--size) * 1.6);
+		background:
+			radial-gradient(circle at 50% 50%, var(--smoke) 0 30%, transparent 31%),
+			radial-gradient(circle at 28% 40%, var(--smoke) 0 20%, transparent 21%),
+			radial-gradient(circle at 72% 38%, var(--smoke) 0 22%, transparent 23%),
+			radial-gradient(circle at 35% 70%, var(--smoke) 0 21%, transparent 22%),
+			radial-gradient(circle at 68% 68%, var(--smoke) 0 19%, transparent 20%);
+		filter: blur(calc(var(--size) * 0.06));
+		opacity: 0;
+		pointer-events: none;
+		translate: -50% -50%;
+	}
+
+	&--leaving {
+		&::before {
+			animation: krispi-pop var(--leave-duration) both;
+		}
+
+		&::after {
+			animation: krispi-smoke var(--leave-duration) both;
+		}
+
+		& .krispi__strand,
+		& .krispi__eye,
+		& .krispi__mouth,
+		& .krispi__hand {
+			animation: krispi-fly var(--leave-duration) both;
+		}
+
+		& .krispi__strand--left {
+			--fly-x: calc(var(--size) * -0.9);
+			--fly-y: calc(var(--size) * -1.1);
+			--fly-turn: -200deg;
+		}
+
+		& .krispi__strand--middle {
+			--fly-x: calc(var(--size) * 0.1);
+			--fly-y: calc(var(--size) * -1.5);
+			--fly-turn: 140deg;
+		}
+
+		& .krispi__strand--right {
+			--fly-x: calc(var(--size) * 1);
+			--fly-y: calc(var(--size) * -1);
+			--fly-turn: 220deg;
+		}
+
+		& .krispi__eye:first-child {
+			--fly-x: calc(var(--size) * -1.2);
+			--fly-y: calc(var(--size) * -0.4);
+			--fly-turn: -320deg;
+		}
+
+		& .krispi__eye:nth-child(2) {
+			--fly-x: calc(var(--size) * 1.2);
+			--fly-y: calc(var(--size) * -0.6);
+			--fly-turn: 300deg;
+		}
+
+		& .krispi__mouth {
+			--fly-x: calc(var(--size) * 0.3);
+			--fly-y: calc(var(--size) * 1.1);
+			--fly-turn: 160deg;
+		}
+
+		& .krispi__hand--left {
+			--fly-x: calc(var(--size) * -1.1);
+			--fly-y: calc(var(--size) * 0.5);
+			--fly-turn: -120deg;
+		}
+
+		& .krispi__hand--right {
+			--fly-x: calc(var(--size) * 1.1);
+			--fly-y: calc(var(--size) * 0.4);
+			--fly-turn: 120deg;
+		}
 	}
 }
 

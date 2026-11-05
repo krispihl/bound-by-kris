@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+
 import { useDismissed } from '../../hooks/useDismissed'
 
 import styles from './index.module.css'
@@ -14,18 +16,43 @@ const POSE_CLASSES = {
 	peek: styles['krispi--peek'],
 }
 
+// How long Krispi takes to burst apart once dismissed, in ms: the --leave-duration in the CSS.
+const LEAVE_DURATION = 900
+
 // Krispi, the site's pill-shaped mascot, drawn in CSS. Only decoration, so screen readers skip the drawing; the one
 // thing they reach is the button that hides it, which a visitor who'd rather not have it around can press to hide it
 // on every page from then on. Where it sits and how it moves is up to the page placing it (through className); the
 // pose sets the face and hands.
 export const Krispi = ({ pose = 'idle', glances = false, className }: KrispiProps) => {
 	const { isDismissed, dismiss } = useDismissed('krispi-dismissed')
+	const [isLeaving, setIsLeaving] = useState(false)
+
+	// Bursts apart first, and is only removed once that has played out.
+	useEffect(() => {
+		if (!isLeaving) {
+			return
+		}
+
+		const timer = window.setTimeout(dismiss, LEAVE_DURATION)
+		return () => window.clearTimeout(timer)
+	}, [isLeaving, dismiss])
 
 	if (isDismissed) {
 		return null
 	}
 
-	const classes = [styles.krispi, POSE_CLASSES[pose], glances && styles['krispi--glance'], className].filter(Boolean).join(' ')
+	const leave = () => {
+		// Without motion there's nothing to wait for, so Krispi goes at once.
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+			dismiss()
+		} else {
+			setIsLeaving(true)
+		}
+	}
+
+	const classes = [styles.krispi, POSE_CLASSES[pose], glances && styles['krispi--glance'], isLeaving && styles['krispi--leaving'], className]
+		.filter(Boolean)
+		.join(' ')
 
 	return (
 		<span className={classes}>
@@ -49,7 +76,7 @@ export const Krispi = ({ pose = 'idle', glances = false, className }: KrispiProp
 					))
 				: null}
 			<span className={styles.krispi__corner}>
-				<button type="button" className={styles.krispi__dismiss} aria-label="Hide the Krispi mascot" onClick={dismiss} />
+				<button type="button" className={styles.krispi__dismiss} aria-label="Hide the Krispi mascot" onClick={leave} />
 			</span>
 		</span>
 	)

@@ -1,11 +1,12 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { Krispi } from '.'
 
 afterEach(() => {
 	localStorage.clear()
+	vi.restoreAllMocks()
 })
 
 describe('Krispi', () => {
@@ -18,16 +19,28 @@ describe('Krispi', () => {
 		expect(screen.getByRole('button', { name: 'Hide the Krispi mascot' })).toBeInTheDocument()
 	})
 
-	it('goes away when dismissed, and stays away after that', async () => {
+	it('bursts apart when dismissed, then goes away and stays away', async () => {
 		const user = userEvent.setup()
 		const { container, unmount } = render(<Krispi />)
 
 		await user.click(screen.getByRole('button', { name: 'Hide the Krispi mascot' }))
-		expect(container).toBeEmptyDOMElement()
+		expect(container.firstElementChild?.className).toContain('krispi--leaving')
+
+		await waitFor(() => expect(container).toBeEmptyDOMElement(), { timeout: 2000 })
 
 		unmount()
 		const { container: again } = render(<Krispi />)
 		expect(again).toBeEmptyDOMElement()
+	})
+
+	it('goes at once, without the burst, when the visitor prefers reduced motion', async () => {
+		const matchMedia = window.matchMedia
+		vi.spyOn(window, 'matchMedia').mockImplementation((query) => ({ ...matchMedia(query), matches: true }))
+		const user = userEvent.setup()
+		const { container } = render(<Krispi />)
+
+		await user.click(screen.getByRole('button', { name: 'Hide the Krispi mascot' }))
+		expect(container).toBeEmptyDOMElement()
 	})
 
 	it('has no hands when idle', () => {
