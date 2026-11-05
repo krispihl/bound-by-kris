@@ -1,18 +1,72 @@
+@keyframes rule-draw {
+	from {
+		transform: scaleX(0);
+	}
+
+	to {
+		transform: scaleX(1);
+	}
+}
+
+/* Fills the window, less the body's 0.5rem margins and the home link's 4rem row under it, with everything pushed to
+   the bottom. */
 .page {
 	box-sizing: border-box;
-	max-width: 90rem;
-	margin: 0 auto;
-	padding: 6rem 2rem 4rem;
+	display: flex;
+	flex-direction: column;
+	min-height: calc(100dvh - 1rem - 4rem);
+	justify-content: flex-end;
+	padding: 1.5rem 2rem 0;
+	/* The tight line height lets the digits' glyph boxes spill past the bottom edge, which would otherwise add a
+	   scrollbar. */
+	overflow: clip;
+	container-type: inline-size;
+	container-name: not-found;
 }
 
+/* The quote, then its twist straight after it on the same line, in a quieter colour. Centred over the code, and
+   balanced so a wrapped line doesn't leave one word on its own. */
 .page__title {
 	margin: 0;
+	text-align: center;
+	text-wrap: balance;
 	font-family: var(--font-display);
-	font-size: clamp(2.5rem, 8vw, 4.5rem);
-	line-height: 1.05;
+	font-size: 1.125rem;
+	font-weight: 600;
+	line-height: 1.4;
 }
 
-.page__text {
-	margin: 1.5rem 0 0;
+.page__twist {
 	color: var(--color-text-muted);
+	font-weight: 400;
+}
+
+/* Runs between the text and the code, bleeding into the side padding to span the full page width like the rule on the homepage. */
+.page__rule {
+	height: 0.25rem;
+	margin: 1.5rem -2rem 2rem;
+	background: var(--amber-gold);
+	transform-origin: left;
+	animation: rule-draw 1.4s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+/* Sized from the window's width so the three digits, about 1.8em wide, take up half of it. In a wide, short window
+   they're sized from the height instead, so they still fit between the text and the home link: the digits stand
+   about 0.75em tall, and the text, rule and the space around them take about 8rem. */
+.page__code {
+	margin: 0;
+	font-family: var(--font-display);
+	font-size: min(28vw, calc((100dvh - 1rem - 4rem - 8rem) / 0.75));
+	font-weight: 900;
+	letter-spacing: -0.04em;
+	line-height: 0.8;
+	text-align: center;
+	cursor: default;
+	user-select: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.page__rule {
+		animation: none;
+	}
 }

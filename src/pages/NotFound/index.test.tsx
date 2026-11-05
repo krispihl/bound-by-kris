@@ -7,6 +7,12 @@ describe('NotFound', () => {
 	it('says the page was not found in its heading', () => {
 		render(<NotFound />)
 
-		expect(screen.getByRole('heading', { level: 1, name: 'Page not found' })).toBeInTheDocument()
+		expect(screen.getByRole('heading', { level: 1, name: /^Page not found\./ })).toBeInTheDocument()
+	})
+
+	it('greets the wanderer with the quote', () => {
+		render(<NotFound />)
+
+		expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Not all those who wander are lost. But you seem to be.')
 	})
 })
