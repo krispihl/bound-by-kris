@@ -34,6 +34,10 @@ html {
 }
 
 :root {
+	/* Light only (for now), so a browser in dark mode doesn't give the form fields and scrollbars dark styling on the
+	   light page. */
+	color-scheme: light;
+
 	--font-display: 'Fraunces', serif;
 	--font-name: 'Nabla', 'Arial Black', sans-serif;
 
@@ -65,6 +69,16 @@ html {
 	/* The fade under it, which text scrolling up passes through before it goes under the bar. It fits in the room every
 	   page leaves between the bar and its first text, so it doesn't dim anything at the top of the page. */
 	--header-fade: 1.25rem;
+}
+
+/* For visitors who ask for more contrast: the muted text goes from about 5:1 to 8:1, the borders from barely there to
+   over 3:1, and the chip tint is stronger, so the tags stand out from the page. */
+@media (prefers-contrast: more) {
+	:root {
+		--color-text-muted: #4a4a5c;
+		--color-border: #85829a;
+		--color-chip: color-mix(in srgb, var(--color-accent) 16%, var(--color-surface));
+	}
 }
 
 :focus-visible {

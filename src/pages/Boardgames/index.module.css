@@ -66,7 +66,8 @@
 	box-sizing: border-box;
 	width: 100%;
 	padding: 0.6875rem 0.875rem;
-	border: 1px solid var(--color-border);
+	/* The muted text colour rather than the border colour, so the field's edge reaches 3:1 against the page (WCAG 1.4.11). */
+	border: 1px solid var(--color-text-muted);
 	border-radius: 0;
 	background: var(--color-surface);
 	color: var(--color-text);
@@ -165,6 +166,11 @@
 	&--language {
 		border-left-color: var(--navy-electric);
 		background: color-mix(in srgb, var(--navy-electric) 7%, var(--color-surface));
+
+		/* Stronger for visitors who ask for more contrast, like the other chips (see --color-chip). */
+		@media (prefers-contrast: more) {
+			background: color-mix(in srgb, var(--navy-electric) 14%, var(--color-surface));
+		}
 	}
 }
 

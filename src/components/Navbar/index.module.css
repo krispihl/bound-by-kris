@@ -20,6 +20,11 @@
 		height: var(--header-fade);
 		background: linear-gradient(var(--color-bg), transparent);
 		pointer-events: none;
+
+		/* For visitors who ask for less transparency, text goes under the bar at a hard edge instead. */
+		@media (prefers-reduced-transparency: reduce) {
+			display: none;
+		}
 	}
 }
 
