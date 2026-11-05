@@ -42,13 +42,14 @@
 
 	/* On a short window, a name sized from the full width wouldn't fit on the first screen with the footer below it, so
 	   the page could scroll it under the header bar. The hero narrows and centres instead, as wide as lets the name (1.82
-	   × 21% of the width inside the padding) and the intro below it fit. */
-	max-width: calc((var(--name-room) - var(--intro-room)) / 0.3822 + 4rem);
+	   × 21% of the width inside the padding) and the intro below it fit. Never narrower than 20rem, though: in a window
+	   only a few rem tall, such as at 400% zoom, that would squeeze the name to nothing, so the page scrolls instead. */
+	max-width: max(20rem, calc((var(--name-room) - var(--intro-room)) / 0.3822 + 4rem));
 	margin-inline: auto;
 
 	/* On desktop the intro sits beside PIHL and the rows close up, so only the name (1.7 × 21%) has to fit. */
 	@mixin desktop-only {
-		max-width: calc(var(--name-room) / 0.357 + 4rem);
+		max-width: max(20rem, calc(var(--name-room) / 0.357 + 4rem));
 	}
 }
 

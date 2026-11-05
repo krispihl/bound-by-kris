@@ -9,14 +9,15 @@
 }
 
 /* Fills the window, less the body's 0.5rem margins and the home link's 4rem row under it, with everything pushed to
-   the bottom. */
+   the bottom. The top padding clears the header bar and its fade, like the homepage's, for a window too short to hold
+   it all, where the page scrolls from the top. */
 .page {
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
 	min-height: calc(100dvh - 1rem - 4rem);
 	justify-content: flex-end;
-	padding: 1.5rem 2rem 0;
+	padding: calc(var(--header-height) + var(--header-fade) - 0.5rem) 2rem 0;
 	/* The tight line height lets the digits' glyph boxes spill past the bottom edge, which would otherwise add a
 	   scrollbar. */
 	overflow: clip;
@@ -52,11 +53,12 @@
 
 /* Sized from the window's width so the three digits, about 1.8em wide, take up half of it. In a wide, short window
    they're sized from the height instead, so they still fit between the text and the home link: the digits stand
-   about 0.75em tall, and the text, rule and the space around them take about 8rem. */
+   about 0.75em tall, and the text, rule and the space around them take about 8rem. Never below 6rem from the height,
+   though, or a very short window (400% zoom) would shrink them to nothing; the page scrolls instead. */
 .page__code {
 	margin: 0;
 	font-family: var(--font-display);
-	font-size: min(28vw, calc((100dvh - 1rem - 4rem - 8rem) / 0.75));
+	font-size: min(28vw, max(6rem, calc((100dvh - 1rem - 4rem - 8rem) / 0.75)));
 	font-weight: 900;
 	letter-spacing: -0.04em;
 	line-height: 0.8;

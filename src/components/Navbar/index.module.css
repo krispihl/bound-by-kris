@@ -127,9 +127,17 @@
 	position: fixed;
 	inset: 0;
 	z-index: 10;
+	box-sizing: border-box;
 	display: flex;
-	align-items: center;
-	justify-content: center;
+	flex-direction: column;
+	/* The links end as far above the bottom edge as the band below starts them under the top. On a short window, such
+	   as at 400% zoom, they don't fit, so the menu scrolls on its own (the page behind it is locked) rather than cutting
+	   the last ones off. */
+	padding-bottom: var(--header-height);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	/* Tabbing back up scrolls a link only as far as below the band (see ::before), not under it. */
+	scroll-padding-top: var(--header-height);
 	background: var(--navy-electric);
 	/* Grows from the toggle, which sits the scrollbar's width further in while the menu is open. */
 	clip-path: circle(0 at calc(100% - 3rem - var(--scrollbar-width, 0rem)) 2.5rem);
@@ -145,6 +153,28 @@
 		visibility: visible;
 		transition-delay: 0s;
 	}
+
+	/* A band as tall as the header bar, behind the Close button, that stays at the top while the menu scrolls, so the
+	   links go under it instead of running through the button's label, fading out on the way like the page does under
+	   the bar. */
+	&::before {
+		content: '';
+		position: sticky;
+		top: 0;
+		z-index: 1;
+		flex-shrink: 0;
+		height: calc(var(--header-height) + var(--header-fade));
+		margin-bottom: calc(-1 * var(--header-fade));
+		background: linear-gradient(var(--navy-electric) var(--header-height), transparent);
+		pointer-events: none;
+
+		/* For visitors who ask for less transparency, a hard edge instead. */
+		@media (prefers-reduced-transparency: reduce) {
+			height: var(--header-height);
+			margin-bottom: 0;
+			background: var(--navy-electric);
+		}
+	}
 }
 
 .list {
@@ -152,7 +182,9 @@
 	display: grid;
 	justify-items: end;
 	width: 100%;
-	margin: 0;
+	/* Centred down the window by its auto margins, which, unlike centring from the menu, fall back to the top when the
+	   links don't fit, so the first ones can't be pushed up out of reach. */
+	margin: auto 0;
 	/* On mobile and tablet the links line up on the right, with the Close button above (see .toggle). */
 	padding: 0 calc(2rem + var(--scrollbar-width, 0rem)) 0 0;
 	list-style: none;
