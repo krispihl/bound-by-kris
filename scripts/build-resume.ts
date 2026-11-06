@@ -5,6 +5,7 @@
 import { writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
+import { PDFDocument } from 'pdf-lib'
 import { chromium } from 'playwright'
 
 import { CV_SECTIONS } from '../src/data/cv.ts'
@@ -40,9 +41,23 @@ const SHORT_HIGHLIGHTS: Record<string, string[]> = {
 }
 
 // Paper-only trims of the profile text, so no paragraph ends on a word alone on its own line.
-const shortSummary = (text: string) => text.replace('coordinated different teams', 'coordinated teams')
+const SUMMARY_TRIM = { from: 'coordinated different teams', to: 'coordinated teams' }
 
-const escape = (text: string) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+const shortSummary = (text: string) => text.replace(SUMMARY_TRIM.from, SUMMARY_TRIM.to)
+
+// The trims above match the CV data by text, so say so when they stop matching instead of silently printing the long version.
+const warnAboutStaleTrims = () => {
+	const roleTitles = new Set(CV_SECTIONS.flatMap((s) => s.entries.flatMap((e) => (e.roles ?? []).map((r) => r.title))))
+	for (const title of Object.keys(SHORT_HIGHLIGHTS)) {
+		if (!roleTitles.has(title)) console.warn(`SHORT_HIGHLIGHTS has "${title}", but no such role exists in src/data/cv.ts.`)
+	}
+	const summaries = CV_SECTIONS.flatMap((s) => s.summary ?? [])
+	if (!summaries.some((text) => text.includes(SUMMARY_TRIM.from))) {
+		console.warn(`The summary trim "${SUMMARY_TRIM.from}" no longer matches any text in src/data/cv.ts.`)
+	}
+}
+
+const escapeHtml = (text: string) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
 const section = (id: string) => {
 	const found = CV_SECTIONS.find((s) => s.id === id)
@@ -50,9 +65,10 @@ const section = (id: string) => {
 	return found
 }
 
-const heading = (number: string, text: string) => `<h2 class="heading"><span class="heading__number">${number}</span>${escape(text)}</h2>`
+const heading = (number: string, text: string) =>
+	`<h2 class="heading"><span class="heading__number" aria-hidden="true">${number}</span>${escapeHtml(text)}</h2>`
 
-const period = (text?: string) => (text ? `<span class="period">${escape(text)}</span>` : '')
+const period = (text?: string) => (text ? `<span class="period">${escapeHtml(text)}</span>` : '')
 
 // Main column: every job as the company, then each position in bold with its dates, then the Pipedrive roles and highlights.
 const renderJob = (entry: CvEntry) => {
@@ -61,8 +77,8 @@ const renderJob = (entry: CvEntry) => {
 	const positions = (entry.steps ?? [])
 		.map(
 			(step) =>
-				`<p class="job__position"><strong>${escape(step.title)}</strong>${step.period ? ` ${period(step.period)}` : ''}${
-					step.detail ? ` <span class="job__detail">· ${escape(step.detail)}</span>` : ''
+				`<p class="job__position"><strong>${escapeHtml(step.title)}</strong>${period(step.period)}${
+					step.detail ? ` <span>· ${escapeHtml(step.detail)}</span>` : ''
 				}</p>`
 		)
 		.join('')
@@ -71,14 +87,14 @@ const renderJob = (entry: CvEntry) => {
 		.map((role) => {
 			const bullets = SHORT_HIGHLIGHTS[role.title] ?? role.highlights.map((h) => h.text)
 			return `<li class="role">
-				<h4 class="role__title">${escape(role.title)}</h4>
-				<ul class="bullets">${bullets.map((text) => `<li>${escape(text)}</li>`).join('')}</ul>
+				<h4 class="role__title">${escapeHtml(role.title)}</h4>
+				<ul class="bullets">${bullets.map((text) => `<li>${escapeHtml(text)}</li>`).join('')}</ul>
 			</li>`
 		})
 		.join('')
 
 	return `<li class="job">
-		<h3 class="job__company">${escape(entry.title)} ${period(entry.period)}</h3>
+		<h3 class="job__company">${escapeHtml(entry.title)}${period(entry.period)}</h3>
 		${positions}
 		${roles ? `<ul class="roles">${roles}</ul>` : ''}
 	</li>`
@@ -216,8 +232,6 @@ const renderHtml = () => {
 
 	.job__position strong { font-weight: 700; }
 
-	.job__detail { color: var(--text); }
-
 	.roles { margin-top: 0.55rem; }
 
 	.role + .role { margin-top: 0.55rem; }
@@ -266,14 +280,14 @@ const renderHtml = () => {
 			<h1 class="header__name">Kristina Pihl</h1>
 			<p class="header__role">Front-end Engineer · Web accessibility</p>
 		</div>
-		<ul class="contacts">${CONTACTS.map((c) => `<li><a href="${c.href}">${escape(c.label)}</a></li>`).join('')}</ul>
+		<ul class="contacts">${CONTACTS.map((c) => `<li><a href="${c.href}">${escapeHtml(c.label)}</a></li>`).join('')}</ul>
 	</header>
 
 	<div class="columns">
 		<main>
 			<section class="block">
 				${heading('01', profile.heading)}
-				${(profile.summary ?? []).map((p) => `<p class="summary">${escape(shortSummary(p))}</p>`).join('')}
+				${(profile.summary ?? []).map((p) => `<p class="summary">${escapeHtml(shortSummary(p))}</p>`).join('')}
 			</section>
 			<section class="block">
 				${heading('02', 'Experience')}
@@ -287,7 +301,7 @@ const renderHtml = () => {
 				<dl>${skills.entries
 					.map(
 						(e) =>
-							`<div class="item"><dt class="item__title">${escape(e.title)}</dt><dd class="item__text">${escape(e.detail ?? '')}</dd></div>`
+							`<div class="item"><dt class="item__title">${escapeHtml(e.title)}</dt>${e.detail ? `<dd class="item__text">${escapeHtml(e.detail)}</dd>` : ''}</div>`
 					)
 					.join('')}</dl>
 			</section>
@@ -296,17 +310,17 @@ const renderHtml = () => {
 				<ul>${education.entries
 					.map(
 						(e) =>
-							`<li class="item"><p class="item__title">${escape(e.title)}</p><p class="item__text">${escape(e.detail ?? '')}</p><p class="item__period">${escape(e.period ?? '')}</p></li>`
+							`<li class="item"><p class="item__title">${escapeHtml(e.title)}</p><p class="item__text">${escapeHtml(e.detail ?? '')}</p><p class="item__period">${escapeHtml(e.period ?? '')}</p></li>`
 					)
 					.join('')}</ul>
 			</section>
 			<section class="block">
 				${heading('05', languages.heading)}
-				<p class="item__text">${escape((languages.summary ?? []).join(' '))}</p>
+				<p class="item__text">${escapeHtml((languages.summary ?? []).join(' '))}</p>
 			</section>
 			<section class="block">
 				${heading('06', interests.heading)}
-				<p class="item__text">${escape((interests.summary ?? []).join(' '))}</p>
+				<p class="item__text">${escapeHtml((interests.summary ?? []).join(' '))}</p>
 			</section>
 		</aside>
 	</div>
@@ -314,17 +328,23 @@ const renderHtml = () => {
 </html>`
 }
 
-// Each page object in the PDF has "/Type /Page"; "/Type /Pages" is the page tree and is skipped.
-const countPages = (pdf: Buffer) => pdf.toString('latin1').match(/\/Type\s*\/Page[^s]/g)?.length ?? 0
+const countPages = async (pdf: Buffer) => (await PDFDocument.load(pdf)).getPageCount()
+
+warnAboutStaleTrims()
 
 const browser = await chromium.launch()
 try {
 	const page = await browser.newPage()
 	await page.setContent(renderHtml(), { waitUntil: 'networkidle' })
-	await page.evaluate(() => document.fonts.ready)
-	const pdf = await page.pdf({ format: 'A4', preferCSSPageSize: true, printBackground: true })
+	await page.evaluate(async () => {
+		await document.fonts.ready
+	})
+	// Without the web font the layout would differ from the real CV, so the page count would mean nothing.
+	const fontLoaded = await page.evaluate(() => document.fonts.check("1em 'Fraunces'"))
+	if (!fontLoaded) throw new Error('The Fraunces font did not load (is Google Fonts reachable?), so the CV was not written.')
+	const pdf = await page.pdf({ format: 'A4', preferCSSPageSize: true, printBackground: true, tagged: true, outline: true })
 
-	const pages = countPages(pdf)
+	const pages = await countPages(pdf)
 	if (pages !== 1) {
 		console.error(
 			`The CV came out as ${pages} pages, so ${OUTPUT} was left unchanged. Shorten the text in src/data/cv.ts or in this script until it fits on one page.`
