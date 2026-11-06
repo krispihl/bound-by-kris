@@ -305,21 +305,23 @@
 		transition: transform 0.3s ease;
 	}
 
-	/* An eyelid in the body's colour, drooping towards the outer corner, which only shows when Krispi is sad. Over the
-	   pupil, so it hides the top of it. */
+	/* An upper eyelid in the body's colour, which only shows when Krispi is sad. Its edge curves like a real lid's, with
+	   a thin darker line along it, and the lid is turned so it droops towards the outer corner. Over the pupil, so it
+	   hides the top of it. The small gaps between the stops soften the edges, which a hard stop draws jagged. */
 	&::before {
 		content: '';
 		position: absolute;
 		z-index: 1;
 		inset: 0;
 		border-radius: 50%;
-		background: linear-gradient(var(--lid-angle, 165deg), var(--krispi-body) 36%, var(--krispi-dark) 36% 42%, transparent 42%);
+		background: radial-gradient(ellipse 120% 85% at 50% 0%, var(--krispi-body) 44%, var(--krispi-dark) 47% 54%, transparent 57%);
 		opacity: 0;
+		transform: rotate(var(--lid-turn, -15deg));
 		transition: opacity 0.3s ease;
 	}
 
 	& + & {
-		--lid-angle: 195deg;
+		--lid-turn: 15deg;
 	}
 }
 
