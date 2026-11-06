@@ -108,7 +108,9 @@
 	}
 
 	.section:hover & {
-		border-color: var(--color-fill);
+		/* The strong line colour, which is the fill's navy on the light page and edges the navy, which barely stands out
+		   from the dark page, in lavender on the dark one. */
+		border-color: var(--color-border-strong);
 		background: var(--color-fill);
 		color: var(--color-on-fill);
 	}
@@ -199,10 +201,10 @@
 	list-style: none;
 }
 
-/* Same chip look as the role key results: an accent edge on a light surface. */
+/* Same chip look as the role key results: a coloured edge on a faint tint. */
 .tag {
 	padding: 0.25rem 0.75rem;
-	border-left: 0.1875rem solid var(--color-accent);
+	border-left: 0.1875rem solid var(--color-chip-edge);
 	background: var(--color-chip);
 	color: var(--color-text);
 	font-size: 0.875rem;
@@ -254,7 +256,7 @@
 	line-height: 1.4;
 }
 
-/* Key results: small tinted chips with an accent edge, so they stand out before the reader gets to the text. */
+/* Key results: small tinted chips with a coloured edge, so they stand out before the reader gets to the text. */
 .stats {
 	display: flex;
 	flex-wrap: wrap;
@@ -266,7 +268,7 @@
 
 .stat {
 	padding: 0.125rem 0.625rem;
-	border-left: 0.1875rem solid var(--color-accent);
+	border-left: 0.1875rem solid var(--color-chip-edge);
 	background: var(--color-chip);
 	color: var(--color-text);
 	font-size: 0.8125rem;

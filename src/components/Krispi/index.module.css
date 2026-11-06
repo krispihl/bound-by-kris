@@ -68,9 +68,10 @@
 	--size: var(--krispi-size, 3rem);
 	/* The body's colour, which the shading, fingers and shadow all mix from, and the hair's. They're Krispi's own, so
 	   straight from the brand palette rather than a page role, but both are softened towards the page, so Krispi stays
-	   a quiet extra beside the content rather than the boldest thing on the page, whatever that page's colour is. */
-	--krispi-body: color-mix(in srgb, var(--navy-electric) 70%, var(--color-bg));
-	--krispi-hair: color-mix(in srgb, var(--hot-fuchsia) 60%, var(--color-bg));
+	   a quiet extra beside the content rather than the boldest thing on the page, whatever that page's colour is. On the
+	   dark page, softening them towards the page would sink them into it, so they're lightened instead. */
+	--krispi-body: color-mix(in srgb, var(--navy-electric) 70%, light-dark(var(--color-bg), var(--color-text)));
+	--krispi-hair: color-mix(in srgb, var(--hot-fuchsia) 60%, light-dark(var(--color-bg), var(--color-text)));
 	--krispi-light: color-mix(in srgb, var(--krispi-body) 55%, white);
 	--krispi-dark: color-mix(in srgb, var(--krispi-body) 55%, black);
 	/* The light comes from the top left of the screen, so shadows fall twice as far down as to the right. The direction
@@ -274,7 +275,7 @@
 	width: calc(var(--size) * 0.26);
 	height: calc(var(--size) * 0.26);
 	border-radius: 50%;
-	background: radial-gradient(circle at 40% 35%, white 55%, #e3ddf2 100%);
+	background: radial-gradient(circle at 40% 35%, white 55%, var(--lavender-mist) 100%);
 	box-shadow: inset 0 calc(var(--size) * -0.015) calc(var(--size) * 0.03) color-mix(in srgb, black 25%, transparent);
 	animation: blink 5s infinite;
 	/* A placement can hold the eyes still, for example while Krispi is out of sight; the glance waits with them, so
@@ -289,7 +290,8 @@
 		width: 48%;
 		height: 48%;
 		border-radius: 50%;
-		background: radial-gradient(circle at 32% 30%, white 0 14%, var(--color-text) 16%);
+		/* Always dark, like the eyeball is always white, rather than the text colour, which turns light on the dark page. */
+		background: radial-gradient(circle at 32% 30%, white 0 14%, var(--midnight-ink) 16%);
 		transform: translate(calc(-50% + var(--glance-x)), calc(var(--pupil-y, -50%) + var(--glance-y)));
 		transition: transform 0.3s ease;
 	}

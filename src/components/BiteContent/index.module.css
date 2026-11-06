@@ -17,7 +17,7 @@
 	& code {
 		padding: 0.1rem 0.3rem;
 		border-radius: 0.25rem;
-		background: var(--color-surface);
+		background: var(--color-code);
 		font-size: 0.9em;
 		overflow-wrap: anywhere;
 	}
@@ -36,7 +36,8 @@
 	}
 
 	/* "Common pitfalls" sits on a card, so the things that go wrong stand apart from the general explanation.
-	   Things that use the surface colour inside it switch to the page background so they stay visible. */
+	   Things that use the surface colour inside it switch to the page background so they stay visible. The code tint
+	   shows on the card as it is. */
 	&--issues {
 		padding: 1.5rem;
 		background: var(--color-surface);
@@ -46,8 +47,6 @@
 			scroll-margin-top: 3.5rem;
 		}
 
-		& :not(pre) > code,
-		& .code,
 		& .callout,
 		& th {
 			background: var(--color-bg);
@@ -141,10 +140,10 @@
 	margin-block: 0;
 	padding: 1rem;
 	overflow-x: auto;
-	/* Light and quiet, like the inline code, so examples support the text instead of shouting over it. */
+	/* The same faint tint as the inline code, so examples support the text instead of shouting over it. */
 	border: 1px solid var(--color-border);
 	border-radius: 0.25rem;
-	background: var(--color-surface);
+	background: var(--color-code);
 	color: var(--color-text);
 	font-size: 0.875rem;
 	line-height: 1.5;

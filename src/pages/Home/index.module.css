@@ -129,11 +129,21 @@
 }
 
 /* A copy of the name in the accent colour over the dark one, masked to a soft circle at the pointer, so the letters
-   light up wherever it moves. Only for devices that can hover, and faded in and out as the pointer enters and leaves. */
+   light up wherever it moves. Only for devices that can hover, and faded in and out as the pointer enters and leaves.
+   On the dark page the rose accent alone washes out to a pale pink as the mask fades it into the light letters, so
+   the letters are filled with a gradient instead: the brand's full fuchsia right at the pointer, softening to the rose
+   further out. On the light page both ends are the accent, a plain fill as before. */
 .hero__glow {
 	position: absolute;
 	inset: 0;
-	color: var(--color-accent);
+	/* background-image, not the background shorthand, which would reset the clip below. */
+	background-image: radial-gradient(
+		circle 0.6em at var(--glow-x, 50%) var(--glow-y, 50%),
+		light-dark(var(--color-accent), var(--hot-fuchsia)),
+		var(--color-accent) 50%
+	);
+	background-clip: text;
+	color: transparent;
 	pointer-events: none;
 	opacity: 0;
 	mask-image: radial-gradient(circle 0.6em at var(--glow-x, 50%) var(--glow-y, 50%), #000 25%, transparent);

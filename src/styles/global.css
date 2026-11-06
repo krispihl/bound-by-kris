@@ -37,46 +37,94 @@ html {
 }
 
 :root {
-	/* Light only (for now), so a browser in dark mode doesn't give the form fields and scrollbars dark styling on the
-	   light page. */
-	color-scheme: light;
+	/* Light or dark, following the visitor's system setting. Every colour role below gives both with light-dark(): the
+	   light value first, then the dark. Form fields and scrollbars follow the same setting. */
+	color-scheme: light dark;
 
 	--font-display: 'Fraunces', serif;
 	--font-name: 'Nabla', 'Arial Black', sans-serif;
 
+	/* The palette: every colour the site uses, by name. The roles below pick from it, so components never name a colour
+	   directly. Each role gives its light and dark colour with light-dark(). */
+
+	/* Brand */
 	--navy-electric: #390099;
 	--dark-raspberry: #9e0059;
 	--hot-fuchsia: #ff0054;
-	--blaze-orange: #ff5400;
 	--amber-gold: #ffbd00;
 
-	--color-bg: #faf9f6;
-	--color-surface: #ffffff;
-	--color-text: #201f2b;
-	--color-text-muted: #6b6b80;
-	--color-accent: var(--hot-fuchsia);
-	/* The accent for small text, such as a link's hover colour: fuchsia only reaches 3.7:1 on the page, enough for large
-	   text but not the 4.5:1 small text needs, while raspberry reaches 7.7:1. */
-	--color-accent-text: var(--dark-raspberry);
-	--color-link: var(--navy-electric);
-	--color-divider: var(--amber-gold);
-	--color-border: #e5e3f0;
+	/* Neutrals: a warm off-white page and white cards, then the ink, greys and pale lines, which all lean a little violet */
+	--warm-ivory: #faf9f6;
+	--pure-white: #ffffff;
+	--midnight-ink: #201f2b;
+	--dusk-grey: #6b6b80;
+	--storm-grey: #4a4a5c;
+	--lavender-mist: #e5e3f0;
+
+	/* Dark theme: a softer take on the brand, with a plum night page and cards, moonlit text and violet-grey lines, a rose
+	   for the fuchsia, lavenders for the navy and a warmer gold */
+	--midnight-plum: #13111c;
+	--deep-plum: #242033;
+	--moon-white: #f5f4fa;
+	--twilight-grey: #aeacc3;
+	--pale-twilight: #cbc9da;
+	--shadow-violet: #3b3556;
+	--smoke-violet: #7a7594;
+	--fuchsia-rose: #ff7aa2;
+	--soft-lavender: #b9a6ff;
+	--neon-indigo: #9e87ff;
+	--warm-gold: #ffaa00;
+	--softened-navy: #2d1e50;
+
+	/* The dark page is near black with a violet cast, rather than plain black, and the cards a distinct violet a step
+	   lighter, so the brand colours sit on it the way they sit on the warm off-white. */
+	--color-bg: light-dark(var(--warm-ivory), var(--midnight-plum));
+	--color-surface: light-dark(var(--pure-white), var(--deep-plum));
+	--color-text: light-dark(var(--midnight-ink), var(--moon-white));
+	--color-text-muted: light-dark(var(--dusk-grey), var(--twilight-grey));
+	/* Fuchsia reaches 3.7:1 on the light page, so it's kept to large text and decoration. The dark page takes a soft
+	   fuchsia rose (7.6:1), the same as its small-text accent, but keeps to the same uses. */
+	--color-accent: light-dark(var(--hot-fuchsia), var(--fuchsia-rose));
+	/* The accent for small text, such as a link's hover colour: fuchsia only reaches 3.7:1 on the light page, enough for
+	   large text but not the 4.5:1 small text needs, while raspberry reaches 7.7:1. Raspberry is too dark for the dark
+	   page, where a soft rose reaches 7.6:1. */
+	--color-accent-text: light-dark(var(--dark-raspberry), var(--fuchsia-rose));
+	/* Navy all but disappears on the dark page (1.5:1), so links, labels and strong lines take lavenders (8.9:1, and the
+	   lines 6.6:1). */
+	--color-link: light-dark(var(--navy-electric), var(--soft-lavender));
+	/* A warmer, more orange gold on the dark page. */
+	--color-divider: light-dark(var(--amber-gold), var(--warm-gold));
+	--color-border: light-dark(var(--lavender-mist), var(--shadow-violet));
 	/* A line that stands out where --color-border wouldn't: the rules drawn on hover or open, a field's hover edge and
 	   accent edges on cards. */
-	--color-border-strong: var(--navy-electric);
+	--color-border-strong: light-dark(var(--navy-electric), var(--neon-indigo));
 	/* The small mono labels: counts, numbers, field labels and list titles. */
-	--color-label: var(--navy-electric);
+	--color-label: light-dark(var(--navy-electric), var(--soft-lavender));
 	/* A solid block of colour, such as the open menu or a highlighted number badge, with the text that goes on it and the
-	   focus ring that shows against it (gold alone would not reach 3:1 against the page background, but does on navy). */
-	--color-fill: var(--navy-electric);
-	--color-on-fill: var(--color-bg);
-	--color-focus-on-fill: var(--amber-gold);
-	/* A faint accent tint for chips and tags. */
-	--color-chip: color-mix(in srgb, var(--color-accent) 7%, var(--color-surface));
+	   focus ring that shows against it (gold alone would not reach 3:1 against the page background, but does on navy).
+	   The dark page takes a softened, darker navy, which keeps the menu's rose current page at 6:1; a lighter purple
+	   would take it below 3:1. The text on it stays light, so in the dark theme it's plain white rather than the page's
+	   near black, and the focus ring takes the warmer gold of the dark divider (7.8:1). */
+	--color-fill: light-dark(var(--navy-electric), var(--softened-navy));
+	--color-on-fill: light-dark(var(--color-bg), var(--pure-white));
+	--color-focus-on-fill: light-dark(var(--amber-gold), var(--warm-gold));
+	/* Chips and tags: a coloured edge on a faint tint of the same colour. Rose on the light page, and gold on the dark
+	   one, to go with the dark theme's divider and menu. On the dark page the tint is see-through rather than a mix with
+	   the card, a little stronger, where a faint mix barely shows, and it glows the same on the page as on a card. */
+	--color-chip-edge: light-dark(var(--color-accent), var(--color-divider));
+	--color-chip: light-dark(
+		color-mix(in srgb, var(--color-accent) 7%, var(--color-surface)),
+		color-mix(in srgb, var(--color-divider) 12%, transparent)
+	);
 
-	/* The one focus ring for the whole site. Navy is visible on the page background; the menu sits on the fill, so it
-     swaps the colour for --color-focus-on-fill. */
-	--color-focus: var(--navy-electric);
+	/* Inline code and code blocks: a faint tint of the link colour, a cool lavender beside the chips' warm tints, so a
+	   short bit of code stands out in a line of text without a border round every word. See-through on the dark page,
+	   like the chips, so it shows the same on a card. */
+	--color-code: light-dark(color-mix(in srgb, var(--color-link) 8%, var(--color-surface)), color-mix(in srgb, var(--color-link) 14%, transparent));
+
+	/* The one focus ring for the whole site, in the link colour: navy on the light page, lavender on the dark one. The
+	   menu sits on the fill, so it swaps the colour for --color-focus-on-fill. */
+	--color-focus: var(--color-link);
 	--focus-width: 0.1875rem;
 
 	/* The fixed bar across the top that holds the menu button. */
@@ -86,13 +134,21 @@ html {
 	--header-fade: 1.25rem;
 }
 
-/* For visitors who ask for more contrast: the muted text goes from about 5:1 to 8:1, the borders from barely there to
-   over 3:1, and the chip tint is stronger, so the tags stand out from the page. */
+/* For visitors who ask for more contrast: the muted text goes from about 5:1 to 8:1 (on the dark page, 8.5:1 to
+   11.5:1), the borders from barely there to about 5:1, and the chip and code tints are stronger, so the tags and code
+   stand out from the page. */
 @media (prefers-contrast: more) {
 	:root {
-		--color-text-muted: #4a4a5c;
-		--color-border: #85829a;
-		--color-chip: color-mix(in srgb, var(--color-accent) 16%, var(--color-surface));
+		--color-text-muted: light-dark(var(--storm-grey), var(--pale-twilight));
+		--color-border: light-dark(var(--dusk-grey), var(--smoke-violet));
+		--color-chip: light-dark(
+			color-mix(in srgb, var(--color-accent) 16%, var(--color-surface)),
+			color-mix(in srgb, var(--color-divider) 20%, transparent)
+		);
+		--color-code: light-dark(
+			color-mix(in srgb, var(--color-link) 14%, var(--color-surface)),
+			color-mix(in srgb, var(--color-link) 22%, transparent)
+		);
 	}
 }
 

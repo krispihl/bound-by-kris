@@ -120,7 +120,9 @@
 		color 0.2s ease;
 
 	.row--open & {
-		border-color: var(--color-fill);
+		/* The strong line colour, which is the fill's navy on the light page and edges the navy, which barely stands out
+		   from the dark page, in lavender on the dark one. */
+		border-color: var(--color-border-strong);
 		background: var(--color-fill);
 		color: var(--color-on-fill);
 	}
