@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -10 280 280">
+	<style>
+		.ink { stroke: #000; }
+		.fill { fill: #000; }
+		@media (prefers-color-scheme: dark) {
+			.ink { stroke: #fff; }
+			.fill { fill: #fff; }
+		}
+	</style>
+	<path class="ink" d="M40 238 V70 Q40 25 85 25 H195 Q240 25 240 70 V238" fill="none" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" />
+	<path class="ink" d="M72 92 H124 Q124 124 98 124 Q72 124 72 92 Z" fill="none" stroke-width="12" stroke-linejoin="round" />
+	<path class="ink" d="M156 92 H208 Q208 124 182 124 Q156 124 156 92 Z" fill="none" stroke-width="12" stroke-linejoin="round" />
+	<path class="fill" d="M74 94 H122 Q120 106 98 108 Q76 106 74 94 Z" />
+	<path class="fill" d="M158 94 H206 Q204 106 182 108 Q160 106 158 94 Z" />
+	<path class="ink" d="M142 190 Q185 192 215 168" fill="none" stroke-width="12" stroke-linecap="round" />
+</svg>
