@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { useDismissed } from '../../hooks/useDismissed'
 
@@ -26,6 +26,23 @@ const LEAVE_DURATION = 900
 export const Krispi = ({ pose = 'idle', glances = false, className }: KrispiProps) => {
 	const { isDismissed, dismiss } = useDismissed('krispi-dismissed')
 	const [isLeaving, setIsLeaving] = useState(false)
+	const [isRevealed, setIsRevealed] = useState(false)
+	const ref = useRef<HTMLSpanElement>(null)
+
+	// A touch screen can't hover to bring out the dismiss button, so a tap on Krispi does, and a tap anywhere else puts
+	// it away again. A mouse has hover for that, so its clicks are left alone.
+	useEffect(() => {
+		const onPointerDown = (event: PointerEvent) => {
+			if (event.pointerType === 'mouse') {
+				return
+			}
+
+			setIsRevealed(event.target instanceof Node && Boolean(ref.current?.contains(event.target)))
+		}
+
+		document.addEventListener('pointerdown', onPointerDown)
+		return () => document.removeEventListener('pointerdown', onPointerDown)
+	}, [])
 
 	// Bursts apart first, and is only removed once that has played out.
 	useEffect(() => {
@@ -50,12 +67,19 @@ export const Krispi = ({ pose = 'idle', glances = false, className }: KrispiProp
 		}
 	}
 
-	const classes = [styles.krispi, POSE_CLASSES[pose], glances && styles['krispi--glance'], isLeaving && styles['krispi--leaving'], className]
+	const classes = [
+		styles.krispi,
+		POSE_CLASSES[pose],
+		glances && styles['krispi--glance'],
+		isRevealed && styles['krispi--revealed'],
+		isLeaving && styles['krispi--leaving'],
+		className,
+	]
 		.filter(Boolean)
 		.join(' ')
 
 	return (
-		<span className={classes}>
+		<span ref={ref} className={classes}>
 			<span className={styles.krispi__hair} aria-hidden="true">
 				{(['left', 'middle', 'right'] as const).map((side) => (
 					<span key={side} className={`${styles.krispi__strand} ${styles[`krispi__strand--${side}`]}`} />

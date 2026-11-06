@@ -130,7 +130,7 @@
 }
 
 /* A small round button with a cross, which hides Krispi. It stays out of the way until the mouse is over Krispi or the
-   button has keyboard focus; on touch screens, which can't hover, it always shows. */
+   button has keyboard focus; on touch screens, which can't hover, until Krispi is tapped. */
 .krispi__dismiss {
 	position: absolute;
 	top: 0;
@@ -172,12 +172,21 @@
 	}
 
 	.krispi:hover &,
+	.krispi--revealed &,
 	&:focus-visible {
 		opacity: 1;
 	}
 
+	/* Not tappable while out of sight, so a tap near Krispi can't hide it by surprise. A screen reader still reaches it,
+	   and shows it once it has focus. */
 	@media (hover: none) {
-		opacity: 1;
+		.krispi:not(.krispi--revealed) &:not(:focus) {
+			pointer-events: none;
+		}
+
+		&:focus {
+			opacity: 1;
+		}
 	}
 
 	/* Gone at once when pressed, though it keeps focus until Krispi is removed, so a placement that brings Krispi out
@@ -387,11 +396,11 @@
 	}
 }
 
-/* Sad to see the dismiss button: while the mouse is over Krispi or the button has focus, the eyelids droop, the pupils
-   look down and the smile turns over into a small frown. Touch screens show the button all the time but can't hover,
-   so there Krispi isn't sad until the button is pressed. The frown is flipped with transform, which the burst's own translate and rotate
-   add to, so Krispi stays sad as it bursts. */
+/* Sad to see the dismiss button: while the mouse is over Krispi, a tap has brought the button out or it has focus, the
+   eyelids droop, the pupils look down and the smile turns over into a small frown. The frown is flipped with
+   transform, which the burst's own translate and rotate add to, so Krispi stays sad as it bursts. */
 .krispi:hover,
+.krispi--revealed,
 .krispi:has(.krispi__dismiss:focus-visible),
 .krispi--leaving {
 	--pupil-y: -25%;

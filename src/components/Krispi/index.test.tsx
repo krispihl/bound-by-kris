@@ -64,6 +64,38 @@ describe('Krispi', () => {
 		expect(container.firstElementChild?.className).toContain('krispi--glance')
 	})
 
+	it('brings out the dismiss button when tapped, and puts it away on a tap elsewhere', async () => {
+		const user = userEvent.setup()
+		const { container } = render(
+			<>
+				<Krispi />
+				<p>Elsewhere</p>
+			</>
+		)
+		const krispi = container.firstElementChild
+		if (!krispi) {
+			throw new Error('Krispi did not render')
+		}
+
+		await user.pointer({ keys: '[TouchA]', target: krispi })
+		expect(krispi.className).toContain('krispi--revealed')
+
+		await user.pointer({ keys: '[TouchA]', target: screen.getByText('Elsewhere') })
+		expect(krispi.className).not.toContain('krispi--revealed')
+	})
+
+	it('leaves mouse clicks to hover', async () => {
+		const user = userEvent.setup()
+		const { container } = render(<Krispi />)
+		const krispi = container.firstElementChild
+		if (!krispi) {
+			throw new Error('Krispi did not render')
+		}
+
+		await user.click(krispi)
+		expect(krispi.className).not.toContain('krispi--revealed')
+	})
+
 	it('keeps the class a placement passes in', () => {
 		const { container } = render(<Krispi className="placement" />)
 
