@@ -40,6 +40,7 @@
 	   shows on the card as it is. */
 	&--issues {
 		padding: 1.5rem;
+		border-radius: var(--radius-card);
 		background: var(--color-surface);
 
 		/* Lands with the card's top edge showing, not just the heading. */
@@ -65,14 +66,15 @@
 	scroll-margin-top: 2rem;
 }
 
-/* Same mono number badge as the bite rows. */
+/* Same mono number badge as the bite rows, centred on its digits the same way. */
 .heading__badge {
-	display: inline-flex;
+	display: block;
 	flex-shrink: 0;
-	align-items: center;
-	justify-content: center;
+	align-content: center;
 	min-width: 2.25rem;
 	height: 1.5rem;
+	text-align: center;
+	text-box: trim-both cap alphabetic;
 	border: 1px solid var(--color-border);
 	background: var(--color-bg);
 	color: var(--color-label);

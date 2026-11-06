@@ -246,6 +246,7 @@
 /* Each role sits on its own light card, so roles separate by surface rather than by divider lines. */
 .role {
 	padding: 1.25rem 1rem;
+	border-radius: var(--radius-card);
 	background: var(--color-surface);
 }
 

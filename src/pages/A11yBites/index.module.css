@@ -101,15 +101,20 @@
 	}
 }
 
+/* The number is centred on its digits rather than its line: the line is trimmed to the digits' height (cap height
+   down to the baseline) and centred in the box. A line also leaves room for accents above and descenders below, and
+   in most mono fonts more above than below, so a centred line sits the digits a little high. Browsers without
+   text-box centre the whole line as before. */
 .row__number {
 	position: relative;
 	z-index: 1;
 	grid-column: 1;
 	grid-row: 1;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	display: block;
+	align-content: center;
 	height: 1.5rem;
+	text-align: center;
+	text-box: trim-both cap alphabetic;
 	border: 1px solid var(--color-border);
 	background: var(--color-bg);
 	color: var(--color-label);

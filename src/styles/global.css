@@ -127,6 +127,9 @@ html {
 	--color-focus: var(--color-link);
 	--focus-width: 0.1875rem;
 
+	/* The soft corners of a text block on a card, such as the About page roles and the bites' common pitfalls. */
+	--radius-card: 0.375rem;
+
 	/* The fixed bar across the top that holds the menu button. */
 	--header-height: 5.25rem;
 	/* The fade under it, which text scrolling up passes through before it goes under the bar. It fits in the room every
