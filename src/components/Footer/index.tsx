@@ -13,7 +13,7 @@ export const Footer = () => {
 				<SocialLinks />
 			) : (
 				<Link to="/" className={styles.link} aria-label="Back to home page">
-					<FaHouse className={styles.icon} aria-hidden="true" focusable="false" />
+					<FaHouse className={styles.icon} aria-hidden="true" />
 				</Link>
 			)}
 		</footer>

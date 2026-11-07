@@ -21,7 +21,7 @@ export const ExternalLink = ({ href, className, children }: ExternalLinkProps) =
 			{text ? text.slice(0, breakAt) : children}
 			<span className={styles.end}>
 				{text?.slice(breakAt)}
-				<FiExternalLink className={styles.icon} aria-hidden="true" focusable="false" />
+				<FiExternalLink className={styles.icon} aria-hidden="true" />
 			</span>
 			{/* Marked English, as the link's own text may be in another language (an Estonian game title). */}
 			<span className="visually-hidden" lang="en">

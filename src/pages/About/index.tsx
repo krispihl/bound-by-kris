@@ -28,7 +28,7 @@ const withLink = (paragraph: string, link?: CvSection['link']): ReactNode => {
 			) : (
 				<Link className={styles.section__link} to={link.to}>
 					{link.text}
-					<FiArrowRight className={styles['section__link-icon']} aria-hidden="true" focusable="false" />
+					<FiArrowRight className={styles['section__link-icon']} aria-hidden="true" />
 				</Link>
 			)}
 			{paragraph.slice(at + link.text.length)}
