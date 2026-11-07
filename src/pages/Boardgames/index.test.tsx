@@ -31,7 +31,7 @@ describe('Boardgames', () => {
 		expect(await screen.findAllByRole('article')).toHaveLength(3)
 		expect(screen.getByText('3 games on my shelf')).toBeInTheDocument()
 		expect(screen.getAllByRole('heading', { level: 2 }).map((heading) => heading.textContent)).toEqual(['#', 'A'])
-		expect(screen.queryByRole('status')).not.toBeInTheDocument()
+		expect(screen.getByRole('status')).toHaveTextContent('3 games loaded')
 	})
 
 	it('shows player counts, and tags expansions and Estonian editions', async () => {

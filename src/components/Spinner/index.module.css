@@ -20,6 +20,9 @@
 }
 
 .spinner {
+	--spinner-duration: 2s;
+	--spinner-border: 0.1875rem;
+
 	display: flex;
 	justify-content: center;
 	padding: 4rem 0;
@@ -32,32 +35,33 @@
 	justify-content: center;
 	width: 6.5rem;
 	height: 6.5rem;
-	border: 0.1875rem solid var(--color-border);
+	border: var(--spinner-border) solid var(--color-border);
 	border-radius: 50%;
 }
 
-/* Covers the ring's grey border with accent on two sides, so a quarter-turn arc runs round it. */
+/* Covers the ring's grey border with accent on two sides, so a half-turn arc runs round it. */
 .spinner__arc {
 	position: absolute;
-	inset: -0.1875rem;
-	border: 0.1875rem solid transparent;
+	inset: calc(-1 * var(--spinner-border));
+	border: var(--spinner-border) solid transparent;
 	border-top-color: var(--color-accent);
 	border-right-color: var(--color-accent);
 	border-radius: 50%;
-	animation: spin 2s linear infinite;
+	animation: spin var(--spinner-duration) linear infinite;
 }
 
 /* A full-size box that turns, carrying the dot on its edge round the ring. */
 .spinner__dot {
 	position: absolute;
-	inset: -0.1875rem;
-	animation: chase 2s linear infinite;
+	inset: calc(-1 * var(--spinner-border));
+	animation: chase var(--spinner-duration) linear infinite;
 
 	&::after {
 		content: '';
 		position: absolute;
 		top: 50%;
-		right: -0.21875rem;
+		/* Centres the dot on the arc's stroke: its radius (0.3125rem) less half the border. */
+		right: calc(var(--spinner-border) / 2 - 0.3125rem);
 		width: 0.625rem;
 		height: 0.625rem;
 		border-radius: 50%;
@@ -67,10 +71,9 @@
 	}
 }
 
-/* In the small mono caps used for the games count. */
 .spinner__text {
 	color: var(--color-label);
-	font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+	font-family: var(--font-mono);
 	font-size: 0.75rem;
 	letter-spacing: 0.04em;
 	text-transform: uppercase;
@@ -88,9 +91,17 @@
 	}
 }
 
-/* Forced colors (e.g. Windows Contrast Themes) clear backgrounds, which is all the dot is, so it's drawn in the theme's text colour
-   instead. */
+/* Forced colors (e.g. Windows Contrast Themes) clear backgrounds, which is all the dot is, so it's drawn in the theme's
+   text colour instead. */
 @media (forced-colors: active) {
+	/* Forced colors also turns the arc's transparent sides opaque, which would make it a full ring in the same colour as
+	   the grey one, so the arc keeps its own colours, drawn in the theme's highlight colour. */
+	.spinner__arc {
+		forced-color-adjust: none;
+		border-top-color: Highlight;
+		border-right-color: Highlight;
+	}
+
 	.spinner__dot::after {
 		forced-color-adjust: none;
 		background: CanvasText;

@@ -40,7 +40,13 @@ export const Boardgames = () => {
 				<PageHeading className={styles.page__title}>Board games</PageHeading>
 			</header>
 
-			{state.status === 'loading' ? <Spinner label="Loading the games…" /> : null}
+			{/* Always in the page and empty until there is something to say. */}
+			<div role="status" className="visually-hidden">
+				{state.status === 'loading' ? 'Loading the games…' : null}
+				{state.status === 'success' ? `${games.length} games loaded` : null}
+			</div>
+
+			{state.status === 'loading' ? <Spinner /> : null}
 
 			{state.status === 'error' ? (
 				<div className={styles.status} role="alert">

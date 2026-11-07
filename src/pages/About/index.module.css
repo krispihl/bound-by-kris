@@ -98,7 +98,7 @@
 	box-sizing: content-box;
 	background: var(--color-bg);
 	color: var(--color-label);
-	font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+	font-family: var(--font-mono);
 	font-size: 0.75rem;
 	transition:
 		background-color 0.2s ease,
