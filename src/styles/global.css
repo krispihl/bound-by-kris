@@ -1,3 +1,9 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
 html {
 	/* The visitor's own default text size (16px unless they changed it), which every rem then scales from. */
 	font-size: 100%;

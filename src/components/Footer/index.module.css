@@ -1,13 +1,9 @@
-/* Full width, not the page's max-width, so the icon lines up with the menu button's right edge at the top. The menu sits
-   2rem from the window edge; 1.5rem here plus the body's default 0.5rem margin makes the same. */
 .footer {
-	box-sizing: border-box;
 	display: flex;
 	justify-content: flex-end;
 	padding: 0 1.5rem 2rem;
 }
 
-/* Matches the social icons on the homepage's footer: dark icon, with an accent bar under it on hover. */
 .link {
 	position: relative;
 	display: block;
@@ -46,8 +42,7 @@
 	}
 }
 
-/* Forced colors (e.g. Windows Contrast Themes) clear backgrounds, which is all the hover bar is, so it's drawn in the theme's
-   highlight colour instead. */
+/* Forced colors mode clear backgrounds. It's drawn in the theme's highlight colour instead. */
 @media (forced-colors: active) {
 	.link::after {
 		forced-color-adjust: none;

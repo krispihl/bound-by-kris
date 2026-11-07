@@ -235,7 +235,6 @@
 		position: absolute;
 		bottom: calc(100% - var(--curl-size) / 2);
 		left: 0;
-		box-sizing: border-box;
 		width: var(--curl-size);
 		height: var(--curl-size);
 		border: var(--strand-width) solid var(--krispi-hair);
@@ -349,6 +348,8 @@
 	height: calc(var(--size) * 0.22);
 	margin-top: calc(var(--size) * -0.08);
 	border: calc(var(--size) * 0.045) solid transparent;
+	/* Krispi's shapes are sized without their borders. */
+	box-sizing: content-box;
 	border-bottom-color: var(--color-bg);
 	border-radius: 50%;
 	transition: transform 0.3s ease;
@@ -376,6 +377,7 @@
 	width: calc(var(--size) * 0.1);
 	height: calc(var(--size) * 0.16);
 	border: calc(var(--size) * 0.015) solid var(--krispi-dark);
+	box-sizing: content-box;
 	border-radius: var(--size) var(--size) 0 0;
 	background: linear-gradient(to right, var(--krispi-light), var(--krispi-body) 80%);
 	/* Fingers press flat against the edge, so their shadow is short and crisp. */

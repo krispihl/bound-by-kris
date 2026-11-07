@@ -11,7 +11,6 @@
 }
 
 .page {
-	box-sizing: border-box;
 	max-width: 90rem;
 	margin: 0 auto;
 	padding: 6rem 2rem 4rem;
@@ -116,6 +115,8 @@
 	text-align: center;
 	text-box: trim-both cap alphabetic;
 	border: 1px solid var(--color-border);
+	/* The border sits outside the 1.5rem, as the badge was drawn. */
+	box-sizing: content-box;
 	background: var(--color-bg);
 	color: var(--color-label);
 	font-family: ui-monospace, 'SF Mono', Menlo, monospace;

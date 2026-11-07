@@ -23,7 +23,6 @@
 	   scrolled all the way, the name stops just clear of them instead of going under. */
 	--hero-padding-top: calc(var(--header-height) + var(--header-fade) - 0.5rem);
 
-	box-sizing: border-box;
 	padding: var(--hero-padding-top) 2rem 1rem;
 	/* The tight line height lets the glyph boxes spill past the bottom edge, which would otherwise add a scrollbar. */
 	overflow: clip;
@@ -189,7 +188,6 @@
 		position: absolute;
 		bottom: calc(0.42 * var(--name-size));
 		left: 0;
-		box-sizing: border-box;
 		width: calc(100cqi - 2.35 * var(--name-size));
 		max-width: none;
 		margin: 0;
