@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import type { CSSProperties } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
 import { HEADER_HEADING_ID } from '../PageHeading'
 import { useEscapeKey } from '../../hooks/useEscapeKey'
 import { useScrollLock } from '../../hooks/useScrollLock'
-
 import styles from './index.module.css'
 
 const LINKS = [
@@ -13,6 +13,9 @@ const LINKS = [
 	{ to: '/a11y-bites', label: 'a11y bites' },
 	{ to: '/boardgames', label: 'Board games' },
 ]
+
+// Passes the link's position to the CSS, which uses it to fade the links in one after another.
+const linkStyle = (index: number): CSSProperties & Record<'--index', number> => ({ '--index': index })
 
 export const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false)
@@ -26,19 +29,18 @@ export const Navbar = () => {
 	const headerRef = useRef<HTMLElement>(null)
 	const toggleRef = useRef<HTMLButtonElement>(null)
 
-	const close = useCallback(() => setIsOpen(false), [])
+	const close = () => setIsOpen(false)
 
-	// Escape can be pressed on a menu link, which then hides, so focus goes back to the toggle rather than to the page.
-	const closeAndRefocus = useCallback(() => {
+	// Escape moves focus back to the toggle rather than to the page.
+	const closeAndRefocus = () => {
 		setIsOpen(false)
 		toggleRef.current?.focus()
-	}, [])
+	}
 
 	useEscapeKey(isOpen, closeAndRefocus)
 	useScrollLock(isLocked)
 
-	// The open menu covers the whole window, so the page beside the header (main and the footer) is made inert while it
-	// is: Tab stays between the toggle and the menu links instead of reaching links hidden behind it.
+	// The open menu covers the whole window, so the page beside the header (main and the footer) is made inert while it is open.
 	useEffect(() => {
 		const parent = headerRef.current?.parentElement
 		if (!isOpen || !parent) {
@@ -59,13 +61,12 @@ export const Navbar = () => {
 			<div id={HEADER_HEADING_ID} className={styles.heading} />
 			<button
 				ref={toggleRef}
-				type="button"
 				className={`${styles.toggle}${isOpen ? ` ${styles['toggle--open']}` : ''}`}
 				aria-expanded={isOpen}
 				aria-controls="site-menu"
 				onClick={() => setIsOpen((open) => !open)}
 			>
-				<span className={styles.toggleLabel}>{isOpen ? 'Close' : 'Menu'}</span>
+				<span>{isOpen ? 'Close' : 'Menu'}</span>
 				<span className={styles.toggleIcon} aria-hidden="true" />
 			</button>
 
@@ -81,8 +82,8 @@ export const Navbar = () => {
 				}}
 			>
 				<ul className={styles.list}>
-					{LINKS.map(({ to, label }) => (
-						<li key={to}>
+					{LINKS.map(({ to, label }, index) => (
+						<li key={to} style={linkStyle(index)}>
 							<NavLink
 								to={to}
 								className={({ isActive }) => `${styles.link}${isActive ? ` ${styles['link--active']}` : ''}`}

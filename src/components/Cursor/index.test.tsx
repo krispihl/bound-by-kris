@@ -47,7 +47,7 @@ describe('Cursor', () => {
 			<>
 				<Cursor />
 				<header>
-					<button type="button">Menu</button>
+					<button>Menu</button>
 					<nav style={{ visibility: 'hidden' }} />
 				</header>
 			</>
@@ -61,7 +61,7 @@ describe('Cursor', () => {
 			<>
 				<Cursor />
 				<header>
-					<button type="button">Close</button>
+					<button>Close</button>
 					<nav style={{ visibility: 'visible' }} />
 				</header>
 			</>

@@ -141,6 +141,14 @@ html {
 	/* The fade under it, which text scrolling up passes through before it goes under the bar. It fits in the room every
 	   page leaves between the bar and its first text, so it doesn't dim anything at the top of the page. */
 	--header-fade: 1.25rem;
+
+	/* Stacking layers, lowest first. Local z-index values of 1 (a badge above its neighbour) stay where they are. */
+	--z-krispi: 5;
+	--z-header: 10;
+	--z-cursor: 30;
+	/* Inside the header, which is a stacking context of its own: the menu above the page heading, the button above the menu. */
+	--z-menu: 10;
+	--z-menu-toggle: 20;
 }
 
 /* For visitors who ask for more contrast: the muted text goes from about 5:1 to 8:1 (on the dark page, 8.5:1 to
@@ -170,6 +178,14 @@ html {
    isn't a control, so it shows no ring. */
 h1[tabindex='-1']:focus {
 	outline: none;
+}
+
+/* Form controls don't take the page's font on their own, so they get it here instead of in every control's rule. */
+button,
+input,
+select,
+textarea {
+	font: inherit;
 }
 
 body {

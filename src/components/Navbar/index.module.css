@@ -1,16 +1,12 @@
-/* A bar across the top of the window, in the page's own colour so it doesn't look separate, that page content scrolls
-   under instead of behind the menu button. Every page leaves this much room above its first text, so it hides nothing
-   at the top of the page. The open menu fills the window from inside it, over the bar. */
 .header {
 	position: fixed;
 	top: 0;
 	right: 0;
 	left: 0;
-	z-index: 10;
+	z-index: var(--z-header);
 	height: var(--header-height);
 	background: var(--color-bg);
 
-	/* Below the bar, so text fades out on its way under it instead of being cut off at a hard edge. */
 	&::after {
 		content: '';
 		position: absolute;
@@ -21,17 +17,13 @@
 		background: linear-gradient(var(--color-bg), transparent);
 		pointer-events: none;
 
-		/* For visitors who ask for less transparency, text goes under the bar at a hard edge instead. */
 		@media (prefers-reduced-transparency: reduce) {
 			display: none;
 		}
 	}
 }
 
-/* Where the page heading settles: on the left of the bar and halfway down it, lined up with the page content
-   (the body's 0.5rem margin and the page's 2rem padding, out to the 90rem the pages stop at). While the menu is open
-   the bar is the scrollbar's width wider (see .toggle), which the content doesn't move by. Over the fade below the bar,
-   which the heading passes through on its way up, and under the open menu. */
+/* Where the page heading settles on page scroll */
 .heading {
 	position: absolute;
 	z-index: 1;
@@ -40,23 +32,20 @@
 	pointer-events: none;
 }
 
-/* Centred in the header bar: 1.5rem above and below its 2.25rem height. */
 .toggle {
 	position: absolute;
 	top: 1.125rem;
 	/* While the menu is open the scrollbar is gone and the window is that much wider (see useScrollLock), so the button
 	   moves in by its width to stay where it was. */
 	right: calc(2rem + var(--scrollbar-width, 0rem));
-	z-index: 20;
+	z-index: var(--z-menu-toggle);
 	display: flex;
 	align-items: center;
 	gap: 0.75rem;
-	/* Tall enough for a 44px target (WCAG AAA), with the label and icon where they were. */
 	padding: 0.875rem 0;
 	background: none;
 	border: 0;
 	color: var(--color-text);
-	font-family: inherit;
 	font-size: 1rem;
 	font-weight: 600;
 	letter-spacing: 0.08em;
@@ -91,7 +80,7 @@
 		left: 0;
 		width: 100%;
 		/* A border rather than a background, as forced colors mode strips backgrounds and the lines would vanish. */
-		border-top: 2px solid currentColor;
+		border-top: 0.125rem solid currentColor;
 		transition:
 			transform 0.3s,
 			top 0.3s;
@@ -102,14 +91,14 @@
 	}
 
 	&::after {
-		top: calc(100% - 2px);
+		top: calc(100% - 0.125rem);
 	}
 }
 
 .toggle--open .toggleIcon {
 	&::before,
 	&::after {
-		top: calc(50% - 1px);
+		top: calc(50% - 0.0625rem);
 	}
 
 	&::before {
@@ -123,10 +112,12 @@
 
 .menu {
 	--color-focus: var(--color-focus-on-fill);
+	/* How long the circle takes to grow or shrink, which the page stays locked for (see the Navbar). */
+	--menu-duration: 0.8s;
 
 	position: fixed;
 	inset: 0;
-	z-index: 10;
+	z-index: var(--z-menu);
 	display: flex;
 	flex-direction: column;
 	/* The links end as far above the bottom edge as the band below starts them under the top. On a short window, such
@@ -141,14 +132,16 @@
 	/* Grows from the toggle, which sits the scrollbar's width further in while the menu is open. */
 	clip-path: circle(0 at calc(100% - 3rem - var(--scrollbar-width, 0rem)) 2.5rem);
 	visibility: hidden;
-	will-change: clip-path;
 	transition:
-		clip-path 0.8s cubic-bezier(0.65, 0, 0.35, 1),
-		visibility 0s linear 0.8s;
+		clip-path var(--menu-duration) cubic-bezier(0.65, 0, 0.35, 1),
+		visibility 0s linear var(--menu-duration);
 
 	&--open {
+		/* The first is for browsers without hypot(); either reaches past the far corner of the window. */
 		clip-path: circle(150vmax at calc(100% - 3rem - var(--scrollbar-width, 0rem)) 2.5rem);
 		clip-path: circle(hypot(100vw, 100vh) at calc(100% - 3rem - var(--scrollbar-width, 0rem)) 2.5rem);
+		/* Only while open, so a window-sized layer isn't kept around while the menu is closed. */
+		will-change: clip-path;
 		visibility: visible;
 		transition-delay: 0s;
 	}
@@ -167,7 +160,6 @@
 		background: linear-gradient(var(--color-fill) var(--header-height), transparent);
 		pointer-events: none;
 
-		/* For visitors who ask for less transparency, a hard edge instead. */
 		@media (prefers-reduced-transparency: reduce) {
 			height: var(--header-height);
 			margin-bottom: 0;
@@ -202,6 +194,7 @@
 	padding: 0.5rem 0;
 	color: var(--color-on-fill);
 	text-decoration: none;
+	/* Grows with the window, from 2.5rem (40px) on phones up to 5rem (80px) at 800px wide and above. */
 	font-size: clamp(2.5rem, 10vw, 5rem);
 	font-weight: 700;
 	line-height: 1.2;
@@ -217,7 +210,6 @@
 		color: var(--color-divider);
 	}
 
-	/* The current page is underlined as well as coloured, so it doesn't rely on colour alone. */
 	&--active {
 		color: var(--color-accent);
 		text-decoration: underline;
@@ -232,29 +224,15 @@
 }
 
 .menu--open .link {
+	/* Each link follows the one before it by 0.07s, starting from the first link's 0.35s. */
+	--link-delay: calc(0.35s + var(--index) * 0.07s);
+
 	opacity: 1;
 	transform: none;
 	transition:
 		color 0.2s,
-		opacity 0.5s ease-out 0.35s,
-		transform 0.5s ease-out 0.35s;
-}
-
-/* Each link follows the one before it by 0.07s, starting from the first link's 0.35s. */
-.menu--open li:nth-child(2) .link {
-	transition-delay: 0s, 0.42s, 0.42s;
-}
-
-.menu--open li:nth-child(3) .link {
-	transition-delay: 0s, 0.49s, 0.49s;
-}
-
-.menu--open li:nth-child(4) .link {
-	transition-delay: 0s, 0.56s, 0.56s;
-}
-
-.menu--open li:nth-child(5) .link {
-	transition-delay: 0s, 0.63s, 0.63s;
+		opacity 0.5s ease-out var(--link-delay),
+		transform 0.5s ease-out var(--link-delay);
 }
 
 @media (prefers-reduced-motion: reduce) {

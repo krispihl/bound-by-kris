@@ -77,7 +77,6 @@ export const A11yBites = () => {
 							<li key={bite.number} className={`${styles.row}${isOpen ? ` ${styles['row--open']}` : ''}`}>
 								<h2 className={styles.row__heading}>
 									<button
-										type="button"
 										id={buttonId}
 										className={styles.row__button}
 										aria-expanded={isOpen}

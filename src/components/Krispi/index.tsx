@@ -100,7 +100,7 @@ export const Krispi = ({ pose = 'idle', glances = false, className }: KrispiProp
 					))
 				: null}
 			<span className={styles.krispi__corner}>
-				<button type="button" className={styles.krispi__dismiss} aria-label="Hide the Krispi mascot" onClick={leave} />
+				<button className={styles.krispi__dismiss} aria-label="Hide the Krispi mascot" onClick={leave} />
 			</span>
 		</span>
 	)

@@ -71,8 +71,6 @@
 	border: 0;
 	background: none;
 	color: var(--color-text-muted);
-	font: inherit;
-	font-family: var(--font-display);
 	font-weight: 600;
 	text-align: inherit;
 	cursor: pointer;
@@ -524,7 +522,7 @@
 			position: fixed;
 			top: 45%;
 			left: 0;
-			z-index: 5;
+			z-index: var(--z-krispi);
 			display: block;
 			transform: translateX(-210%) rotate(90deg);
 			/* Turns around the line where the hands grip, so the translations above line that up with the window's edge. */

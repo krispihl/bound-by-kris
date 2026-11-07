@@ -31,7 +31,7 @@
 	/* Over the header bar, drawn above it, as the bar's own background would hide it; the only thing on the bar is the
 	   menu button, which fades it out anyway. */
 	&--raised {
-		z-index: 30;
+		z-index: var(--z-cursor);
 	}
 
 	/* Faded out again over links and buttons, so their text stays easy to read. */

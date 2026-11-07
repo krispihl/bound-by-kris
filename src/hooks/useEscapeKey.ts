@@ -1,6 +1,12 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 export const useEscapeKey = (isActive: boolean, onEscape: () => void) => {
+	// The latest handler, so a new function on every render doesn't make the listener come off and go back on.
+	const onEscapeRef = useRef(onEscape)
+	useEffect(() => {
+		onEscapeRef.current = onEscape
+	})
+
 	useEffect(() => {
 		if (!isActive) {
 			return
@@ -8,7 +14,7 @@ export const useEscapeKey = (isActive: boolean, onEscape: () => void) => {
 
 		const handleKeyDown = (event: KeyboardEvent) => {
 			if (event.key === 'Escape') {
-				onEscape()
+				onEscapeRef.current()
 			}
 		}
 
@@ -17,5 +23,5 @@ export const useEscapeKey = (isActive: boolean, onEscape: () => void) => {
 		return () => {
 			document.removeEventListener('keydown', handleKeyDown)
 		}
-	}, [isActive, onEscape])
+	}, [isActive])
 }

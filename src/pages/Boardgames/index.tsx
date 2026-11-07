@@ -47,7 +47,6 @@ export const Boardgames = () => {
 					<p className={styles.status__text}>The games list didn’t load.</p>
 					<button
 						ref={retryRef}
-						type="button"
 						className={styles.status__retry}
 						onClick={() => {
 							isRetrying.current = true

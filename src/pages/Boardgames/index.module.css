@@ -34,7 +34,6 @@
 	border: 1px solid var(--color-text);
 	background: none;
 	color: var(--color-text);
-	font: inherit;
 	cursor: pointer;
 	transition:
 		background-color 0.2s ease,
@@ -69,7 +68,6 @@
 	border-radius: 0;
 	background: var(--color-surface);
 	color: var(--color-text);
-	font: inherit;
 	font-size: 1rem;
 	transition: border-color 0.2s ease;
 

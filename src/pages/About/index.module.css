@@ -533,7 +533,7 @@
 		bottom: 0;
 		/* Centred on the rule, which runs through the middle of the number badges. */
 		left: calc(anchor(--section-number center) - var(--krispi-size) / 2);
-		z-index: 5;
+		z-index: var(--z-krispi);
 		display: block;
 		/* 130% sinks the head and its hair fully below the window's edge. */
 		transform: translateY(130%);

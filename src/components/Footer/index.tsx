@@ -1,5 +1,6 @@
 import { FaHouse } from 'react-icons/fa6'
 import { Link, useLocation } from 'react-router-dom'
+
 import { SocialLinks } from '../SocialLinks'
 import styles from './index.module.css'
 
