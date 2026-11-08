@@ -1,4 +1,4 @@
-@keyframes rule-draw {
+@keyframes divider-draw {
 	from {
 		transform: scaleX(0);
 	}
@@ -41,18 +41,18 @@
 	font-weight: 400;
 }
 
-/* Runs between the text and the code, bleeding into the side padding to span the full page width like the rule on the homepage. */
-.page__rule {
+/* Runs between the text and the code, bleeding into the side padding to span the full page width like the divider on the homepage. */
+.page__divider {
 	height: 0.25rem;
 	margin: 1.5rem -2rem 2rem;
 	background: var(--color-divider);
 	transform-origin: left;
-	animation: rule-draw 1.4s cubic-bezier(0.65, 0, 0.35, 1) both;
+	animation: divider-draw 1.4s cubic-bezier(0.65, 0, 0.35, 1) both;
 }
 
 /* Sized from the window's width so the three digits, about 1.8em wide, take up half of it. In a wide, short window
    they're sized from the height instead, so they still fit between the text and the home link: the digits stand
-   about 0.75em tall, and the text, rule and the space around them take about 8rem. Never below 6rem from the height,
+   about 0.75em tall, and the text, divider and the space around them take about 8rem. Never below 6rem from the height,
    though, or a very short window (400% zoom) would shrink them to nothing; the page scrolls instead. */
 .page__code {
 	margin: 0;
@@ -67,12 +67,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.page__rule {
+	.page__divider {
 		animation: none;
 	}
 }
 
-/* Forced colors (e.g. Windows Contrast Themes) clear backgrounds, which is all the rule is, so it's drawn in the theme's
+/* Forced colors (e.g. Windows Contrast Themes) clear backgrounds, which is all the divider is, so it's drawn in the theme's
    text colour instead. They also paint a backing behind each line of text, and the code's tight line height lets its
    backing reach up over the title, so the title is lifted above it. */
 @media (forced-colors: active) {
@@ -80,7 +80,7 @@
 		position: relative;
 	}
 
-	.page__rule {
+	.page__divider {
 		forced-color-adjust: none;
 		background: CanvasText;
 	}

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useSyncExternalStore } from 'react'
 
 import styles from './index.module.css'
 
@@ -13,9 +13,18 @@ const MAX_SQUASH = 0.3
 // Anything that can be clicked or typed into. The glow fades out over these, so it never gets in the way of reading
 // what they say.
 const INTERACTIVE = 'a, button, input, select, textarea, label, summary, [role="button"]'
-// The fixed header bar, whose own background would cover the glow, and its menu, which should keep covering it.
-const HEADER = 'header'
+// The fixed header bar (marked in the Navbar), whose own background would cover the glow, and its menu, which should
+// keep covering it.
+const HEADER = '[data-site-header]'
 const MENU = 'nav'
+
+const subscribe = (onChange: () => void) => {
+	const list = window.matchMedia(QUERY)
+	list.addEventListener('change', onChange)
+
+	return () => list.removeEventListener('change', onChange)
+}
+const getEnabled = () => window.matchMedia(QUERY).matches
 
 // Over the header bar while its menu is hidden. Once the menu shows (until it has finished closing), it covers the bar,
 // so the glow stays under it there too, even over the Close button, which isn't inside the menu.
@@ -25,12 +34,13 @@ const isOverHeaderBar = (target: EventTarget | null) => {
 	return header !== null && (!menu || getComputedStyle(menu).visibility === 'hidden')
 }
 
-// Used on the homepage only. A small fuchsia glow that trails the pointer and stretches the faster it moves. The real cursor stays as it is; this
-// only follows it. Drawn straight to the style on each frame, so moving the pointer doesn't re-render anything, and the
-// frames stop once the glow has caught up.
+// Used on the homepage only. A small fuchsia glow that trails the pointer and stretches the faster it moves. The real
+// cursor stays as it is; this only follows it. Drawn straight to the style on each frame, so moving the pointer doesn't
+// re-render anything, and the frames stop once the glow has caught up. Follows the media query, so it comes and goes
+// when a mouse is plugged in or the motion setting changes.
 export const Cursor = () => {
 	const ref = useRef<HTMLDivElement>(null)
-	const [enabled] = useState(() => window.matchMedia(QUERY).matches)
+	const enabled = useSyncExternalStore(subscribe, getEnabled)
 
 	useEffect(() => {
 		const element = ref.current

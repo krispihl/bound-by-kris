@@ -56,7 +56,7 @@ export const Navbar = () => {
 	}, [isOpen])
 
 	return (
-		<header ref={headerRef} className={styles.header}>
+		<header ref={headerRef} className={styles.header} data-site-header>
 			{/* Where the page heading settles once the page has scrolled (see PageHeading). */}
 			<div id={HEADER_HEADING_ID} className={styles.heading} />
 			<button

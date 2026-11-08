@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
@@ -46,7 +46,7 @@ describe('Cursor', () => {
 		const { container, rerender } = render(
 			<>
 				<Cursor />
-				<header>
+				<header data-site-header>
 					<button>Menu</button>
 					<nav style={{ visibility: 'hidden' }} />
 				</header>
@@ -60,7 +60,7 @@ describe('Cursor', () => {
 		rerender(
 			<>
 				<Cursor />
-				<header>
+				<header data-site-header>
 					<button>Close</button>
 					<nav style={{ visibility: 'visible' }} />
 				</header>
@@ -75,6 +75,49 @@ describe('Cursor', () => {
 		const { container } = render(<Cursor />)
 
 		expect(container.firstElementChild).toHaveAttribute('aria-hidden', 'true')
+	})
+
+	it('ignores a header that is not the site bar', async () => {
+		useMouse()
+		const { container } = render(
+			<>
+				<Cursor />
+				<header>
+					<button>Page header</button>
+				</header>
+			</>
+		)
+
+		await userEvent.pointer({ target: screen.getByRole('button', { name: 'Page header' }) })
+		expect(container.firstElementChild).not.toHaveClass(/cursor--raised/)
+	})
+
+	it('appears and disappears when the media query starts and stops matching', () => {
+		let matches = false
+		let onChange = () => {}
+		vi.spyOn(window, 'matchMedia').mockImplementation(
+			(query) =>
+				({
+					get matches() {
+						return matches
+					},
+					media: query,
+					addEventListener: (_type: string, listener: () => void) => {
+						onChange = listener
+					},
+					removeEventListener: () => {},
+				}) as unknown as MediaQueryList
+		)
+		const { container } = render(<Cursor />)
+		expect(container).toBeEmptyDOMElement()
+
+		matches = true
+		act(() => onChange())
+		expect(container.firstElementChild).toHaveAttribute('aria-hidden', 'true')
+
+		matches = false
+		act(() => onChange())
+		expect(container).toBeEmptyDOMElement()
 	})
 
 	it('is left out without a mouse or when less motion is asked for', () => {

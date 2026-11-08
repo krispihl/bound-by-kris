@@ -42,12 +42,29 @@ html {
 	box-shadow: inset 0 0 0 0.125rem var(--color-text-muted);
 }
 
+/* Stand-ins for Fraunces while it loads, or if it never does. They are a system serif scaled to Fraunces' width (measured
+   at the sizes the site uses: regular text, and the homepage name in 900), so the name still spans its row instead of
+   being clipped by the hero, and the text doesn't jump when Fraunces arrives. */
+@font-face {
+	font-family: 'Fraunces Fallback';
+	src: local('Times New Roman'), local('Liberation Serif'), local('Times');
+	font-weight: 400 500;
+	size-adjust: 113%;
+}
+
+@font-face {
+	font-family: 'Fraunces Fallback';
+	src: local('Times New Roman Bold'), local('TimesNewRomanPS-BoldMT'), local('Liberation Serif Bold'), local('Times Bold');
+	font-weight: 600 900;
+	size-adjust: 99%;
+}
+
 :root {
 	/* Light or dark, following the visitor's system setting. Every colour role below gives both with light-dark(): the
 	   light value first, then the dark. Form fields and scrollbars follow the same setting. */
 	color-scheme: light dark;
 
-	--font-display: 'Fraunces', serif;
+	--font-display: 'Fraunces', 'Fraunces Fallback', serif;
 	--font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
 	--font-name: 'Nabla', 'Arial Black', sans-serif;
 

@@ -40,8 +40,8 @@
 	}
 }
 
-/* Forced colors (e.g. Windows Contrast Themes) clear backgrounds, which is all the dot is, and the system pointer is all a contrast theme
-   needs, so the dot isn't drawn. */
+/* Forced colors clear backgrounds, which is all the dot is, and the system pointer is
+   all a contrast theme needs, so the dot isn't drawn. */
 @media (forced-colors: active) {
 	.cursor {
 		display: none;
