@@ -9,8 +9,8 @@
 }
 
 /* Fills the window, less the body's 0.5rem margins and the home link's 4rem row under it, with everything pushed to
-   the bottom. The top padding clears the header bar and its fade, like the homepage's, for a window too short to hold
-   it all, where the page scrolls from the top. */
+   the bottom. The top padding keeps the content below the header bar and its fade. It only shows in a window too
+   short for everything, where the page scrolls and the quote would otherwise start under the bar, as on the homepage. */
 .page {
 	display: flex;
 	flex-direction: column;
@@ -20,12 +20,8 @@
 	/* The tight line height lets the digits' glyph boxes spill past the bottom edge, which would otherwise add a
 	   scrollbar. */
 	overflow: clip;
-	container-type: inline-size;
-	container-name: not-found;
 }
 
-/* The quote, then its twist straight after it on the same line, in a quieter colour. Centred over the code, and
-   balanced so a wrapped line doesn't leave one word on its own. */
 .page__title {
 	margin: 0;
 	text-align: center;
@@ -36,7 +32,7 @@
 	line-height: 1.4;
 }
 
-.page__twist {
+.page__info {
 	color: var(--color-text-muted);
 	font-weight: 400;
 }
@@ -72,7 +68,7 @@
 	}
 }
 
-/* Forced colors (e.g. Windows Contrast Themes) clear backgrounds, which is all the divider is, so it's drawn in the theme's
+/* Forced colors clear backgrounds, which is all the divider is, so it's drawn in the theme's
    text colour instead. They also paint a backing behind each line of text, and the code's tight line height lets its
    backing reach up over the title, so the title is lifted above it. */
 @media (forced-colors: active) {
