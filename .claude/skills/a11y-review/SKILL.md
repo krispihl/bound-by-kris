@@ -59,7 +59,7 @@ Also check this repo's conventions, which come from `CLAUDE.md` and from issues 
   another region, are a `<div>` with a heading (landmark tools outline every `<section>` and flag nested ones).
 - Scrollable boxes that need focus (`tabIndex={0}`) get `role="group"` and a name, not `role="region"`.
 - Decoration and visual fragments are `aria-hidden="true"`, with the text said once in an accessible name or
-  visually hidden text (`visually-hidden` class).
+  visually hidden text (`screenreader-only` class).
 - Links that open a new tab say so in their accessible name ("(opens in a new tab)"), as `ExternalLink` and
   `RichText` do.
 - Every animation and transition has a `prefers-reduced-motion: reduce` override in its CSS module.

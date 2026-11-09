@@ -242,7 +242,7 @@ main {
 }
 
 /* Hides text visually but keeps it for screen readers, e.g. "(opens in a new tab)" after an external link. */
-.visually-hidden {
+.screenreader-only {
 	position: absolute;
 	width: 0.0625rem;
 	height: 0.0625rem;

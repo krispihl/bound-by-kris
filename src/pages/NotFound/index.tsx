@@ -9,7 +9,7 @@ export const NotFound = () => {
 		<div className={styles.page}>
 			{/* Starts with what the page is for screen readers, which the quote alone wouldn't say. */}
 			<h1 className={styles.page__title}>
-				<span className="visually-hidden">Page not found. </span>
+				<span className="screenreader-only">Page not found. </span>
 				Not all those who wander are lost. <span className={styles.page__twist}>But you seem to be.</span>
 			</h1>
 			<span className={styles.page__divider} aria-hidden="true" />

@@ -50,7 +50,7 @@ export const Home = () => {
 					<h1 className={styles.hero__name} onPointerMove={followPointer}>
 						{/* The name as text for screen readers, marked Estonian so it is said the Estonian way. An aria-label can't
 						    carry its own language, so the name is real text here and the letters below are hidden instead. */}
-						<span className="visually-hidden" lang="et">
+						<span className="screenreader-only" lang="et">
 							{FIRST_NAME} {LAST_NAME}
 						</span>
 						<Name animated />

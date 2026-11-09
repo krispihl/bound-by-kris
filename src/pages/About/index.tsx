@@ -89,7 +89,7 @@ export const About = () => {
 																		<span className={styles.step__title}>
 																			{step.title}
 																			{step.current ? (
-																				<span className="visually-hidden"> (current role)</span>
+																				<span className="screenreader-only"> (current role)</span>
 																			) : null}
 																		</span>
 																		{step.period ? (

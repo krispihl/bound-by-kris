@@ -41,7 +41,7 @@ export const Boardgames = () => {
 			</div>
 
 			{/* Always in the page and empty until there is something to say. */}
-			<div role="status" className="visually-hidden">
+			<div role="status" className="screenreader-only">
 				{state.status === 'loading' ? 'Loading the games…' : null}
 				{state.status === 'success' ? `${games.length} games loaded` : null}
 			</div>
@@ -135,7 +135,7 @@ export const Boardgames = () => {
 							</div>
 							{/* Where the skip link lands. Focusable from script only, so the next Tab goes on to what follows the list,
 							    and a screen reader says where focus went. */}
-							<p id="games-end" className="visually-hidden" tabIndex={-1}>
+							<p id="games-end" className="screenreader-only" tabIndex={-1}>
 								End of the games list
 							</p>
 						</>

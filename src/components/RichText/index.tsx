@@ -21,7 +21,7 @@ const parseInline = (text: string): ReactNode[] =>
 			return (
 				<a key={index} href={link[2]} className={styles.link} target="_blank" rel="noreferrer">
 					{link[1]}
-					<span className="visually-hidden"> (opens in a new tab)</span>
+					<span className="screenreader-only"> (opens in a new tab)</span>
 				</a>
 			)
 		}
