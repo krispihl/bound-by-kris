@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
 import { HEADER_HEADING_ID } from '../PageHeading'
-import { useEscapeKey } from '../../hooks/useEscapeKey'
 import { useScrollLock } from '../../hooks/useScrollLock'
 import styles from './index.module.css'
 
@@ -32,14 +31,27 @@ export const Navbar = () => {
 
 	const close = () => setIsOpen(false)
 
-	// Escape moves focus back to the toggle rather than to the page.
-	const closeAndRefocus = () => {
-		setIsOpen(false)
-		toggleRef.current?.focus()
-	}
-
-	useEscapeKey(isOpen, closeAndRefocus)
 	useScrollLock(isLocked)
+
+	// Escape closes the open menu and moves focus back to the toggle rather than to the page.
+	useEffect(() => {
+		if (!isOpen) {
+			return
+		}
+
+		const handleKeyDown = (event: KeyboardEvent) => {
+			if (event.key === 'Escape') {
+				setIsOpen(false)
+				toggleRef.current?.focus()
+			}
+		}
+
+		document.addEventListener('keydown', handleKeyDown)
+
+		return () => {
+			document.removeEventListener('keydown', handleKeyDown)
+		}
+	}, [isOpen])
 
 	// The open menu covers the whole window, so the page beside the header (main and the footer) is made inert while it is open.
 	useEffect(() => {
