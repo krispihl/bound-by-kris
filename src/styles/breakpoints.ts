@@ -1,6 +1,6 @@
 // The window widths, in rem, where the layout changes: below `tablet` is mobile, from `desktop` up is desktop. The CSS
 // mixins (built in postcss.config.js) and useBreakpoint in code both read them from here, so the two always agree.
-// The same as Puco's: tablet from 713px and desktop from 1104px.
+// Sizes: tablet from 713px and desktop from 1104px.
 export const BREAKPOINTS = {
 	tablet: 44.5625,
 	desktop: 69,

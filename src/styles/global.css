@@ -33,9 +33,6 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-	/* An outline rather than a fill: the transparent border insets the thumb and the inset shadow draws the ring inside it.
-	   The muted text colour reaches 4.9:1 against the page, past the 3:1 a control needs (WCAG 1.4.11), and darkens
-	   further for visitors who ask for more contrast. */
 	background: transparent;
 	border: 0.125rem solid transparent;
 	border-radius: 0.375rem;
@@ -66,7 +63,6 @@ html {
 
 	--font-display: 'Fraunces', 'Fraunces Fallback', serif;
 	--font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
-	--font-name: 'Nabla', 'Arial Black', sans-serif;
 
 	/* The palette: every colour the site uses, by name. The roles below pick from it, so components never name a colour
 	   directly. Each role gives its light and dark colour with light-dark(). */
@@ -77,7 +73,7 @@ html {
 	--hot-fuchsia: #ff0054;
 	--amber-gold: #ffbd00;
 
-	/* Neutrals: a warm off-white page and white cards, then the ink, greys and pale lines, which all lean a little violet */
+	/* Neutrals */
 	--warm-ivory: #faf9f6;
 	--pure-white: #ffffff;
 	--midnight-ink: #201f2b;
@@ -222,23 +218,6 @@ body {
 
 main {
 	flex: 1;
-}
-
-.container {
-	max-width: 800px;
-	margin: 4rem auto;
-	padding: 0 2rem;
-}
-
-.title {
-	font-size: 2.5rem;
-	font-weight: 700;
-	margin-bottom: 0.75rem;
-}
-
-.subtitle {
-	font-size: 1.1rem;
-	color: var(--color-text-muted);
 }
 
 /* Hides text visually but keeps it for screen readers, e.g. "(opens in a new tab)" after an external link. */

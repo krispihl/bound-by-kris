@@ -41,7 +41,7 @@
 	margin-block: -0.75rem;
 	padding-block: 0.75rem;
 	color: var(--color-link);
-	font-weight: 600;
+	font-weight: 700;
 	text-decoration: none;
 	white-space: nowrap;
 	transition: color 0.3s;
@@ -109,7 +109,7 @@
 	font-family: var(--font-display);
 	font-size: 1.5rem;
 	line-height: 1.2;
-	font-weight: 600;
+	font-weight: 700;
 	color: var(--color-text-muted);
 	transition: color 0.2s ease;
 
@@ -242,7 +242,7 @@
 .role__title {
 	margin: 0;
 	font-size: 1.0625rem;
-	font-weight: 600;
+	font-weight: 700;
 	line-height: 1.4;
 }
 
@@ -283,7 +283,7 @@
 	display: block;
 	color: var(--color-text);
 	font-size: 0.9375rem;
-	font-weight: 600;
+	font-weight: 700;
 	line-height: 1.5;
 }
 
@@ -306,7 +306,7 @@
 .entry__title {
 	margin: 0;
 	font-size: 1.125rem;
-	font-weight: 600;
+	font-weight: 700;
 	line-height: 1.4;
 }
 
