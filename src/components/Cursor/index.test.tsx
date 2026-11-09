@@ -41,6 +41,30 @@ describe('Cursor', () => {
 		expect(glow).not.toHaveClass(/cursor--faded/)
 	})
 
+	it('fades out over anything else that can be clicked or focused, but not over what only a script can focus', async () => {
+		useMouse()
+		const { container } = render(
+			<>
+				<Cursor />
+				<div role="link" tabIndex={0}>
+					Fake link
+				</div>
+				<div contentEditable suppressContentEditableWarning>
+					Editable
+				</div>
+				<div tabIndex={-1}>Script focus only</div>
+			</>
+		)
+		const glow = container.firstElementChild
+
+		await userEvent.pointer({ target: screen.getByRole('link', { name: 'Fake link' }) })
+		expect(glow).toHaveClass(/cursor--faded/)
+		await userEvent.pointer({ target: screen.getByText('Editable') })
+		expect(glow).toHaveClass(/cursor--faded/)
+		await userEvent.pointer({ target: screen.getByText('Script focus only') })
+		expect(glow).not.toHaveClass(/cursor--faded/)
+	})
+
 	it('is drawn above the header bar, but stays under its menu while the menu shows', async () => {
 		useMouse()
 		const { container, rerender } = render(

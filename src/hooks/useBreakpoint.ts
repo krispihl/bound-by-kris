@@ -5,8 +5,12 @@ import { MEDIA_QUERIES } from '../styles/breakpoints'
 type Device = 'mobile' | 'tablet' | 'desktop'
 
 const getDevice = (): Device => {
-	if (window.matchMedia(MEDIA_QUERIES['mobile-only']).matches) return 'mobile'
-	if (window.matchMedia(MEDIA_QUERIES['tablet-only']).matches) return 'tablet'
+	if (window.matchMedia(MEDIA_QUERIES['mobile-only']).matches) {
+		return 'mobile'
+	}
+	if (window.matchMedia(MEDIA_QUERIES['tablet-only']).matches) {
+		return 'tablet'
+	}
 	return 'desktop'
 }
 

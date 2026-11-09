@@ -10,9 +10,23 @@ const FOLLOW = 0.2
 const STRETCH = 0.04
 const MAX_STRETCH = 1
 const MAX_SQUASH = 0.3
-// Anything that can be clicked or typed into. The glow fades out over these, so it never gets in the way of reading
-// what they say.
-const INTERACTIVE = 'a, button, input, select, textarea, label, summary, [role="button"]'
+// Anything that can be clicked, typed into or focused. The glow fades out over these, so it never gets in the way of
+// reading what they say. A tabindex of -1 is left out, as that only lets a script move focus there.
+const INTERACTIVE = [
+	'a',
+	'button',
+	'input',
+	'select',
+	'textarea',
+	'label',
+	'summary',
+	'[role="button"]',
+	'[role="link"]',
+	'[role="tab"]',
+	'[role="menuitem"]',
+	'[contenteditable]:not([contenteditable="false"])',
+	'[tabindex]:not([tabindex="-1"])',
+].join(', ')
 // The fixed header bar (marked in the Navbar), whose own background would cover the glow, and its menu, which should
 // keep covering it.
 const HEADER = '[data-site-header]'
@@ -44,7 +58,9 @@ export const Cursor = () => {
 
 	useEffect(() => {
 		const element = ref.current
-		if (!element) return
+		if (!element) {
+			return
+		}
 
 		const target = { x: 0, y: 0 }
 		const position = { x: 0, y: 0 }
@@ -65,7 +81,9 @@ export const Cursor = () => {
 		}
 
 		const move = (event: PointerEvent) => {
-			if (event.pointerType === 'touch') return
+			if (event.pointerType === 'touch') {
+				return
+			}
 
 			target.x = event.clientX
 			target.y = event.clientY
@@ -79,7 +97,9 @@ export const Cursor = () => {
 			const overInteractive = event.target instanceof Element && event.target.closest(INTERACTIVE) !== null
 			element.classList.toggle(styles['cursor--faded'], overInteractive)
 			element.classList.toggle(styles['cursor--raised'], isOverHeaderBar(event.target))
-			if (!frame) frame = requestAnimationFrame(draw)
+			if (!frame) {
+				frame = requestAnimationFrame(draw)
+			}
 		}
 
 		const leave = () => {
@@ -97,7 +117,9 @@ export const Cursor = () => {
 		}
 	}, [enabled])
 
-	if (!enabled) return null
+	if (!enabled) {
+		return null
+	}
 
 	return <div ref={ref} className={styles.cursor} aria-hidden="true" />
 }

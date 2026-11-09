@@ -16,7 +16,9 @@ const renderAbout = () =>
 // The sections are plain <section>s, with no landmark of their own, so each is found by its heading.
 const getSection = (heading: string) => {
 	const section = screen.getByRole('heading', { level: 2, name: heading }).closest('section')
-	if (!section) throw new Error(`No section for ${heading}`)
+	if (!section) {
+		throw new Error(`No section for ${heading}`)
+	}
 
 	return section
 }
