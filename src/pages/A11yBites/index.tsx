@@ -1,4 +1,5 @@
-import type { MouseEvent } from 'react'
+import cx from 'classnames'
+import type { MouseEvent, TransitionEvent } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
 import { BiteContent } from '../../components/BiteContent'
@@ -13,26 +14,64 @@ import { getBiteSections } from '../../utils/biteSections'
 
 import styles from './index.module.css'
 
+const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+const scrollRowIntoView = (row: Element) => {
+	row.scrollIntoView({ block: 'start', behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
+}
+
+// A long bite collapses from under the pointer, so bring a closed row back if it ends up above the viewport.
+const showRowIfAbove = (row: Element | null) => {
+	requestAnimationFrame(() => {
+		if (row && row.getBoundingClientRect().top < 0) {
+			scrollRowIntoView(row)
+		}
+	})
+}
+
 export const A11yBites = () => {
 	usePageTitle('a11y bites')
 
 	const [openNumber, setOpenNumber] = useState<number | null>(null)
+	// The bite whose panel is still collapsing. It no longer counts as open, but stays on the page until it has collapsed.
+	const [closingNumber, setClosingNumber] = useState<number | null>(null)
 	const listRef = useRef<HTMLUListElement>(null)
+	// The row to bring back into view once the closing bite has collapsed.
+	const rowToShowRef = useRef<Element | null>(null)
+
+	const openBite = (number: number) => {
+		setClosingNumber(null)
+		rowToShowRef.current = null
+		setOpenNumber(number)
+	}
+
+	// With reduced motion the panel has no collapse to wait for, so it is gone at once.
+	const closeBite = (number: number, row: Element | null = null) => {
+		setOpenNumber(null)
+		if (prefersReducedMotion()) {
+			showRowIfAbove(row)
+			return
+		}
+		rowToShowRef.current = row
+		setClosingNumber(number)
+	}
+
+	const removeClosedPanel = (event: TransitionEvent<HTMLDivElement>) => {
+		if (event.target !== event.currentTarget) {
+			return
+		}
+		setClosingNumber(null)
+		showRowIfAbove(rowToShowRef.current)
+		rowToShowRef.current = null
+	}
 
 	// Lets a click on the opened content close its bite, unless the reader is selecting text or using a link, a code block
-	// or a table inside it. A long bite collapses from under the pointer, so bring the closed row back if it ends up above.
-	const closeOnContentClick = (event: MouseEvent<HTMLDivElement>) => {
+	// or a table inside it.
+	const closeOnContentClick = (number: number, event: MouseEvent<HTMLDivElement>) => {
 		if (window.getSelection()?.toString() || (event.target instanceof Element && event.target.closest('a, button, [tabindex]'))) {
 			return
 		}
-		const row = event.currentTarget.closest('li')
-		setOpenNumber(null)
-		requestAnimationFrame(() => {
-			if (row && row.getBoundingClientRect().top < 0) {
-				const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-				row.scrollIntoView({ block: 'start', behavior: prefersReducedMotion ? 'auto' : 'smooth' })
-			}
-		})
+		closeBite(number, event.currentTarget.closest('li'))
 	}
 
 	// Opening a bite can leave it above the viewport (e.g. after closing a long one higher up), so bring its whole row back,
@@ -45,8 +84,7 @@ export const A11yBites = () => {
 
 		const title = row.querySelector('h2')?.getBoundingClientRect()
 		if (row.getBoundingClientRect().top < 0 || (title && title.bottom > window.innerHeight)) {
-			const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-			row.scrollIntoView({ block: 'start', behavior: prefersReducedMotion ? 'auto' : 'smooth' })
+			scrollRowIntoView(row)
 		}
 	}, [openNumber])
 
@@ -56,7 +94,7 @@ export const A11yBites = () => {
 				<div className={styles.page__header}>
 					<PageHeading className={styles.page__title}>a11y bites</PageHeading>
 					<p className={styles.page__intro}>
-						Bite-sized accessibility lessons I initially made for my team.
+						Bite-sized accessibility lessons initially made for our team at Pipedrive.
 						<br />
 						Each bite covers one topic, which was relevant at that point in time.
 						<br />
@@ -67,14 +105,17 @@ export const A11yBites = () => {
 				<ul ref={listRef} className={styles.list}>
 					{A11Y_BITES.map((bite) => {
 						const isOpen = openNumber === bite.number
+						const isClosing = closingNumber === bite.number
+						// Open, or closed but still collapsing.
+						const isShown = isOpen || isClosing
 						const buttonId = `bite-${bite.number}-button`
 						const panelId = `bite-${bite.number}-panel`
 						const summaryId = `bite-${bite.number}-summary`
-						const sections = isOpen ? getBiteSections(bite.content, bite.number) : []
-						const headings = sections.flatMap((section) => (section.heading ? [section.heading] : []))
+						const sections = isShown ? getBiteSections(bite.content, bite.number) : []
+						const headings = sections.map((section) => section.heading)
 
 						return (
-							<li key={bite.number} className={`${styles.row}${isOpen ? ` ${styles['row--open']}` : ''}`}>
+							<li key={bite.number} className={cx(styles.row, isShown && styles['row--open'], isClosing && styles['row--closing'])}>
 								<h2 className={styles.row__heading}>
 									<button
 										id={buttonId}
@@ -82,7 +123,7 @@ export const A11yBites = () => {
 										aria-expanded={isOpen}
 										aria-controls={panelId}
 										aria-describedby={summaryId}
-										onClick={() => setOpenNumber(isOpen ? null : bite.number)}
+										onClick={() => (isOpen ? closeBite(bite.number) : openBite(bite.number))}
 									>
 										{bite.title}
 									</button>
@@ -115,11 +156,12 @@ export const A11yBites = () => {
 									id={panelId}
 									role="region"
 									aria-labelledby={buttonId}
-									className={styles.row__panel}
-									hidden={!isOpen}
-									onClick={closeOnContentClick}
+									className={cx(styles.row__panel, isClosing && styles['row__panel--closing'])}
+									hidden={!isShown}
+									onClick={(event) => closeOnContentClick(bite.number, event)}
+									onTransitionEnd={removeClosedPanel}
 								>
-									{isOpen ? <BiteContent sections={sections} /> : null}
+									<div className={styles['row__panel-content']}>{isShown ? <BiteContent sections={sections} /> : null}</div>
 								</div>
 							</li>
 						)
@@ -127,15 +169,14 @@ export const A11yBites = () => {
 				</ul>
 
 				<section className={styles.resources} aria-labelledby="resources-heading">
-					<header className={styles.resources__header}>
+					<div className={styles.resources__header}>
 						<h2 id="resources-heading" className={styles.resources__title}>
 							Resources
 						</h2>
 						<p className={styles.resources__intro}>Some blogs and docs I turn to when learning and building.</p>
-					</header>
+					</div>
 					<div className={styles.resources__groups}>
 						{A11Y_RESOURCES.map((group, index) => (
-							// A div, not a <section>, so it isn't a region of its own inside Resources; its heading names the list instead.
 							<div key={group.title} className={styles.group}>
 								<h3 id={`resources-group-${index}`} className={styles.group__title}>
 									{group.title}

@@ -20,7 +20,7 @@
 .status {
 	margin: 0;
 	padding: 2.5rem 0;
-	border-top: 1px solid var(--color-border);
+	border-top: 0.0625rem solid var(--color-border);
 	color: var(--color-text-muted);
 }
 
@@ -31,7 +31,7 @@
 .status__retry {
 	margin-top: 1rem;
 	padding: 0.75rem 1rem;
-	border: 1px solid var(--color-text);
+	border: 0.0625rem solid var(--color-text);
 	background: none;
 	color: var(--color-text);
 	cursor: pointer;
@@ -64,7 +64,7 @@
 	width: 100%;
 	padding: 0.6875rem 0.875rem;
 	/* The muted text colour rather than the border colour, so the field's edge reaches 3:1 against the page (WCAG 1.4.11). */
-	border: 1px solid var(--color-text-muted);
+	border: 0.0625rem solid var(--color-text-muted);
 	border-radius: 0;
 	background: var(--color-surface);
 	color: var(--color-text);
@@ -138,12 +138,12 @@
 /* A long list, so the games sit under their first letter: one full-width band per letter, its games flowing left to
    right in a grid. Short letters make short bands, so there are no holes. Space alone separates the games inside a band. */
 .groups {
-	border-bottom: 1px solid var(--color-border);
+	border-bottom: 0.0625rem solid var(--color-border);
 }
 
 .group {
 	padding: 2rem 0 2.5rem;
-	border-top: 1px solid var(--color-border);
+	border-top: 0.0625rem solid var(--color-border);
 }
 
 .group__letter {
@@ -188,19 +188,8 @@
 		color: var(--color-accent-text);
 	}
 
-	/* The focus ring goes round the title rather than the padding, which would bring it out over the meta line, and
-	   closer than elsewhere, as the meta line is only just below. */
-	&:focus-visible {
-		outline: none;
-	}
-
-	&:focus-visible::before {
-		content: '';
-		position: absolute;
-		inset: 0.75rem 0 0.5rem;
-		outline: var(--focus-width) solid var(--color-focus);
-		outline-offset: 0.125rem;
-	}
+	/* A smaller offset than elsewhere, as the meta line is only just below. */
+	@mixin text-focus-ring 0.75rem 0 0.5rem, 0.125rem;
 }
 
 .game__meta {

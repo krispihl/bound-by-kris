@@ -1,3 +1,4 @@
+import cx from 'classnames'
 import type { PointerEvent } from 'react'
 
 import { Cursor } from '../../components/Cursor'
@@ -34,7 +35,7 @@ const Name = ({ animated }: { animated: boolean }) => (
 		<span className={styles.hero__line} aria-hidden="true">
 			{renderLetters(FIRST_NAME, 0, animated)}
 		</span>
-		<span className={`${styles.hero__line} ${styles['hero__line--right']}`} aria-hidden="true">
+		<span className={cx(styles.hero__line, styles['hero__line--right'])} aria-hidden="true">
 			{renderLetters(LAST_NAME, FIRST_NAME.length - LAST_NAME.length, animated)}
 		</span>
 	</>

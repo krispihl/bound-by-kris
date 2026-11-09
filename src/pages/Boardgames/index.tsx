@@ -1,3 +1,4 @@
+import cx from 'classnames'
 import { useEffect, useRef, useState } from 'react'
 
 import { ExternalLink } from '../../components/ExternalLink'
@@ -123,7 +124,7 @@ export const Boardgames = () => {
 														<p className={styles.game__meta}>
 															{game.isExpansion ? <span className={styles.tag}>Expansion</span> : game.players}
 															{game.isEstonian ? (
-																<span className={`${styles.tag} ${styles['tag--language']}`}>Estonian</span>
+																<span className={cx(styles.tag, styles['tag--language'])}>Estonian</span>
 															) : null}
 														</p>
 													</article>

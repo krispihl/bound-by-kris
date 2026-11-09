@@ -1,3 +1,4 @@
+import cx from 'classnames'
 import { FiArrowRight } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 
@@ -84,7 +85,7 @@ export const About = () => {
 																{entry.steps.map((step) => (
 																	<li
 																		key={step.title}
-																		className={`${styles.step}${step.current ? ` ${styles['step--current']}` : ''}`}
+																		className={cx(styles.step, step.current && styles['step--current'])}
 																	>
 																		<span className={styles.step__title}>
 																			{step.title}
@@ -147,7 +148,7 @@ export const About = () => {
 				</div>
 			</div>
 			{/* Outside the page, whose container query would otherwise pin this fixed element to the page instead of the window. */}
-			<Krispi glances className={`${styles.peek}${atBottom ? ` ${styles['peek--up']}` : ''}`} />
+			<Krispi glances className={cx(styles.peek, atBottom && styles['peek--up'])} />
 		</>
 	)
 }

@@ -1,3 +1,4 @@
+import cx from 'classnames'
 import type { CSSProperties } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
@@ -61,7 +62,7 @@ export const Navbar = () => {
 			<div id={HEADER_HEADING_ID} className={styles.heading} />
 			<button
 				ref={toggleRef}
-				className={`${styles.toggle}${isOpen ? ` ${styles['toggle--open']}` : ''}`}
+				className={cx(styles.toggle, isOpen && styles['toggle--open'])}
 				aria-expanded={isOpen}
 				aria-controls="site-menu"
 				onClick={() => setIsOpen((open) => !open)}
@@ -73,7 +74,7 @@ export const Navbar = () => {
 			<nav
 				id="site-menu"
 				aria-label="Main"
-				className={`${styles.menu}${isOpen ? ` ${styles['menu--open']}` : ''}`}
+				className={cx(styles.menu, isOpen && styles['menu--open'])}
 				onTransitionEnd={(event) => {
 					// Visibility is the menu's last change on closing, with or without reduced motion.
 					if (!isOpen && event.target === event.currentTarget && event.propertyName === 'visibility') {
@@ -84,11 +85,7 @@ export const Navbar = () => {
 				<ul className={styles.list}>
 					{LINKS.map(({ to, label }, index) => (
 						<li key={to} style={linkStyle(index)}>
-							<NavLink
-								to={to}
-								className={({ isActive }) => `${styles.link}${isActive ? ` ${styles['link--active']}` : ''}`}
-								onClick={close}
-							>
+							<NavLink to={to} className={({ isActive }) => cx(styles.link, isActive && styles['link--active'])} onClick={close}>
 								{label}
 							</NavLink>
 						</li>

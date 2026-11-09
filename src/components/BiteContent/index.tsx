@@ -1,9 +1,8 @@
+import cx from 'classnames'
 import type { Block, ListBlock } from '../../data/a11yBites'
 import type { BiteSection } from '../../utils/biteSections'
 
 import { RichText } from '../RichText'
-
-import { splitQuote } from '../../utils/splitQuote'
 
 import styles from './index.module.css'
 
@@ -24,7 +23,6 @@ const List = ({ list }: { list: ListBlock }) => {
 
 const BlockView = ({ block }: { block: Block }) => {
 	switch (block.type) {
-		// Top-level headings start a section, so only subheadings reach here.
 		case 'heading':
 			return (
 				<h4 className={styles.subheading}>
@@ -44,22 +42,19 @@ const BlockView = ({ block }: { block: Block }) => {
 					<RichText text={block.text} />
 				</div>
 			)
-		case 'quote': {
-			const { quote, author } = splitQuote(block.text)
-
+		case 'quote':
 			return (
 				<figure className={styles.quote}>
 					<blockquote className={styles.quote__text}>
-						<RichText text={quote} />
+						<RichText text={block.quote} />
 					</blockquote>
-					{author ? <figcaption className={styles.quote__author}>— {author}</figcaption> : null}
+					<figcaption className={styles.quote__author}>— {block.author}</figcaption>
 				</figure>
 			)
-		}
 		case 'code':
 			return (
-				// Focusable so a keyboard can scroll code wider than the page, and named so it says why when focused, as the
-				// table below is.
+				// Focusable so a keyboard can scroll code wider than the page
+				// and named so it says why when focused, as the table below is.
 				// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
 				<pre className={styles.code} tabIndex={0} role="group" aria-label="Code example, scrollable">
 					<code>{block.code}</code>
@@ -67,8 +62,9 @@ const BlockView = ({ block }: { block: Block }) => {
 			)
 		case 'table':
 			return (
-				// Focusable so a keyboard can scroll a table wider than the page, and named so it says why when focused. A group
-				// rather than a region, so it isn't a landmark nested inside the bite's own region.
+				// Focusable so a keyboard can scroll a table wider than the page
+				// and named so it says why when focused.
+				// A group rather than a region, so it isn't a landmark nested inside the bite's own region.
 				// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
 				<div className={styles.tableWrapper} tabIndex={0} role="group" aria-label="Table, scrollable">
 					<table className={styles.table}>
@@ -106,13 +102,8 @@ export const BiteContent = ({ sections }: { sections: BiteSection[] }) => {
 	return (
 		<div className={styles.content}>
 			{sections.map((section) => {
-				if (!section.heading) {
-					return <Blocks key="intro" blocks={section.blocks} />
-				}
-
-				// A div, not a <section>, so it isn't a region nested in the bite's own panel region; its heading is enough to move by.
 				return (
-					<div key={section.heading.id} className={`${styles.section}${section.isIssues ? ` ${styles['section--issues']}` : ''}`}>
+					<div key={section.heading.id} className={cx(styles.section, section.isIssues && styles['section--issues'])}>
 						<h3 id={section.heading.id} className={styles.heading}>
 							<span className={styles.heading__badge} aria-hidden="true">
 								{section.heading.label}

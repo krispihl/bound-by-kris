@@ -1,3 +1,4 @@
+import cx from 'classnames'
 import { useEffect, useRef, useState } from 'react'
 
 import { useDismissed } from '../../hooks/useDismissed'
@@ -82,7 +83,7 @@ export const Krispi = ({ pose = 'idle', glances = false, className }: KrispiProp
 		<span ref={ref} className={classes}>
 			<span className={styles.krispi__hair} aria-hidden="true">
 				{(['left', 'middle', 'right'] as const).map((side) => (
-					<span key={side} className={`${styles.krispi__strand} ${styles[`krispi__strand--${side}`]}`} />
+					<span key={side} className={cx(styles.krispi__strand, styles[`krispi__strand--${side}`])} />
 				))}
 			</span>
 			<span className={styles.krispi__face} aria-hidden="true">
@@ -92,7 +93,7 @@ export const Krispi = ({ pose = 'idle', glances = false, className }: KrispiProp
 			</span>
 			{pose === 'peek'
 				? (['left', 'right'] as const).map((side) => (
-						<span key={side} className={`${styles.krispi__hand} ${styles[`krispi__hand--${side}`]}`} aria-hidden="true">
+						<span key={side} className={cx(styles.krispi__hand, styles[`krispi__hand--${side}`])} aria-hidden="true">
 							<span className={styles.krispi__finger} />
 							<span className={styles.krispi__finger} />
 							<span className={styles.krispi__finger} />

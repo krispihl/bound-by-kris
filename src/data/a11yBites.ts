@@ -12,17 +12,20 @@ export type ListBlock = {
 export type Block =
 	| { type: 'heading'; level: 2 | 3; text: string }
 	| { type: 'paragraph'; text: string }
-	| { type: 'quote'; text: string }
+	| { type: 'quote'; quote: string; author: string }
 	| { type: 'callout'; text: string }
 	| { type: 'code'; code: string }
 	| { type: 'table'; header: string[]; rows: string[][] }
 	| ListBlock
 
+// A bite starts with a top-level heading, so every block belongs to a section.
+type SectionHeading = { type: 'heading'; level: 2; text: string }
+
 export type A11yBite = {
 	number: number
 	title: string
 	summary: string
-	content: Block[]
+	content: [SectionHeading, ...Block[]]
 }
 
 // Inline text supports a small markdown subset: `code`, **bold**, *italic* and [links](url).
@@ -36,7 +39,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '🎯 What are Skip Links?',
+				text: 'What are Skip Links?',
 			},
 			{
 				type: 'paragraph',
@@ -45,7 +48,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '❓ Why we need them?',
+				text: 'Why we need them?',
 			},
 			{
 				type: 'paragraph',
@@ -98,7 +101,7 @@ export const A11Y_BITES: A11yBite[] = [
 				type: 'paragraph',
 				text: 'Even for screen reader users, the skip link is often the very first thing they hear: *"Link, Skip to main content."* It serves as a verbal confirmation that the site is accessible. Also it’s faster to hit `Enter` on that first link than it is to open a "Landmarks" rotor or menu, scroll down to "Main," and select it.',
 			},
-			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
+			{ type: 'heading', level: 2, text: 'Common pitfalls' },
 			{
 				type: 'paragraph',
 				text: 'Picture a typical marketing site without skip links: around 10 header links, identical on every page. Finding something usually means jumping through several pages, tabbing through *every single header link* each time. Most people would give up and search elsewhere.',
@@ -110,7 +113,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '💡 Technical Solutions',
+				text: 'Technical Solutions',
 			},
 			{
 				type: 'paragraph',
@@ -118,7 +121,8 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'quote',
-				text: '“The one argument for accessibility that doesn’t get made nearly often enough is how extraordinarily better it makes some people’s lives. How many opportunities do we have to dramatically improve people’s lives just by doing our job a little better?” — Steve Krug',
+				quote: '“The one argument for accessibility that doesn’t get made nearly often enough is how extraordinarily better it makes some people’s lives. How many opportunities do we have to dramatically improve people’s lives just by doing our job a little better?”',
+				author: 'Steve Krug',
 			},
 		],
 	},
@@ -131,7 +135,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '🎯 What are Focus indicators?',
+				text: 'What are Focus indicators?',
 			},
 			{
 				type: 'paragraph',
@@ -140,13 +144,13 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '❓ Why we need them?',
+				text: 'Why we need them?',
 			},
 			{
 				type: 'paragraph',
 				text: 'Without focus indicators, a person navigating with the `Tab` key is effectively "flying blind"—they are interacting with the page, but have no idea which link or button they are about to trigger. Also, if a page has some focus indicators present, and some missing, the keyboard navigation experience will become extra confusing. At some point, you see where you are and the next minute you are lost without any visual cues. And then suddenly the focus indicator appears in seemingly a random place down the page!',
 			},
-			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
+			{ type: 'heading', level: 2, text: 'Common pitfalls' },
 			{ type: 'paragraph', text: 'Focus problems usually fall into four groups:' },
 			{
 				type: 'list',
@@ -169,7 +173,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '💡 Technical Solutions',
+				text: 'Technical Solutions',
 			},
 			{
 				type: 'paragraph',
@@ -206,7 +210,8 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'quote',
-				text: '“Accessibility allows us to tap into everyone’s potential.” ― Debra Ruh',
+				quote: '“Accessibility allows us to tap into everyone’s potential.”',
+				author: 'Debra Ruh',
 			},
 		],
 	},
@@ -219,7 +224,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '🎯 What is "Use of Color"?',
+				text: 'What is "Use of Color"?',
 			},
 			{
 				type: 'paragraph',
@@ -228,7 +233,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '❓ Why?',
+				text: 'Why?',
 			},
 			{
 				type: 'paragraph',
@@ -249,7 +254,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 				],
 			},
-			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
+			{ type: 'heading', level: 2, text: 'Common pitfalls' },
 			{
 				type: 'paragraph',
 				text: 'Designs often drop the underline from inline links and rely on colour alone. WCAG still allows that, but only if [the link has at least 3:1 contrast with the surrounding body text](https://webaim.org/articles/contrast/#only) *and* shows a non-colour cue on hover (typically an underline) and on focus (a focus ring).',
@@ -261,7 +266,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '💡 Technical Solutions',
+				text: 'Technical Solutions',
 			},
 			{
 				type: 'list',
@@ -300,7 +305,8 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'quote',
-				text: '“Every design decision has the potential to include or exclude people” - Alistair Duggin',
+				quote: '“Every design decision has the potential to include or exclude people”',
+				author: 'Alistair Duggin',
 			},
 		],
 	},
@@ -313,7 +319,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '🎯 What are Landmarks and roles?',
+				text: 'What are Landmarks and roles?',
 			},
 			{
 				type: 'paragraph',
@@ -334,7 +340,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '❓ Why we need them?',
+				text: 'Why we need them?',
 			},
 			{
 				type: 'paragraph',
@@ -359,7 +365,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 				],
 			},
-			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
+			{ type: 'heading', level: 2, text: 'Common pitfalls' },
 			{ type: 'paragraph', text: "Landmarks are easy to miss entirely: no `<main>` at all, or a `<footer>` that doesn't count as one." },
 			{
 				type: 'paragraph',
@@ -368,7 +374,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '💡 Technical Solutions',
+				text: 'Technical Solutions',
 			},
 			{
 				type: 'paragraph',
@@ -455,7 +461,8 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'quote',
-				text: '“The power of the Web is in its universality. Access by everyone regardless of disability is an essential aspect.” – Tim Berners-Lee',
+				quote: '“The power of the Web is in its universality. Access by everyone regardless of disability is an essential aspect.”',
+				author: 'Tim Berners-Lee',
 			},
 		],
 	},
@@ -468,7 +475,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '🎯 What are accessible data tables?',
+				text: 'What are accessible data tables?',
 			},
 			{
 				type: 'paragraph',
@@ -481,7 +488,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '❓ Why we need them?',
+				text: 'Why we need them?',
 			},
 			{
 				type: 'paragraph',
@@ -502,7 +509,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 				],
 			},
-			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
+			{ type: 'heading', level: 2, text: 'Common pitfalls' },
 			{
 				type: 'paragraph',
 				text: 'Comparison tables, like the ones on pricing pages, are often a "master of disguise." They *look* like a table, but under the hood they are `<div>`s pretending to be one, with no relationship between rows or cells. For assistive technology users, that makes them useless.',
@@ -525,7 +532,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '💡 Technical Solutions',
+				text: 'Technical Solutions',
 			},
 			{
 				type: 'paragraph',
@@ -594,7 +601,8 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'quote',
-				text: '"Accessibility is a reflection of respect and equality, not an optional extra.” — Debra Ruh',
+				quote: '“Accessibility is a reflection of respect and equality, not an optional extra.”',
+				author: 'Debra Ruh',
 			},
 		],
 	},
@@ -607,7 +615,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '🎯 What are ARIA Live Regions and Roles?',
+				text: 'What are ARIA Live Regions and Roles?',
 			},
 			{
 				type: 'paragraph',
@@ -662,7 +670,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '❓ Why we need them?',
+				text: 'Why we need them?',
 			},
 			{
 				type: 'paragraph',
@@ -684,7 +692,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 				],
 			},
-			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
+			{ type: 'heading', level: 2, text: 'Common pitfalls' },
 			{ type: 'paragraph', text: 'Even when components have roles and live regions, the details often slip:' },
 			{
 				type: 'list',
@@ -701,7 +709,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '💡 Technical Solutions: Roles vs. explicit ARIA',
+				text: 'Technical Solutions: Roles vs. explicit ARIA',
 			},
 			{
 				type: 'heading',
@@ -810,7 +818,8 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'quote',
-				text: '“Start by doing what’s necessary, then do what’s possible and suddenly you are doing the impossible.” — Francis of Assisi',
+				quote: '“Start by doing what’s necessary, then do what’s possible and suddenly you are doing the impossible.”',
+				author: 'Francis of Assisi',
 			},
 		],
 	},
@@ -823,7 +832,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '🎯 What are <aside> and <nav>?',
+				text: 'What are <aside> and <nav>?',
 			},
 			{
 				type: 'paragraph',
@@ -889,7 +898,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '❓ Why we need them?',
+				text: 'Why we need them?',
 			},
 			{
 				type: 'list',
@@ -906,7 +915,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 				],
 			},
-			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
+			{ type: 'heading', level: 2, text: 'Common pitfalls' },
 			{
 				type: 'paragraph',
 				text: 'A Table of Contents beside an article is a classic case. It is often wrapped in a generic `<div>` column. That works, but it’s a bit like labelling a jar "Stuff": technically true, but not very helpful.',
@@ -941,7 +950,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '💡 Technical Solutions',
+				text: 'Technical Solutions',
 			},
 			{
 				type: 'paragraph',
@@ -1078,7 +1087,8 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'quote',
-				text: '“Always think: Who is in this room? Whose voices are heard? Whose voices are missing? Why?” — Per Axbom',
+				quote: '“Always think: Who is in this room? Whose voices are heard? Whose voices are missing? Why?”',
+				author: 'Per Axbom',
 			},
 		],
 	},
@@ -1091,7 +1101,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '🎯 What are accessible tooltips?',
+				text: 'What are accessible tooltips?',
 			},
 			{
 				type: 'paragraph',
@@ -1104,7 +1114,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '❓ Why we need them?',
+				text: 'Why we need them?',
 			},
 			{
 				type: 'paragraph',
@@ -1122,7 +1132,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 				],
 			},
-			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
+			{ type: 'heading', level: 2, text: 'Common pitfalls' },
 			{ type: 'paragraph', text: 'Tooltips tend to break in the same few ways:' },
 			{
 				type: 'list',
@@ -1145,7 +1155,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '💡 Technical Solutions',
+				text: 'Technical Solutions',
 			},
 			{
 				type: 'paragraph',
@@ -1233,7 +1243,8 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'quote',
-				text: '“Inclusion isn’t just inviting someone to sit at your table. It’s believing they belong there.” — Mia Carella',
+				quote: '“Inclusion isn’t just inviting someone to sit at your table. It’s believing they belong there.”',
+				author: 'Mia Carella',
 			},
 		],
 	},
@@ -1246,7 +1257,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '🎯 What are accessible forms?',
+				text: 'What are accessible forms?',
 			},
 			{
 				type: 'paragraph',
@@ -1270,7 +1281,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '❓ Why we need them?',
+				text: 'Why we need them?',
 			},
 			{
 				type: 'paragraph',
@@ -1297,7 +1308,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 				],
 			},
-			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
+			{ type: 'heading', level: 2, text: 'Common pitfalls' },
 			{ type: 'paragraph', text: 'Signup and newsletter forms, especially in modals, tend to share the same barriers:' },
 			{
 				type: 'list',
@@ -1318,7 +1329,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '💡 Technical Solutions',
+				text: 'Technical Solutions',
 			},
 			{
 				type: 'heading',
@@ -1443,7 +1454,8 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'quote',
-				text: '“Compliance is a checkbox. Inclusion is a mindset. If your goal is meeting the standards, you are not truly accessible or inclusive” — Sheri Byrne-Haber',
+				quote: '“Compliance is a checkbox. Inclusion is a mindset. If your goal is meeting the standards, you are not truly accessible or inclusive”',
+				author: 'Sheri Byrne-Haber',
 			},
 		],
 	},
@@ -1456,7 +1468,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '🎯 What are accessible graphical elements?',
+				text: 'What are accessible graphical elements?',
 			},
 			{
 				type: 'paragraph',
@@ -1487,7 +1499,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '❓ Why we need them?',
+				text: 'Why we need them?',
 			},
 			{
 				type: 'paragraph',
@@ -1511,7 +1523,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 				],
 			},
-			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
+			{ type: 'heading', level: 2, text: 'Common pitfalls' },
 			{
 				type: 'paragraph',
 				text: 'Most sites have moved past missing alt text. The harder part is going from "it exists" to "it’s actually helpful":',
@@ -1534,7 +1546,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '💡 Technical Solutions',
+				text: 'Technical Solutions',
 			},
 			{
 				type: 'paragraph',
@@ -1675,7 +1687,8 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'quote',
-				text: '“Accessible design is good design” — Steve Ballmer',
+				quote: '“Accessible design is good design”',
+				author: 'Steve Ballmer',
 			},
 		],
 	},
@@ -1688,7 +1701,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '🎯 What is accessible name?',
+				text: 'What is accessible name?',
 			},
 			{
 				type: 'paragraph',
@@ -1725,7 +1738,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '❓ Why we need them?',
+				text: 'Why we need them?',
 			},
 			{
 				type: 'paragraph',
@@ -1749,7 +1762,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '💡 Technical Solutions',
+				text: 'Technical Solutions',
 			},
 			{
 				type: 'paragraph',
@@ -1900,7 +1913,8 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'quote',
-				text: '“Accessibility is not a problem to be solved. It is a culture to be built.” — Sheri Byrne-Haber',
+				quote: '“Accessibility is not a problem to be solved. It is a culture to be built.”',
+				author: 'Sheri Byrne-Haber',
 			},
 		],
 	},
@@ -1913,7 +1927,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '🎯 What is Accessibility Tree?',
+				text: 'What is Accessibility Tree?',
 			},
 			{
 				type: 'paragraph',
@@ -1945,7 +1959,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '❓ Why we need components to match (desktop vs. mobile)?',
+				text: 'Why we need components to match (desktop vs. mobile)?',
 			},
 			{
 				type: 'paragraph',
@@ -1991,7 +2005,7 @@ export const A11Y_BITES: A11yBite[] = [
 				type: 'paragraph',
 				text: 'Under the Web Content Accessibility Guidelines, [WCAG Success Criterion 3.2.4: Consistent Identification (Level AA)](https://www.w3.org/WAI/WCAG22/Understanding/consistent-identification.html) dictates that components performing the same function across a set of pages must be identified consistently. Swapping roles via screen-size breakpoints directly risks failing this compliance checkpoint.',
 			},
-			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
+			{ type: 'heading', level: 2, text: 'Common pitfalls' },
 			{
 				type: 'paragraph',
 				text: 'A common case: a Tabs component built as a compliant `role="tablist"` on desktop collapses into a dropdown on mobile. To match the visual change, the mobile markup switches to a menu widget:',
@@ -2020,7 +2034,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '💡 Technical Solutions',
+				text: 'Technical Solutions',
 			},
 			{
 				type: 'paragraph',
@@ -2060,7 +2074,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 3,
-				text: '🦄 Rare Exceptions to the Rule',
+				text: 'Rare Exceptions to the Rule',
 			},
 			{
 				type: 'paragraph',
@@ -2084,7 +2098,8 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'quote',
-				text: '“AI scales operations, let humans scale compassion.” — Janna Cachola',
+				quote: '“AI scales operations, let humans scale compassion.”',
+				author: 'Janna Cachola',
 			},
 		],
 	},
@@ -2097,7 +2112,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '🎯 What are screen readers?',
+				text: 'What are screen readers?',
 			},
 			{
 				type: 'paragraph',
@@ -2126,7 +2141,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '❓ Why we need them?',
+				text: 'Why we need them?',
 			},
 			{
 				type: 'paragraph',
@@ -2166,7 +2181,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '💡 Technical Solutions (aka testing with VoiceOver on Mac)',
+				text: 'Technical Solutions (aka testing with VoiceOver on Mac)',
 			},
 			{
 				type: 'paragraph',
@@ -2320,7 +2335,8 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'quote',
-				text: '“Diversity is a fact. Equity is a choice. Inclusion is an action. Belonging is an outcome.” — Arthur Chan',
+				quote: '“Diversity is a fact. Equity is a choice. Inclusion is an action. Belonging is an outcome.”',
+				author: 'Arthur Chan',
 			},
 		],
 	},
@@ -2333,7 +2349,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '🎯 What are emojis?',
+				text: 'What are emojis?',
 			},
 			{
 				type: 'paragraph',
@@ -2354,7 +2370,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '❓ Why we need them to be accessible?',
+				text: 'Why we need them to be accessible?',
 			},
 			{
 				type: 'paragraph',
@@ -2385,7 +2401,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '💡 Technical Solutions',
+				text: 'Technical Solutions',
 			},
 			{
 				type: 'paragraph',
@@ -2487,7 +2503,8 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'quote',
-				text: '“Urging an organization to be inclusive is not an attack. It’s progress.” — DaShanne Stokes',
+				quote: '“Urging an organization to be inclusive is not an attack. It’s progress.”',
+				author: 'DaShanne Stokes',
 			},
 		],
 	},
@@ -2500,7 +2517,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '🎯 What is accessible mega menu?',
+				text: 'What is accessible mega menu?',
 			},
 			{
 				type: 'paragraph',
@@ -2513,7 +2530,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '❓ Why we need it?',
+				text: 'Why we need it?',
 			},
 			{
 				type: 'paragraph',
@@ -2542,7 +2559,7 @@ export const A11Y_BITES: A11yBite[] = [
 				type: 'paragraph',
 				text: "If we don't build our header and mega menu accessibly, that is exactly what we are doing to our users. Fixing it lowers our bounce rates, satisfies regulatory compliance, and ensures an equitable user experience.",
 			},
-			{ type: 'heading', level: 2, text: '🚨 Common pitfalls' },
+			{ type: 'heading', level: 2, text: 'Common pitfalls' },
 			{
 				type: 'paragraph',
 				text: "Mega menus are where header accessibility usually falls apart: no skip link to jump over the navigation, header links that do one thing on hover and another on click, and items a keyboard can't reach at all. The whole menu ends up out of reach for keyboard and assistive technology users 🙈",
@@ -2554,7 +2571,7 @@ export const A11Y_BITES: A11yBite[] = [
 			{
 				type: 'heading',
 				level: 2,
-				text: '💡 Technical Solutions',
+				text: 'Technical Solutions',
 			},
 			{
 				type: 'paragraph',
@@ -2807,7 +2824,8 @@ export const A11Y_BITES: A11yBite[] = [
 			},
 			{
 				type: 'quote',
-				text: '“By designing with accessibility in mind, we are designing for our friends, families and futures selves” — Alistair Duggin',
+				quote: '“By designing with accessibility in mind, we are designing for our friends, families and futures selves”',
+				author: 'Alistair Duggin',
 			},
 		],
 	},
