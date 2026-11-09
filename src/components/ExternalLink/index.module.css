@@ -7,7 +7,8 @@
 	width: 0.75em;
 	height: 0.75em;
 	margin-left: 0.3em;
-	/* The icon's drawing stops 2 of its 24 units above the edge of its box, so this drops the box by that much and the
-	   drawn bottom sits on the text's baseline. */
+	/* The icon is drawn on a 24-unit grid, but its lines end 2 units above the bottom of the box, so by default there is
+	   a small gap between the drawing and the text's baseline. Lowering the box by those 2 units (2/24 of the icon's
+	   0.75em, which is 0.0625em) closes it, and the bottom of the drawing sits on the baseline. */
 	vertical-align: -0.0625em;
 }
