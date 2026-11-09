@@ -7,6 +7,9 @@ import { toBoardgames } from '../utils/toBoardgames'
 
 export type BoardgamesState = { status: 'loading' } | { status: 'error' } | { status: 'success'; games: Boardgame[] }
 
+// A stalled request ends in the error state, and its retry
+const REQUEST_TIMEOUT_MS = 10_000
+
 // The games from the last successful load, kept for as long as the tab is open, so coming back to the page shows them
 // straight away. A reload starts empty and fetches the sheet again, so edits to it still show up.
 let cachedGames: Boardgame[] | null = null
@@ -23,11 +26,13 @@ export const useBoardgames = () => {
 	const [attempt, setAttempt] = useState(0)
 
 	useEffect(() => {
-		if (cachedGames) return
+		if (cachedGames) {
+			return
+		}
 
 		const controller = new AbortController()
 
-		fetch(BOARDGAMES_CSV_URL, { signal: controller.signal })
+		fetch(BOARDGAMES_CSV_URL, { signal: AbortSignal.any([controller.signal, AbortSignal.timeout(REQUEST_TIMEOUT_MS)]) })
 			.then((response) => {
 				if (!response.ok) {
 					throw new Error(`Boardgames request failed with ${response.status}`)
@@ -36,7 +41,9 @@ export const useBoardgames = () => {
 			})
 			.then((text) => {
 				const games = toBoardgames(parseCsv(text))
-				if (games.length > 0) cachedGames = games
+				if (games.length > 0) {
+					cachedGames = games
+				}
 				setState(games.length > 0 ? { status: 'success', games } : { status: 'error' })
 			})
 			.catch(() => {

@@ -28,7 +28,7 @@ describe('Boardgames', () => {
 		expect(screen.getByRole('heading', { level: 1, name: 'Board games' })).toBeInTheDocument()
 		expect(screen.getByRole('status')).toHaveTextContent('Loading the games')
 
-		expect(await screen.findAllByRole('article')).toHaveLength(3)
+		expect(await screen.findAllByRole('listitem')).toHaveLength(3)
 		expect(screen.getByText('3 games on my shelf')).toBeInTheDocument()
 		expect(screen.getAllByRole('heading', { level: 2 }).map((heading) => heading.textContent)).toEqual(['#', 'A'])
 		expect(screen.getByRole('status')).toHaveTextContent('3 games loaded')
@@ -38,11 +38,11 @@ describe('Boardgames', () => {
 		mockFetch(new Response(CSV))
 		render(<Boardgames />)
 
-		const alias = (await screen.findByRole('heading', { name: 'Alias' })).closest('article')
+		const alias = (await screen.findByRole('heading', { name: 'Alias' })).closest('li')
 		expect(alias).toHaveTextContent('4–12 players')
 		expect(alias).toHaveTextContent('Estonian')
 
-		const leaders = screen.getByRole('heading', { name: '7 wonders leaders' }).closest('article')
+		const leaders = screen.getByRole('heading', { name: '7 wonders leaders' }).closest('li')
 		expect(leaders).toHaveTextContent('Expansion')
 		expect(leaders).not.toHaveTextContent('players')
 	})
@@ -55,7 +55,7 @@ describe('Boardgames', () => {
 		expect(azul).toHaveAttribute('href', 'https://boardgamegeek.com/boardgame/230802/azul')
 		expect(azul).toHaveAttribute('target', '_blank')
 		// The only other link is the skip link, which isn't a game's.
-		expect(screen.getAllByRole('article').flatMap((game) => within(game).queryAllByRole('link'))).toHaveLength(1)
+		expect(screen.getAllByRole('listitem').flatMap((game) => within(game).queryAllByRole('link'))).toHaveLength(1)
 		expect(screen.getByRole('heading', { name: 'Alias' })).toBeInTheDocument()
 	})
 
@@ -67,7 +67,7 @@ describe('Boardgames', () => {
 		expect(await screen.findByRole('alert')).toHaveTextContent('The games list didn’t load.')
 		await user.click(screen.getByRole('button', { name: 'Try again' }))
 
-		expect(await screen.findAllByRole('article')).toHaveLength(3)
+		expect(await screen.findAllByRole('listitem')).toHaveLength(3)
 		expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 		expect(screen.getByRole('searchbox', { name: 'Search games' })).toHaveFocus()
 	})
@@ -89,7 +89,7 @@ describe('Boardgames', () => {
 
 		await user.type(await screen.findByRole('searchbox', { name: 'Search games' }), 'ÁLIAS')
 
-		expect(screen.getAllByRole('article')).toHaveLength(1)
+		expect(screen.getAllByRole('listitem')).toHaveLength(1)
 		expect(screen.getByRole('heading', { name: 'Alias' })).toBeInTheDocument()
 		expect(screen.getAllByRole('heading', { level: 2 }).map((heading) => heading.textContent)).toEqual(['A'])
 		expect(screen.getByText('1 of 3 games')).toHaveAttribute('aria-live', 'polite')
@@ -103,13 +103,13 @@ describe('Boardgames', () => {
 		const search = await screen.findByRole('searchbox', { name: 'Search games' })
 		await user.type(search, 'chess')
 
-		expect(screen.queryAllByRole('article')).toHaveLength(0)
+		expect(screen.queryAllByRole('listitem')).toHaveLength(0)
 		expect(screen.getByText('No games match “chess”.')).toBeInTheDocument()
 		expect(screen.getByText('0 of 3 games')).toBeInTheDocument()
 
 		await user.clear(search)
 
-		expect(screen.getAllByRole('article')).toHaveLength(3)
+		expect(screen.getAllByRole('listitem')).toHaveLength(3)
 		expect(screen.getByText('3 games on my shelf')).toBeInTheDocument()
 	})
 
@@ -126,7 +126,7 @@ describe('Boardgames', () => {
 		const end = screen.getByText('End of the games list')
 		expect(skip).toHaveAttribute('href', `#${end.id}`)
 		expect(end).toHaveAttribute('tabindex', '-1')
-		expect(screen.getAllByRole('article').at(-1)?.compareDocumentPosition(end)).toBe(Node.DOCUMENT_POSITION_FOLLOWING)
+		expect(screen.getAllByRole('listitem').at(-1)?.compareDocumentPosition(end)).toBe(Node.DOCUMENT_POSITION_FOLLOWING)
 	})
 
 	it('has no skip link when nothing matches the search', async () => {

@@ -88,8 +88,6 @@ export const Boardgames = () => {
 						<p className={styles.count} aria-live="polite">
 							{isSearching ? `${found.length} of ${games.length} games` : `${games.length} games on my shelf`}
 						</p>
-						{/* Tabbing past every game takes well over a hundred presses, so keyboard users can jump to the end of the list
-						    in one. Shows only once focused, as the first stop after the search, beside the count. */}
 						{found.length > 0 ? (
 							<a className={styles.skip} href="#games-end">
 								Skip past the games list
@@ -101,39 +99,34 @@ export const Boardgames = () => {
 						<p className={styles.status}>No games match “{search.trim()}”.</p>
 					) : (
 						<>
-							<div className={styles.groups}>
-								{groupByLetter(found).map((group) => (
-									// A div, not a <section>, so the letters don't each become a landmark region; their headings are enough to move by.
-									<div key={group.letter} className={styles.group}>
-										<h2 id={`letter-${group.letter}`} className={styles.group__letter}>
-											{group.letter}
-										</h2>
-										<ul className={styles.list}>
-											{group.games.map((game) => (
-												<li key={game.title}>
-													<article>
-														<h3 className={styles.game__title} lang={game.titleLang}>
-															{game.link ? (
-																<ExternalLink className={styles.game__link} href={game.link}>
-																	{game.title}
-																</ExternalLink>
-															) : (
-																game.title
-															)}
-														</h3>
-														<p className={styles.game__meta}>
-															{game.isExpansion ? <span className={styles.tag}>Expansion</span> : game.players}
-															{game.isEstonian ? (
-																<span className={cx(styles.tag, styles['tag--language'])}>Estonian</span>
-															) : null}
-														</p>
-													</article>
-												</li>
-											))}
-										</ul>
-									</div>
-								))}
-							</div>
+							{groupByLetter(found).map((group) => (
+								<div key={group.letter} className={styles.group}>
+									<h2 className={styles.group__letter} aria-label={group.letter === '#' ? 'Numbers and symbols' : undefined}>
+										{group.letter}
+									</h2>
+									<ul className={styles.list}>
+										{group.games.map((game, index) => (
+											<li key={`${game.title}-${index}`}>
+												<h3 className={styles.game__title} lang={game.titleLang}>
+													{game.link ? (
+														<ExternalLink className={styles.game__link} href={game.link}>
+															{game.title}
+														</ExternalLink>
+													) : (
+														game.title
+													)}
+												</h3>
+												<p className={styles.game__meta}>
+													{game.isExpansion ? <span className={styles.tag}>Expansion</span> : game.players}
+													{game.isEstonian ? (
+														<span className={cx(styles.tag, styles['tag--language'])}>Estonian</span>
+													) : null}
+												</p>
+											</li>
+										))}
+									</ul>
+								</div>
+							))}
 							{/* Where the skip link lands. Focusable from script only, so the next Tab goes on to what follows the list,
 							    and a screen reader says where focus went. */}
 							<p id="games-end" className="screenreader-only" tabIndex={-1}>
