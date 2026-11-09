@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 import { PDFDocument } from 'pdf-lib'
 import { chromium } from 'playwright'
 
-import { CV_SECTIONS } from '../src/data/cv.ts'
+import { CV_SECTIONS, paragraphText } from '../src/data/cv.ts'
 
 type CvSection = (typeof CV_SECTIONS)[number]
 type CvEntry = CvSection['entries'][number]
@@ -54,7 +54,7 @@ const warnAboutStaleTrims = () => {
 	for (const title of Object.keys(SHORT_HIGHLIGHTS)) {
 		if (!roleTitles.has(title)) console.warn(`SHORT_HIGHLIGHTS has "${title}", but no such role exists in src/data/cv.ts.`)
 	}
-	const summaries = CV_SECTIONS.flatMap((s) => s.summary ?? [])
+	const summaries = CV_SECTIONS.flatMap((s) => (s.summary ?? []).map(paragraphText))
 	for (const { from } of SUMMARY_TRIMS) {
 		if (!summaries.some((text) => text.includes(from))) {
 			console.warn(`The summary trim "${from}" no longer matches any text in src/data/cv.ts.`)
@@ -292,7 +292,7 @@ const renderHtml = () => {
 		<main>
 			<section class="block">
 				${heading('01', profile.heading)}
-				${(profile.summary ?? []).map((p) => `<p class="summary">${escapeHtml(shortSummary(p))}</p>`).join('')}
+				${(profile.summary ?? []).map((p) => `<p class="summary">${escapeHtml(shortSummary(paragraphText(p)))}</p>`).join('')}
 			</section>
 			<section class="block">
 				${heading('02', 'Experience')}
@@ -321,11 +321,11 @@ const renderHtml = () => {
 			</section>
 			<section class="block">
 				${heading('05', languages.heading)}
-				<p class="item__text">${escapeHtml((languages.summary ?? []).join(' '))}</p>
+				<p class="item__text">${escapeHtml((languages.summary ?? []).map(paragraphText).join(' '))}</p>
 			</section>
 			<section class="block">
 				${heading('06', interests.heading)}
-				<p class="item__text">${escapeHtml((interests.summary ?? []).join(' '))}</p>
+				<p class="item__text">${escapeHtml((interests.summary ?? []).map(paragraphText).join(' '))}</p>
 			</section>
 		</aside>
 	</div>

@@ -1,40 +1,37 @@
-import type { ReactNode } from 'react'
 import { FiArrowRight } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 
 import { ExternalLink } from '../../components/ExternalLink'
 import { Krispi } from '../../components/Krispi'
 import { PageHeading } from '../../components/PageHeading'
-import type { CvSection } from '../../data/cv'
-import { CV_SECTIONS } from '../../data/cv'
+import type { CvLink, CvParagraph } from '../../data/cv'
+import { CV_SECTIONS, paragraphText } from '../../data/cv'
 import { useScrolledToBottom } from '../../hooks/useScrolledToBottom'
 import { usePageTitle } from '../../hooks/usePageTitle'
 
 import styles from './index.module.css'
 
-// Turns the section's link words in a paragraph into a link to that page, or to the other site in a new tab;
-// paragraphs without them stay plain text.
-const withLink = (paragraph: string, link?: CvSection['link']): ReactNode => {
-	const at = link ? paragraph.indexOf(link.text) : -1
-	if (!link || at === -1) return paragraph
-
-	return (
-		<>
-			{paragraph.slice(0, at)}
-			{'href' in link ? (
-				<ExternalLink className={styles.section__link} href={link.href}>
-					{link.text}
-				</ExternalLink>
-			) : (
-				<Link className={styles.section__link} to={link.to}>
-					{link.text}
-					<FiArrowRight className={styles['section__link-icon']} aria-hidden="true" />
-				</Link>
-			)}
-			{paragraph.slice(at + link.text.length)}
-		</>
+// A link in a paragraph: to a page on this site, or to the other site in a new tab.
+const SectionLink = ({ link }: { link: CvLink }) =>
+	'href' in link ? (
+		<ExternalLink className={styles.section__link} href={link.href}>
+			{link.text}
+		</ExternalLink>
+	) : (
+		<Link className={styles.section__link} to={link.to}>
+			{link.text}
+			<FiArrowRight className={styles['section__link-icon']} aria-hidden="true" />
+		</Link>
 	)
-}
+
+// A paragraph of text, with its links, if it has any, among the words.
+const SummaryParagraph = ({ paragraph }: { paragraph: CvParagraph }) => (
+	<p className={styles.section__summary}>
+		{typeof paragraph === 'string'
+			? paragraph
+			: paragraph.map((part, index) => (typeof part === 'string' ? part : <SectionLink key={index} link={part} />))}
+	</p>
+)
 
 export const About = () => {
 	usePageTitle('About')
@@ -49,15 +46,16 @@ export const About = () => {
 				</div>
 
 				{CV_SECTIONS.map((section) => {
+					// The summary that is also in the PDF, then the paragraphs only the site has.
+					const paragraphs = [...(section.summary ?? []), ...(section.webSummary ?? [])]
+
 					return (
 						<section key={section.id} className={styles.section}>
 							<span className={styles.section__number} aria-hidden="true" />
 							<h2 className={styles.section__heading}>{section.heading}</h2>
 							<div className={styles.section__body}>
-								{[...(section.summary ?? []), ...(section.webSummary ?? [])].map((paragraph) => (
-									<p key={paragraph} className={styles.section__summary}>
-										{withLink(paragraph, section.link)}
-									</p>
+								{paragraphs.map((paragraph) => (
+									<SummaryParagraph key={paragraphText(paragraph)} paragraph={paragraph} />
 								))}
 								{section.tags ? (
 									<ul className={styles.tags} aria-label="Skills">
