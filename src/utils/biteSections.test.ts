@@ -5,16 +5,24 @@ import type { A11yBite } from '../data/a11yBites'
 import { getBiteSections } from './biteSections'
 
 describe('getBiteSections', () => {
-	it('groups blocks under each top-level heading and numbers them after the bite', () => {
-		const blocks: A11yBite['content'] = [
-			{ type: 'heading', level: 2, text: 'What' },
-			{ type: 'paragraph', text: 'One' },
-			{ type: 'heading', level: 3, text: 'Detail' },
-			{ type: 'heading', level: 2, text: 'Common pitfalls' },
-			{ type: 'paragraph', text: 'Two' },
-		]
+	it('numbers the sections after the bite and keeps their blocks', () => {
+		const bite: A11yBite = {
+			number: 1,
+			title: 'Skip links',
+			summary: 'Summary',
+			sections: [
+				{
+					heading: 'What',
+					blocks: [
+						{ type: 'paragraph', text: 'One' },
+						{ type: 'heading', level: 3, text: 'Detail' },
+					],
+				},
+				{ heading: 'Common pitfalls', isIssues: true, blocks: [{ type: 'paragraph', text: 'Two' }] },
+			],
+		}
 
-		const sections = getBiteSections(blocks, 1)
+		const sections = getBiteSections(bite)
 
 		expect(sections).toHaveLength(2)
 		expect(sections[0]).toMatchObject({ heading: { id: 'bite-1-section-1', label: '1.1', text: 'What' }, isIssues: false })

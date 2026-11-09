@@ -8,22 +8,14 @@ export type BiteSection = {
 	blocks: Block[]
 }
 
-// Groups the blocks into sections, each starting at a top-level heading.
-export const getBiteSections = (blocks: A11yBite['content'], biteNumber: number): BiteSection[] => {
-	const sections: BiteSection[] = []
-
-	for (const block of blocks) {
-		if (block.type === 'heading' && block.level === 2) {
-			const number = sections.length + 1
-			sections.push({
-				heading: { id: `bite-${biteNumber}-section-${number}`, label: `${biteNumber}.${number}`, text: block.text },
-				isIssues: /common pitfalls/i.test(block.text),
-				blocks: [],
-			})
-		} else {
-			sections.at(-1)?.blocks.push(block)
-		}
-	}
-
-	return sections
-}
+// Gives each section of a bite the id and number its heading and contents link need.
+export const getBiteSections = ({ number: biteNumber, sections }: A11yBite): BiteSection[] =>
+	sections.map((section, index) => ({
+		heading: {
+			id: `bite-${biteNumber}-section-${index + 1}`,
+			label: `${biteNumber}.${index + 1}`,
+			text: section.heading,
+		},
+		isIssues: section.isIssues ?? false,
+		blocks: section.blocks,
+	}))

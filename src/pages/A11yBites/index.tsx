@@ -111,7 +111,7 @@ export const A11yBites = () => {
 						const buttonId = `bite-${bite.number}-button`
 						const panelId = `bite-${bite.number}-panel`
 						const summaryId = `bite-${bite.number}-summary`
-						const sections = isShown ? getBiteSections(bite.content, bite.number) : []
+						const sections = isShown ? getBiteSections(bite) : []
 						const headings = sections.map((section) => section.heading)
 
 						return (
