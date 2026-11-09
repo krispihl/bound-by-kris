@@ -68,16 +68,14 @@ export const Krispi = ({ pose = 'idle', glances = false, className }: KrispiProp
 		}
 	}
 
-	const classes = [
+	const classes = cx(
 		styles.krispi,
 		POSE_CLASSES[pose],
 		glances && styles['krispi--glance'],
 		isRevealed && styles['krispi--revealed'],
 		isLeaving && styles['krispi--leaving'],
-		className,
-	]
-		.filter(Boolean)
-		.join(' ')
+		className
+	)
 
 	return (
 		<span ref={ref} className={classes}>

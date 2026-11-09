@@ -526,6 +526,29 @@
 	}
 }
 
+/* The same pull on narrower windows, hanging upside down from the top of the window instead of from its side, which the
+   content reaches too closely there. The pose is turned half way around its edge line: 0 puts that line on the window's
+   top edge, and one body height (100% of its own height) further up tucks it away above it. */
+@keyframes peek-top {
+	from {
+		--krispi-reach: 0;
+
+		transform: translateX(-50%) translateY(calc(-1 * var(--krispi-edge) - 100%)) rotate(180deg);
+	}
+
+	30% {
+		--krispi-reach: calc(var(--krispi-size) * 1.6);
+
+		transform: translateX(-50%) translateY(calc(-1 * var(--krispi-edge) - 100%)) rotate(180deg);
+	}
+
+	to {
+		--krispi-reach: 0;
+
+		transform: translateX(-50%) translateY(calc(-1 * var(--krispi-edge))) rotate(180deg);
+	}
+}
+
 .peek {
 	display: none;
 }
@@ -560,6 +583,32 @@
 			&:focus-within {
 				animation: none;
 				transform: translateX(-50%) rotate(90deg);
+			}
+
+			@mixin mobile-and-tablet {
+				/* Turned half way round, Krispi's own right and up point left and down on screen. */
+				--krispi-shadow-x: -0.5;
+				--krispi-shadow-y: -1;
+				--krispi-turn: 180deg;
+				/* The head's corner that ends up bottom right on screen: the top right is off the window. */
+				--krispi-corner-left: -25%;
+				--krispi-corner-top: -15%;
+
+				top: 0;
+				left: 50%;
+				/* Over the header bar it hangs from, which is a layer of its own. */
+				z-index: calc(var(--z-header) + 1);
+				transform: translateX(-50%) translateY(calc(-1 * var(--krispi-edge) - 100%)) rotate(180deg);
+				animation-name: peek-top;
+
+				&:focus-within {
+					transform: translateX(-50%) translateY(calc(-1 * var(--krispi-edge))) rotate(180deg);
+				}
+
+				/* The open menu covers the whole window, but is part of the header's layer, so Krispi would be above it. */
+				:root:has([aria-controls='site-menu'][aria-expanded='true']) & {
+					visibility: hidden;
+				}
 			}
 		}
 	}

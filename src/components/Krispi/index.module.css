@@ -274,7 +274,6 @@
 	gap: 0 calc(var(--size) * 0.08);
 	width: 80%;
 	transform: translateX(-50%);
-	transition: transform 0.3s ease;
 }
 
 /* A white eyeball with a dark pupil and a glint, blinking every few seconds. */
@@ -579,7 +578,6 @@
 		animation: none;
 	}
 
-	.krispi__face,
 	.krispi__eye::before,
 	.krispi__eye::after,
 	.krispi__mouth,
