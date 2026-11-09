@@ -36,9 +36,9 @@ export const Boardgames = () => {
 
 	return (
 		<div className={styles.page}>
-			<header className={styles.page__header}>
+			<div className={styles.page__header}>
 				<PageHeading className={styles.page__title}>Board games</PageHeading>
-			</header>
+			</div>
 
 			{/* Always in the page and empty until there is something to say. */}
 			<div role="status" className="visually-hidden">

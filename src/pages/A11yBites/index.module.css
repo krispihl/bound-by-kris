@@ -76,7 +76,7 @@
 	cursor: pointer;
 	transition: color 0.2s ease;
 
-	/* Stretch the click area over the whole row; summary and badge sit underneath. */
+	/* Stretch the click area over the whole row; summary and number box sit underneath. */
 	&::after {
 		content: '';
 		position: absolute;
@@ -113,7 +113,7 @@
 	text-align: center;
 	text-box: trim-both cap alphabetic;
 	border: 1px solid var(--color-border);
-	/* The border sits outside the 1.5rem, as the badge was drawn. */
+	/* The border sits outside the 1.5rem, as the number box was drawn. */
 	box-sizing: content-box;
 	background: var(--color-bg);
 	color: var(--color-label);
@@ -133,7 +133,7 @@
 }
 
 .row__summary {
-	/* On narrow screens the intro and the open bite start under the badge, so they get the full width. */
+	/* On narrow screens the intro and the open bite start under the number box, so they get the full width. */
 	grid-column: 1 / -1;
 	grid-row: 2;
 	margin: 0.5rem 0 0;
@@ -334,7 +334,7 @@
 	line-height: 1.5;
 }
 
-/* On desktop, three columns: the titles right-aligned on the left, the number badges on a vertical rule, the text on
+/* On desktop, three columns: the titles right-aligned on the left, the number boxes on a vertical rule, the text on
    the right. Mobile and tablet keep the one-column layout above. */
 @mixin desktop-only {
 	/* Same columns as the rows: the title right-aligned against the rule, the intro starting after it. */
@@ -355,8 +355,9 @@
 		grid-column: 3;
 	}
 
-	/* The vertical rule running through the number badges, and its highlighted stretch, shown while a row is open. Both
-	   run through the centre of the number column: a third of the free width, plus the first gap and half the badge. */
+	/* The vertical rule running through the number boxes, and its highlighted stretch, shown while a row is open. Both
+	   run through the centre of the number column: a third of the free width, plus the first gap and half the number
+	   box. */
 	.list::before,
 	.row::after {
 		content: '';
@@ -562,9 +563,9 @@
 	}
 }
 
-/* Forced colors (e.g. Windows Contrast Themes) clear backgrounds, which is how the rule, the open bite's line and badge, the intro's
-   closing rule and the link bars are drawn, so they use the theme's own colours instead: text colour for the lines,
-   highlight for what's open or hovered. */
+/* Forced colors (e.g. Windows Contrast Themes) clear backgrounds, which is how the rule, the open bite's line and number
+   box, the intro's closing rule and the link bars are drawn, so they use the theme's own colours instead: text colour
+   for the lines, highlight for what's open or hovered. */
 @media (forced-colors: active) {
 	.list::before,
 	.row--open .row__summary::after {

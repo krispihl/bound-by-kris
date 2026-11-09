@@ -53,7 +53,7 @@ export const A11yBites = () => {
 	return (
 		<>
 			<div className={styles.page}>
-				<header className={styles.page__header}>
+				<div className={styles.page__header}>
 					<PageHeading className={styles.page__title}>a11y bites</PageHeading>
 					<p className={styles.page__intro}>
 						Bite-sized accessibility lessons I initially made for my team.
@@ -62,7 +62,7 @@ export const A11yBites = () => {
 						<br />
 						Click one to read it.
 					</p>
-				</header>
+				</div>
 
 				<ul ref={listRef} className={styles.list}>
 					{A11Y_BITES.map((bite) => {

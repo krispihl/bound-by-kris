@@ -43,20 +43,16 @@ export const About = () => {
 	return (
 		<>
 			<div className={styles.page}>
-				<header className={styles.page__header}>
+				<div className={styles.page__header}>
 					<PageHeading className={styles.page__title}>About</PageHeading>
 					<p className={styles.page__intro}>Overview of my background and skills.</p>
-				</header>
+				</div>
 
 				{CV_SECTIONS.map((section) => {
-					const headingId = `about-${section.id}`
-
 					return (
-						<section key={section.id} className={styles.section} aria-labelledby={headingId}>
+						<section key={section.id} className={styles.section}>
 							<span className={styles.section__number} aria-hidden="true" />
-							<h2 id={headingId} className={styles.section__heading}>
-								{section.heading}
-							</h2>
+							<h2 className={styles.section__heading}>{section.heading}</h2>
 							<div className={styles.section__body}>
 								{[...(section.summary ?? []), ...(section.webSummary ?? [])].map((paragraph) => (
 									<p key={paragraph} className={styles.section__summary}>
@@ -82,29 +78,32 @@ export const About = () => {
 											) : (
 												<li key={entry.title} className={styles.entry}>
 													<div className={styles.entry__head}>
-														<div className={styles.entry__text}>
-															<h3 className={styles.entry__title}>{entry.title}</h3>
-															{entry.detail ? <p className={styles.entry__detail}>{entry.detail}</p> : null}
-															{entry.steps ? (
-																<ol className={styles.entry__steps}>
-																	{entry.steps.map((step) => (
-																		<li
-																			key={step.title}
-																			className={`${styles.step}${step.current ? ` ${styles['step--current']}` : ''}`}
-																		>
-																			<span className={styles.step__title}>{step.title}</span>
-																			{step.period ? (
-																				<span className={styles.step__period}>{step.period}</span>
-																			) : null}
-																			{step.detail ? (
-																				<span className={styles.step__detail}>{step.detail}</span>
-																			) : null}
-																		</li>
-																	))}
-																</ol>
-															) : null}
-														</div>
+														<h3 className={styles.entry__title}>{entry.title}</h3>
 														{entry.period ? <p className={styles.entry__period}>{entry.period}</p> : null}
+														{entry.detail ? <p className={styles.entry__detail}>{entry.detail}</p> : null}
+														{entry.steps ? (
+															<ol className={styles.entry__steps}>
+																{entry.steps.map((step) => (
+																	<li
+																		key={step.title}
+																		className={`${styles.step}${step.current ? ` ${styles['step--current']}` : ''}`}
+																	>
+																		<span className={styles.step__title}>
+																			{step.title}
+																			{step.current ? (
+																				<span className="visually-hidden"> (current role)</span>
+																			) : null}
+																		</span>
+																		{step.period ? (
+																			<span className={styles.step__period}>{step.period}</span>
+																		) : null}
+																		{step.detail ? (
+																			<span className={styles.step__detail}>{step.detail}</span>
+																		) : null}
+																	</li>
+																))}
+															</ol>
+														) : null}
 													</div>
 													{entry.roles ? (
 														<ul className={styles.roles}>
@@ -142,12 +141,12 @@ export const About = () => {
 					)
 				})}
 
-				<footer className={styles.page__footer}>
+				<div className={styles.page__footer}>
 					{/* A plain link, not a router one, so the browser opens the PDF in its own viewer with download and print. */}
 					<ExternalLink className={styles.page__cv} href="/kristina-pihl-cv.pdf">
 						Printable CV (PDF)
 					</ExternalLink>
-				</footer>
+				</div>
 			</div>
 			{/* Outside the page, whose container query would otherwise pin this fixed element to the page instead of the window. */}
 			<Krispi glances className={`${styles.peek}${atBottom ? ` ${styles['peek--up']}` : ''}`} />

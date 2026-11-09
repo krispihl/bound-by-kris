@@ -5,9 +5,12 @@
 	/* For the headings sized from the page width (cqi). */
 	container-type: inline-size;
 	counter-reset: section;
+	/* The number box's column, and the space between the columns on desktop (see below). */
+	--number-column: 2.25rem;
+	--column-gap: 1.5rem;
 }
 
-/* On mobile and tablet the title has a row of its own, with the intro below it, like on the a11y bites page. */
+/* On mobile and tablet the title has a row of its own, with the intro below it */
 .page__header {
 	display: flex;
 	flex-direction: column;
@@ -22,20 +25,17 @@
 	line-height: 1.05;
 }
 
-/* No max-width: the short intro stays on one row wherever there is room, and wraps only on narrow screens. */
 .page__intro {
 	margin: 0;
 	color: var(--color-text-muted);
 }
 
-/* Closes the page after the last section, lined up with the section text. */
 .page__footer {
+	/* Lined up with the section text. */
 	padding: 2rem 0 0;
 }
 
-/* Changes colour on hover like the menu toggle. */
 .page__cv {
-	/* A 44px tall target (WCAG AAA), with the text where it was. */
 	position: relative;
 	display: inline-block;
 	margin-block: -0.75rem;
@@ -49,40 +49,27 @@
 	&:hover {
 		color: var(--color-accent-text);
 	}
-
-	/* The focus ring goes round the text rather than the padding, which would bring it out over the text nearby. */
-	&:focus-visible {
-		outline: none;
-	}
-
-	&:focus-visible::before {
-		content: '';
-		position: absolute;
-		inset: 0.75rem 0;
-		outline: var(--focus-width) solid var(--color-focus);
-		outline-offset: 0.25rem;
-	}
 }
 
-/* Laid out like the a11y bites rows: a number badge with the heading beside it and the entries below, starting under
-   the badge so they get the full width. On wide screens the badges sit on a vertical rule between the two. */
+/* Layout with a number box, heading beside it and the entries below, starting under the number box so they get the full
+   width. On wide screens the number boxes sit on a vertical rule between the two. */
 .section {
 	position: relative;
 	display: grid;
-	grid-template-columns: 2.25rem minmax(0, 1fr);
+	grid-template-columns: var(--number-column) minmax(0, 1fr);
 	align-items: center;
 	gap: 0.5rem 1rem;
 	padding: 1.5rem 0;
-	border-top: 1px solid var(--color-border);
+	border-top: 0.0625rem solid var(--color-border);
 	counter-increment: section;
 
 	&:last-of-type {
-		border-bottom: 1px solid var(--color-border);
+		border-bottom: 0.0625rem solid var(--color-border);
 	}
 }
 
 /* Decorative: the number only echoes the order the headings already have. Named as an anchor, so Krispi can line up
-   with the rule it sits on (several badges share the name, and the last one wins). */
+   with the rule it sits on (several number boxes share the name, and the last one wins). */
 .section__number {
 	anchor-name: --section-number;
 	position: relative;
@@ -93,8 +80,8 @@
 	align-items: center;
 	justify-content: center;
 	height: 1.5rem;
-	border: 1px solid var(--color-border);
-	/* The border sits outside the 1.5rem, as the badge was drawn. */
+	border: 0.0625rem solid var(--color-border);
+	/* The border sits outside the 1.5rem, as the number box was drawn. */
 	box-sizing: content-box;
 	background: var(--color-bg);
 	color: var(--color-label);
@@ -109,8 +96,6 @@
 	}
 
 	.section:hover & {
-		/* The strong line colour, which is the fill's navy on the light page and edges the navy, which barely stands out
-		   from the dark page, in lavender on the dark one. */
 		border-color: var(--color-border-strong);
 		background: var(--color-fill);
 		color: var(--color-on-fill);
@@ -128,13 +113,11 @@
 	color: var(--color-text-muted);
 	transition: color 0.2s ease;
 
-	/* Like the bites titles: muted at rest, fuchsia while the section is hovered. */
 	.section:hover & {
 		color: var(--color-accent);
 	}
 }
 
-/* Holds the summary, tags and entries: below the heading on narrow screens, after the centre line on wide ones. */
 .section__body {
 	grid-column: 1 / -1;
 	grid-row: 2;
@@ -202,7 +185,6 @@
 	list-style: none;
 }
 
-/* Same chip look as the role key results: a coloured edge on a faint tint. */
 .tag {
 	padding: 0.25rem 0.75rem;
 	border-left: 0.1875rem solid var(--color-chip-edge);
@@ -219,7 +201,8 @@
 	list-style: none;
 }
 
-/* Narrow screens stack the years under the entry; wide ones put them beside it. */
+/* Narrow screens put the years right after the title, on the same line when they fit; wide ones push them to the far
+   side of the entry. */
 .entry {
 	padding: 0.5rem 0 1rem;
 
@@ -230,11 +213,17 @@
 
 .entry__head {
 	display: flex;
-	flex-direction: column;
-	gap: 0.25rem 2rem;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0 0.75rem;
 }
 
-/* The highlights of a longer entry, grouped by role. */
+/* The detail and the timeline take a row of their own below the title and the years. */
+.entry__detail,
+.entry__steps {
+	flex-basis: 100%;
+}
+
 .roles {
 	display: flex;
 	flex-direction: column;
@@ -244,7 +233,6 @@
 	list-style: none;
 }
 
-/* Each role sits on its own light card, so roles separate by surface rather than by divider lines. */
 .role {
 	padding: 1.25rem 1rem;
 	border-radius: var(--radius-card);
@@ -258,7 +246,7 @@
 	line-height: 1.4;
 }
 
-/* Key results: small tinted chips with a coloured edge, so they stand out before the reader gets to the text. */
+/* Small tinted chips with a coloured edge */
 .stats {
 	display: flex;
 	flex-wrap: wrap;
@@ -278,7 +266,6 @@
 	line-height: 1.6;
 }
 
-/* Each highlight leads with a bold label on its own line, kept to a readable line length. */
 .highlights {
 	max-width: 75ch;
 	margin: 1.25rem 0 0;
@@ -307,7 +294,7 @@
 	line-height: 1.6;
 }
 
-/* A sidenote closing a list: small, muted and italic, so it reads as an aside rather than another item. */
+/* A sidenote closing a list */
 .note {
 	padding-top: 0.5rem;
 	color: var(--color-text-muted);
@@ -408,9 +395,18 @@
 	white-space: nowrap;
 }
 
-/* On desktop, the same split as the bites: a third for the headings, right-aligned against the rule, and two thirds for
-   the entries. Mobile and tablet keep the one-column layout above. */
+/* On desktop a third for the headings, right-aligned against the rule, and two thirds for the entries. */
 @mixin desktop-only {
+	.page {
+		/* The headings, the number box and the text. */
+		--columns: minmax(0, 1fr) var(--number-column) minmax(0, 2fr);
+		/* Where the vertical rule runs, through the middle of the number boxes: a third of the free width (what the number
+		   box and the two gaps leave), plus the first gap and half the number box. */
+		--rule-x: calc((100% - var(--number-column) - 2 * var(--column-gap)) / 3 + var(--column-gap) + var(--number-column) / 2);
+		/* The first line of an entry's title (see .entry__title), which the first entry is centred on. */
+		--entry-title-height: calc(1.125rem * 1.4);
+	}
+
 	.role {
 		padding: 1.5rem 1.75rem;
 	}
@@ -418,8 +414,8 @@
 	/* Same columns as the sections: the title right-aligned against the rule, the intro starting after it. */
 	.page__header {
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) 2.25rem minmax(0, 2fr);
-		column-gap: 1.5rem;
+		grid-template-columns: var(--columns);
+		column-gap: var(--column-gap);
 		align-items: last baseline;
 	}
 
@@ -430,8 +426,8 @@
 
 	.page__footer {
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) 2.25rem minmax(0, 2fr);
-		column-gap: 1.5rem;
+		grid-template-columns: var(--columns);
+		column-gap: var(--column-gap);
 		padding-left: 0;
 	}
 
@@ -448,13 +444,13 @@
 	.section {
 		--title-row-height: 3rem;
 
-		grid-template-columns: minmax(0, 1fr) 2.25rem minmax(0, 2fr);
+		grid-template-columns: var(--columns);
 		align-items: start;
-		column-gap: 1.5rem;
+		column-gap: var(--column-gap);
 		padding: 2.5rem 0;
-		/* The vertical rule, drawn behind the badge through the centre of the number column (a third of the free width,
-		   plus the first gap and half the badge); the sections stack, so it runs unbroken down the page. */
-		background: linear-gradient(var(--color-border), var(--color-border)) calc((100% - 5.25rem) / 3 + 2.625rem) 0 / 1px 100% no-repeat;
+		/* The vertical rule, drawn behind the number box through the centre of the number column; the sections stack, so it
+		   runs unbroken down the page. */
+		background: linear-gradient(var(--color-border), var(--color-border)) var(--rule-x) 0 / 0.0625rem 100% no-repeat;
 
 		/* The highlighted rule, drawn from the top while the section is hovered. */
 		&::after {
@@ -462,8 +458,8 @@
 			position: absolute;
 			top: 0;
 			bottom: 0;
-			left: calc((100% - 5.25rem) / 3 + 2.625rem);
-			width: 1px;
+			left: var(--rule-x);
+			width: 0.0625rem;
 			background: var(--color-border-strong);
 			transform: scaleY(0);
 			transform-origin: top;
@@ -495,23 +491,29 @@
 		grid-row: 1;
 	}
 
-	/* The first line of the body, a paragraph or an entry title, is centred in the title row, level with the badge. */
+	/* The first line of the body, a paragraph or an entry title, is centred in the title row, level with the number
+	   box. */
 	.section__summary:first-child {
-		margin-top: calc((var(--title-row-height) - 1.7rem) / 2);
+		margin-top: calc((var(--title-row-height) - 1lh) / 2);
 	}
 
 	.entry {
 		padding-top: 0.25rem;
 
 		&:first-child {
-			padding-top: calc((var(--title-row-height) - 1.575rem) / 2);
+			padding-top: calc((var(--title-row-height) - var(--entry-title-height)) / 2);
 		}
 	}
 
 	.entry__head {
-		flex-direction: row;
-		align-items: baseline;
-		justify-content: space-between;
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		column-gap: 2rem;
+	}
+
+	.entry__detail,
+	.entry__steps {
+		grid-column: 1;
 	}
 }
 
@@ -531,7 +533,7 @@
 
 		position: fixed;
 		bottom: 0;
-		/* Centred on the rule, which runs through the middle of the number badges. */
+		/* Centred on the rule, which runs through the middle of the number boxes. */
 		left: calc(anchor(--section-number center) - var(--krispi-size) / 2);
 		z-index: var(--z-krispi);
 		display: block;
@@ -575,9 +577,9 @@
 	}
 }
 
-/* Forced colors (e.g. Windows Contrast Themes) clear backgrounds, which is how the rule, its highlight, the hovered badge, the link bars
-   and the timeline are drawn, so they use the theme's own colours instead: text colour for the lines, highlight for
-   what's hovered or current. The rule is drawn by the highlight's element, at full height, since the sections'
+/* Forced colors clear backgrounds, which is how the rule, its highlight, the hovered
+   number box, the link bars and the timeline are drawn, so they use the theme's own colours instead: text colour for
+   the lines, highlight for what's hovered or current. The rule is drawn by the highlight's element, at full height, since the sections'
    background can't be kept without keeping the colours of everything in them. */
 @media (forced-colors: active) {
 	.section::after {

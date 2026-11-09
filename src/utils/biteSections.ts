@@ -9,7 +9,7 @@ export type BiteSection = {
 	blocks: Block[]
 }
 
-// The bite headings start with an emoji (🎯, ❓, 🚨, 💡); the page shows a number badge instead.
+// The bite headings start with an emoji (🎯, ❓, 🚨, 💡); the page shows a number box instead.
 const LEADING_EMOJI = /^\p{Extended_Pictographic}️?\s*/u
 
 export const stripLeadingEmoji = (text: string) => text.replace(LEADING_EMOJI, '')

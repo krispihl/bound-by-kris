@@ -40,10 +40,13 @@ const SHORT_HIGHLIGHTS: Record<string, string[]> = {
 	'Design System': ['Major contributor to the shared library of accessible components, working with designers from the start.'],
 }
 
-// Paper-only trims of the profile text, so no paragraph ends on a word alone on its own line.
-const SUMMARY_TRIM = { from: 'coordinated different teams', to: 'coordinated teams' }
+// Paper-only trims of the profile text, so no paragraph ends on a word alone on its own line and the CV stays on one page.
+const SUMMARY_TRIMS = [
+	{ from: 'coordinated different teams', to: 'coordinated teams' },
+	{ from: 'During the last 2 years', to: 'In the last 2 years' },
+]
 
-const shortSummary = (text: string) => text.replace(SUMMARY_TRIM.from, SUMMARY_TRIM.to)
+const shortSummary = (text: string) => SUMMARY_TRIMS.reduce((short, { from, to }) => short.replace(from, to), text)
 
 // The trims above match the CV data by text, so say so when they stop matching instead of silently printing the long version.
 const warnAboutStaleTrims = () => {
@@ -52,8 +55,10 @@ const warnAboutStaleTrims = () => {
 		if (!roleTitles.has(title)) console.warn(`SHORT_HIGHLIGHTS has "${title}", but no such role exists in src/data/cv.ts.`)
 	}
 	const summaries = CV_SECTIONS.flatMap((s) => s.summary ?? [])
-	if (!summaries.some((text) => text.includes(SUMMARY_TRIM.from))) {
-		console.warn(`The summary trim "${SUMMARY_TRIM.from}" no longer matches any text in src/data/cv.ts.`)
+	for (const { from } of SUMMARY_TRIMS) {
+		if (!summaries.some((text) => text.includes(from))) {
+			console.warn(`The summary trim "${from}" no longer matches any text in src/data/cv.ts.`)
+		}
 	}
 }
 

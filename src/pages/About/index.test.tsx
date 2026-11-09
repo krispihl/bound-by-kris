@@ -13,20 +13,42 @@ const renderAbout = () =>
 		</MemoryRouter>
 	)
 
+// The sections are plain <section>s, with no landmark of their own, so each is found by its heading.
+const getSection = (heading: string) => {
+	const section = screen.getByRole('heading', { level: 2, name: heading }).closest('section')
+	if (!section) throw new Error(`No section for ${heading}`)
+
+	return section
+}
+
 describe('About', () => {
-	it('renders the page heading and a labelled section for each part of the CV', () => {
+	it('renders the page heading and a section with a heading for each part of the CV', () => {
 		renderAbout()
 
 		expect(screen.getByRole('heading', { level: 1, name: 'About' })).toBeInTheDocument()
 		CV_SECTIONS.forEach((section) => {
-			expect(screen.getByRole('region', { name: section.heading })).toBeInTheDocument()
+			expect(getSection(section.heading)).toBeInTheDocument()
 		})
+	})
+
+	it('does not make every section a landmark', () => {
+		renderAbout()
+
+		expect(screen.queryAllByRole('region')).toHaveLength(0)
+	})
+
+	it('says which role in the timeline is the current one', () => {
+		renderAbout()
+
+		// Only one step is marked, and the mark is inside that step's own list item.
+		const marker = within(getSection('Work')).getByText(/\(current role\)/)
+		expect(marker.closest('li')).toHaveTextContent(/Software Engineer\s*\(current role\)/)
 	})
 
 	it('lists the work entries with their periods', () => {
 		renderAbout()
 
-		const work = screen.getByRole('region', { name: 'Work' })
+		const work = getSection('Work')
 		expect(within(work).getByRole('heading', { level: 3, name: 'Pipedrive' })).toBeInTheDocument()
 		expect(within(work).getByText('2018 – 2026')).toBeInTheDocument()
 	})
@@ -34,7 +56,7 @@ describe('About', () => {
 	it('lists the highlights of each Pipedrive role', () => {
 		renderAbout()
 
-		const work = screen.getByRole('region', { name: 'Work' })
+		const work = getSection('Work')
 		expect(within(work).getByRole('heading', { level: 4, name: 'Accessibility Mission Lead & Engineer' })).toBeInTheDocument()
 		expect(within(work).getByRole('heading', { level: 4, name: 'Design System' })).toBeInTheDocument()
 	})
@@ -62,7 +84,7 @@ describe('About', () => {
 	it('links board games in the interests to the board games page', () => {
 		renderAbout()
 
-		const interests = screen.getByRole('region', { name: 'Interests' })
+		const interests = getSection('Interests')
 		expect(within(interests).getByRole('link', { name: 'board games' })).toHaveAttribute('href', '/boardgames')
 		expect(interests).toHaveTextContent('Cycling, bikepacking, motorcycle touring, snowboarding, running, swimming, reading, board games')
 	})
@@ -70,7 +92,7 @@ describe('About', () => {
 	it('links to the LinkedIn recommendations from the profile, opening them in a new tab', () => {
 		renderAbout()
 
-		const profile = screen.getByRole('region', { name: 'Profile' })
+		const profile = getSection('Profile')
 		const link = within(profile).getByRole('link', { name: /^LinkedIn recommendations\s*\(opens in a new tab\)$/ })
 		expect(link).toHaveAttribute('href', 'https://www.linkedin.com/in/kristina-pihl-97461a10a/details/recommendations/')
 		expect(link).toHaveAttribute('target', '_blank')

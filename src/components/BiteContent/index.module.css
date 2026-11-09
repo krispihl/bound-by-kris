@@ -66,7 +66,7 @@
 	scroll-margin-top: 2rem;
 }
 
-/* Same mono number badge as the bite rows, centred on its digits the same way. */
+/* Same mono number box as the bite rows, centred on its digits the same way. */
 .heading__badge {
 	display: block;
 	flex-shrink: 0;

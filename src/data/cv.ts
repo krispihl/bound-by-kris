@@ -52,7 +52,7 @@ export const CV_SECTIONS: CvSection[] = [
 		heading: 'Profile',
 		summary: [
 			"I'm a front-end engineer with full-stack experience, who has spent 8 years working on a high-traffic SaaS public web platform. My main focus was public website, signup, CMS and our shared component library, where I was one of the main contributors.",
-			"During last 2 years I led Pipedrive's public-web accessibility initiative through two mission-scale efforts. I scoped them, made the business case, prioritized WCAG audit findings, coordinated different teams and shipped many of the fixes myself.",
+			"During the last 2 years I led Pipedrive's public-web accessibility initiative through two mission-scale efforts. I scoped them, made the business case, prioritized WCAG audit findings, coordinated different teams and shipped many of the fixes myself.",
 			'I also led the engineering side of web experimentation and was voted "Experimenter of the Year" in a company-wide vote.',
 		],
 		webSummary: ['Read what colleagues say about working with me in my LinkedIn recommendations.'],

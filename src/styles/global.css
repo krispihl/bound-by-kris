@@ -124,7 +124,7 @@ html {
 	--color-border-strong: light-dark(var(--navy-electric), var(--neon-indigo));
 	/* The small mono labels: counts, numbers, field labels and list titles. */
 	--color-label: light-dark(var(--navy-electric), var(--soft-lavender));
-	/* A solid block of colour, such as the open menu or a highlighted number badge, with the text that goes on it and the
+	/* A solid block of colour, such as the open menu or a highlighted number box, with the text that goes on it and the
 	   focus ring that shows against it (gold alone would not reach 3:1 against the page background, but does on navy).
 	   The dark page takes a softened, darker navy, which keeps the menu's rose current page at 6:1; a lighter purple
 	   would take it below 3:1. The text on it stays light, so in the dark theme it's plain white rather than the page's
@@ -160,7 +160,7 @@ html {
 	   page leaves between the bar and its first text, so it doesn't dim anything at the top of the page. */
 	--header-fade: 1.25rem;
 
-	/* Stacking layers, lowest first. Local z-index values of 1 (a badge above its neighbour) stay where they are. */
+	/* Stacking layers, lowest first. Local z-index values of 1 (a number box above its neighbour) stay where they are. */
 	--z-krispi: 5;
 	--z-header: 10;
 	--z-cursor: 30;
