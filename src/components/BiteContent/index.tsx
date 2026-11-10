@@ -21,26 +21,36 @@ const List = ({ list }: { list: ListBlock }) => {
 	)
 }
 
+// A point numbered in its text ("1. The Unique Label Rule", also inside bold), whose number gets the accent colour of the
+// numbers in the ordered lists, so every numbered point looks the same.
+const NUMBER_PATTERN = /^(\*\*)?(\d{1,2}\.)\s+/
+
+const NumberedText = ({ text }: { text: string }) => {
+	const match = NUMBER_PATTERN.exec(text)
+	if (!match) {
+		return <RichText text={text} />
+	}
+
+	return (
+		<>
+			<span className={styles.number}>{match[2]}</span> <RichText text={`${match[1] ?? ''}${text.slice(match[0].length)}`} />
+		</>
+	)
+}
+
 const BlockView = ({ block }: { block: Block }) => {
 	switch (block.type) {
 		case 'heading':
 			return (
 				<h4 className={styles.subheading}>
-					<RichText text={block.text} />
+					<NumberedText text={block.text} />
 				</h4>
 			)
 		case 'paragraph':
 			return (
 				<p>
-					<RichText text={block.text} />
+					<NumberedText text={block.text} />
 				</p>
-			)
-		case 'callout':
-			return (
-				// A note rather than an <aside>: outside a <section>, an <aside> is a complementary landmark of its own.
-				<div className={styles.callout} role="note">
-					<RichText text={block.text} />
-				</div>
 			)
 		case 'quote':
 			return (
@@ -53,12 +63,18 @@ const BlockView = ({ block }: { block: Block }) => {
 			)
 		case 'code':
 			return (
-				// Focusable so a keyboard can scroll code wider than the page
-				// and named so it says why when focused, as the table below is.
-				// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-				<pre className={styles.code} tabIndex={0} role="group" aria-label="Code example, scrollable">
-					<code>{block.code}</code>
-				</pre>
+				<div className={styles.example}>
+					{/* The pre's name starts with this word, so a screen reader doesn't need to read it twice. */}
+					<p className={styles.example__label} aria-hidden="true">
+						Example
+					</p>
+					{/* Focusable so a keyboard can scroll code wider than the page
+					    and named so it says why when focused, as the table below is. */}
+					{/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
+					<pre className={styles.code} tabIndex={0} role="group" aria-label="Example code, scrollable">
+						<code>{block.code}</code>
+					</pre>
+				</div>
 			)
 		case 'table':
 			return (

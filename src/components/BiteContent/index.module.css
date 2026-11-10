@@ -48,7 +48,6 @@
 			scroll-margin-top: 3.5rem;
 		}
 
-		& .callout,
 		& th {
 			background: var(--color-bg);
 		}
@@ -88,6 +87,12 @@
 	font-size: 1.125rem;
 }
 
+/* The number of a point numbered in its text, in the same colour as an ordered list's. */
+.number {
+	color: var(--color-accent);
+	font-weight: 700;
+}
+
 .list {
 	padding-left: 1.25rem;
 
@@ -107,12 +112,6 @@
 	& .list {
 		margin-top: 0.5rem;
 	}
-}
-
-.callout {
-	padding: 1rem 1.25rem;
-	border-left: 0.25rem solid var(--color-accent);
-	background: var(--color-surface);
 }
 
 /* A figure, so the author can sit in a figcaption outside the quoted words. */
@@ -138,6 +137,20 @@
 	font-weight: 700;
 }
 
+/* A code example with its label, set apart from the text above and below it. */
+.example {
+	margin-block: 1.5rem;
+}
+
+.example__label {
+	margin: 0 0 0.5rem;
+	color: var(--color-label);
+	font-family: var(--font-mono);
+	font-size: 0.75rem;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+
 .code {
 	margin-block: 0;
 	padding: 1rem;
@@ -147,7 +160,8 @@
 	border-radius: 0.25rem;
 	background: var(--color-code);
 	color: var(--color-text);
-	font-size: 0.875rem;
+	/* A little under the text around it, like the inline code. */
+	font-size: 0.8125rem;
 	line-height: 1.5;
 
 	& code {
@@ -193,9 +207,5 @@
 @container (min-width: 40rem) {
 	.heading {
 		font-size: 1.5rem;
-	}
-
-	.code {
-		font-size: 0.9375rem;
 	}
 }

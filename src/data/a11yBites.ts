@@ -13,7 +13,6 @@ export type Block =
 	| { type: 'heading'; level: 3; text: string }
 	| { type: 'paragraph'; text: string }
 	| { type: 'quote'; quote: string; author: string }
-	| { type: 'callout'; text: string }
 	| { type: 'code'; code: string }
 	| { type: 'table'; header: string[]; rows: string[][] }
 	| ListBlock
@@ -45,7 +44,7 @@ export const A11Y_BITES: A11yBite[] = [
 				blocks: [
 					{
 						type: 'paragraph',
-						text: "Skip links are accessibility features that provide keyboard users with a shortcut to bypass navigation and potentially other repetitive elements on a webpage. They're typically the first focusable element on a page but remain invisible until activated with the Tab key.",
+						text: "Skip links are accessibility features that provide keyboard users with a shortcut to bypass navigation and potentially other repetitive elements on a webpage. They're typically the first focusable element on a page but remain invisible until activated with the `Tab` key.",
 					},
 				],
 			},
@@ -85,7 +84,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'paragraph',
-						text: 'Keyboard-Only *sighted* users is the group most often forgotten. These are people who can see the screen but cannot (or choose not to) use a mouse due to motor impairments, tremors, or temporary injuries (like me with a broken wrist, which makes me mainly a keyboard-only user for many weeks).',
+						text: 'Keyboard-Only *sighted* users is the group most often forgotten. These are people who can see the screen but cannot (or choose not to) use a mouse due to motor impairments, tremors, or temporary injuries.',
 					},
 					{
 						type: 'list',
@@ -115,7 +114,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'paragraph',
-						text: 'The footer is even worse. Want the cookie settings link at the very bottom? That can mean 70+ footer links to tab through first. Amazing, right?',
+						text: 'The footer could be even worse. Want the cookie settings link at the very bottom? That can mean a long list of footer links to tab through first. Amazing, right?',
 					},
 				],
 			},
@@ -278,7 +277,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'paragraph',
-						text: 'A common miss is a blue link at 2.82:1 against the body text. Would the gap to 3:1 really be *that* visible? Probably not, but there has to be a standard to refer to. Treat the minimum as a floor and go *beyond* it where you can.',
+						text: 'Lets say you have a blue link at 2.82:1 against the body text. Would the gap to 3:1 really be *that* visible? Probably not, but there has to be a standard to refer to. Treat the minimum as a floor and go *beyond* it where you can.',
 					},
 				],
 			},
@@ -302,13 +301,13 @@ export const A11Y_BITES: A11yBite[] = [
 											text: 'Hit that *3:1 contrast ratio* against surrounding text.',
 										},
 										{
-											text: 'Provide a *non-color indicator* (like an underline) on mouse hover and keyboard focus (which we already do)',
+											text: 'Provide a *non-color indicator* (like an underline) on mouse hover and keyboard focus',
 										},
 									],
 								},
 							},
 							{
-								text: "**Use icons or labels:** Don't just make an error message red. Add an icon or text so the meaning is clear even if the color is gone. Like we show error messages under invalid fields. Good!",
+								text: "**Use icons or labels:** Don't just make an error message red. Add an icon or text so the meaning is clear even if the color is gone.",
 							},
 						],
 					},
@@ -394,7 +393,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'paragraph',
-						text: 'A typical footer trap comes from layout wrappers. To get consistent margins and backgrounds, the `<footer>` ends up inside a `<section>`. The browser is a bit of a snob: *"A footer inside a section belongs to that section, not the page."* It loses its `contentinfo` landmark role, and to a screen reader it\'s just a generic block of text.',
+						text: 'A typical footer trap comes from layout wrappers. For example the `<footer>` might end up inside a `<section>`. The browser is a bit of a snob: *"A footer inside a section belongs to that section, not the page."* It loses its `contentinfo` landmark role, and to a screen reader it\'s just a generic block of text.',
 					},
 				],
 			},
@@ -403,7 +402,7 @@ export const A11Y_BITES: A11yBite[] = [
 				blocks: [
 					{
 						type: 'paragraph',
-						text: 'To resolve the footer issue without breaking the visual layout we had 2 options.',
+						text: 'A `<footer>` inside a `<section>` could be there for layout reasons, so simply moving it out could break the visual layout. There are a couple of ways to fix it without that.',
 					},
 					{
 						type: 'list',
@@ -413,7 +412,7 @@ export const A11Y_BITES: A11yBite[] = [
 								text: 'We could implemented explicit role assignment. This means adding `role="contentinfo"` directly to the `<footer>` element. This would override the nesting rules and forces the browser to announce it as the global footer landmark. It’s like giving the footer a megaphone so it can shout "I\'M THE FOOTER!" from inside its wrapper.',
 							},
 							{
-								text: 'A more elegant fix is to let the section component render as a different element. For the footer, that means: “Hey you, nice mr. Section! We really like all your amazing styles, but please be a Footer instead.” With no `<section>` around it, the `<footer>` gets its landmark role back.',
+								text: 'A more elegant fix, when the layout is built with a component library, is to let its section component render as a different element. For the footer, that means: “Hey you, nice mr. Section! We really like all your amazing styles, but please be a Footer instead.” With no `<section>` around it, the `<footer>` gets its landmark role back.',
 							},
 						],
 					},
@@ -422,16 +421,8 @@ export const A11Y_BITES: A11yBite[] = [
 						text: 'The `<main>` needs care too. When the main content is built from multiple separate `<section>` elements, it is not enough to slap the role on the first one. If you only put the `<main>` tag on the *first* section, everything following it (the siblings) will be "orphaned" from the main landmark. This is because screen readers treat landmarks like *containers,* not like bookmarks or anchors.',
 					},
 					{
-						type: 'list',
-						ordered: false,
-						items: [
-							{
-								text: '**If you wrap everything:** A user can jump to "Main" and then use "Screen Reader Search" or "Heading Navigation" to explore everything inside that container.',
-							},
-							{
-								text: '**If you only wrap the first section:** When the user reaches the end of that first `<main>` section, the screen reader will announce *"End of Main."* The user might then assume the rest of the page is just "extra" stuff (like sidebars or footers) and miss your subsequent sections entirely.',
-							},
-						],
+						type: 'paragraph',
+						text: 'When everything is wrapped, a user can jump to "Main" and then use "Screen Reader Search" or "Heading Navigation" to explore everything inside that container.',
 					},
 					{
 						type: 'paragraph',
@@ -524,13 +515,13 @@ export const A11Y_BITES: A11yBite[] = [
 						ordered: false,
 						items: [
 							{
-								text: 'Context is King: Without proper headers, a screen reader user might hear "20,000" and have no clue if that’s a price, a seat limit, or the number of coffee cups consumed by the dev team this week.',
+								text: '**Context is King:** Without proper headers, a screen reader user might hear "20,000" and have no clue if that’s a price, a seat limit, or the number of coffee cups consumed by the dev team this week.',
 							},
 							{
 								text: '**The "Where Am I?" Factor:** Screen readers allow users to jump from cell to cell. Accessible tables ensure the "mental cursor" stays synced with the actual data. If you move from row to row, it should tell you that the cell content is connected to the row for "this data". Accessible table will do that for you.',
 							},
 							{
-								text: "It’s the Law (and it's just nice): Following WCAG standards (specifically [Guideline 1.3.1](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html)) isn't just about avoiding a stern letter from legal; it’s about making sure everyone can compare our plans and in the long term give us their money 😏",
+								text: "**It’s the Law (and it's just nice):** Following WCAG standards (specifically [Guideline 1.3.1](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html)) isn't just about avoiding a stern letter from legal; it’s about making sure everyone can understand your content clearly.",
 							},
 						],
 					},
@@ -542,17 +533,17 @@ export const A11Y_BITES: A11yBite[] = [
 				blocks: [
 					{
 						type: 'paragraph',
-						text: 'Comparison tables, like the ones on pricing pages, are often a "master of disguise." They *look* like a table, but under the hood they are `<div>`s pretending to be one, with no relationship between rows or cells. For assistive technology users, that makes them useless.',
+						text: 'Visual tables on a page are often a "master of disguise." They *look* like a table, but under the hood they are `<div>`s pretending to be one, with no relationship between rows or cells. For assistive technology users, that makes them useless.',
 					},
 					{
 						type: 'list',
 						ordered: false,
 						items: [
 							{
-								text: '**Missing relationships:** a data cell can have up to three headers (e.g. category, feature and plan), but nothing links them. It’s like a family tree where no one is talking to each other.',
+								text: '**Missing relationships:** a data cell can have multiple headers, but nothing links them. It’s like a family tree where no one is talking to each other.',
 							},
 							{
-								text: '**"Ghost" columns:** a mobile "sliding window" shows two columns and hides the rest with `display: none`. That removes them from the accessibility tree (good!), but breaks the column count unless it\'s handled.',
+								text: '**"Ghost" columns:** on mobile, "sliding window" layout might show two columns and hide the rest with `display: none`. That removes them from the accessibility tree (good!), but breaks the column count unless it\'s handled.',
 							},
 							{
 								text: "**The CSS Grid conflict:** swapping in native `<table>` tags isn't a quick fix when the layout relies on CSS Grid. Grid overrides the display values the browser uses to size and align table columns, so a `<tr>` stops behaving like a table row.",
@@ -566,11 +557,7 @@ export const A11Y_BITES: A11yBite[] = [
 				blocks: [
 					{
 						type: 'paragraph',
-						text: 'We explored two main paths: going "Native" or going "Full ARIA."',
-					},
-					{
-						type: 'paragraph',
-						text: "*Spoiler alert: We chose the path that doesn't involve a total design existential crisis.*",
+						text: 'Let\'s explore two main paths: going "Native" or going "Full ARIA."',
 					},
 					{
 						type: 'heading',
@@ -589,7 +576,7 @@ export const A11Y_BITES: A11yBite[] = [
 								text: 'Pros: Browsers give you a lot for free (like column mapping).',
 							},
 							{
-								text: 'Cons: It breaks a mobile "overflow" trick and CSS Grid layout. A `<tr>` is a "Table Row Box," not a "Block Box," so it refuses to overflow its parent. It\'s very stubborn.',
+								text: 'Cons: It would break an existing mobile "overflow" trick and CSS Grid layout. A `<tr>` is a "Table Row Box," not a "Block Box," so it refuses to overflow its parent. It\'s very stubborn.',
 							},
 						],
 					},
@@ -600,11 +587,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'paragraph',
-						text: 'When there’s no time to change the design, you can "annotate" the existing `<div>` structure with WAI-ARIA roles. This keeps the layout but gives screen readers the "map" they need, mimicking the native table relationships.',
-					},
-					{
-						type: 'paragraph',
-						text: '**The Game Plan:**',
+						text: 'When there’s no time to change the current design, you can "annotate" the existing `<div>` structure with WAI-ARIA roles. This keeps the layout but gives screen readers the "map" they need, mimicking the native table relationships.',
 					},
 					{
 						type: 'list',
@@ -614,10 +597,10 @@ export const A11Y_BITES: A11yBite[] = [
 								text: 'Identify Everything: Use `role="table"`, `role="rowgroup"`, `role="row"`, and `role="cell"`.',
 							},
 							{
-								text: 'Coordinate System: We’ll use `aria-colindex` and `aria-rowindex`. What this gives us is that even if we hide "Column 2" on mobile, the reader will still say "Column 3 of 5," so the user doesn\'t feel lost in space.',
+								text: 'Coordinate System: Use `aria-colindex` and `aria-rowindex`. What this gives us is that even if we hide "Column 2" on mobile, the reader will still say "Column 3 of 5," so the user doesn\'t feel lost in space.',
 							},
 							{
-								text: 'The Triple-Link: We’ll use `aria-labelledby` to point a data cell to its Column Header, Block Header, and Row Header IDs.',
+								text: 'The Triple-Link: Use `aria-labelledby` to point a data cell to its Column Header, Block Header, and Row Header IDs.',
 							},
 						],
 					},
@@ -627,7 +610,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'paragraph',
-						text: 'And with this, the comparison table is great again! (...or as great as it gets. Native tables are still the better option whenever you can use them.)',
+						text: 'And with this, the existing "broken" table could become great again! (...or as great as it gets as native tables are still the better option whenever you can use them.)',
 					},
 					{
 						type: 'quote',
@@ -769,7 +752,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'paragraph',
-						text: 'Three other possible roles act like specialized versions of status or alert Using them provides more semantic "flavor" to the user:',
+						text: 'Three other possible roles act like specialized versions of status or alert. Using them provides more semantic "flavor" to the user:',
 					},
 					{
 						type: 'list',
@@ -779,7 +762,7 @@ export const A11Y_BITES: A11yBite[] = [
 								text: '`role="log"` > New information is added to the end of the list, and old information stays visible. Screen readers generally only announce the *new* addition. When to use: Chat logs, messaging history, error logs, or game scores. Unlike `status`, which usually replaces the entire content, `log` implies a sequence of events.',
 							},
 							{
-								text: '`role="marquee"` > Used for information that changes frequently or "scrolls" (like a stock ticker). Most screen readers are configured to be less "chatty" with marquees so they don\'t overwhelm the user. When to use: Scrolling news headlines or stock prices. Use this sparingly. If the info is critical, `status` is safer.',
+								text: '`role="marquee"` > Used for information that changes frequently or "scrolls" (like a stock ticker). Most screen readers are configured to be less "chatty" with marquees so they don\'t overwhelm the user. When to use: Scrolling news headlines or stock prices. Use this sparingly. If the info is important, `status` is safer.',
 							},
 							{
 								text: '`role="timer"` > Identifies a numerical counter that indicates elapsed or remaining time. When to use: Stopwatches, countdown clocks, or "time remaining" in a game. By default, `timer` doesn\'t always announce every second (which would be annoying). You may need to pair it with `aria-live="polite"` if you want periodic updates.',
@@ -807,7 +790,7 @@ export const A11Y_BITES: A11yBite[] = [
 								text: '`aria-live="assertive"`: Interrupts whatever the screen reader is currently saying. Use sparingly unless it\'s a "your session is about to explode" situation (remember `role="alert"` )',
 							},
 							{
-								text: '`aria-live="polite"`: Waits for a break in the conversation to inform you that "The data has arrived, sir 🫡 " (remember `role="status"` )',
+								text: '`aria-live="polite"`: Waits for a break in the conversation to inform you that "The data has arrived, sir." (remember `role="status"` )',
 							},
 							{
 								text: 'Unintuitively `aria-live="off"` does not indicate that changes should *not* be announced. When an element has `aria-live="off"`, changes to the element\'s content are only supposed to be announced when focus is on, or inside, the element.',
@@ -864,7 +847,7 @@ export const A11Y_BITES: A11yBite[] = [
 		number: 7,
 		title: 'Using <aside> together with <nav> elements',
 		summary:
-			'A content hub often brings a second set of navigation, linking between the hub pages. Many sites already have something similar without thinking of it that way: a Table of Contents. Is it the same kind of navigation? To find out, continue reading.',
+			'Many pages carry a second set of navigation next to the main menu, such as a Table of Contents linking to the sections of a long article. Is it the same kind of navigation as the main menu? To find out, continue reading.',
 		sections: [
 			{
 				heading: 'What are <aside> and <nav>?',
@@ -878,7 +861,7 @@ export const A11Y_BITES: A11yBite[] = [
 						ordered: false,
 						items: [
 							{
-								text: '**`**<aside>**`**: Defines content that is remotely related to the content around it. Think of it as a sidebar or a "callout" box. Programmatically, it serves as a *complementary* landmark.',
+								text: '**`<aside>`**: Defines content that is remotely related to the content around it. Think of it as a sidebar or a "callout" box. Programmatically, it serves as a *complementary* landmark.',
 							},
 							{
 								text: '**`<nav>`:** Identifies a section of the page that contains navigation links, such as menus, tables of contents, or breadcrumbs. This serves as a *navigation* landmark. It’s the GPS of your document.',
@@ -946,7 +929,7 @@ export const A11Y_BITES: A11yBite[] = [
 								text: "**SEO & Indexing:** Search engines are judgmental. Links inside a `<nav>` are recognized as part of your site's skeleton, while content in an `<aside>` is flagged as secondary, helping your actual main content shine.",
 							},
 							{
-								text: '**Future-Proofing:** As our DOM grows into being even more beautiful, but complex, semantic landmarks keep the accessibility tree from becoming a nightmare.',
+								text: '**Future-Proofing:** As your DOM grows into being even more beautiful, but complex, semantic landmarks keep the accessibility tree from becoming a nightmare.',
 							},
 						],
 					},
@@ -994,7 +977,7 @@ export const A11Y_BITES: A11yBite[] = [
 				blocks: [
 					{
 						type: 'paragraph',
-						text: 'In modern layouts like a content hub, `<aside>` and `<nav>` often work together, just like in the improved TOC above.',
+						text: 'In modern layouts with a sidebar, such as an article with a table of contents, `<aside>` and `<nav>` often work together, just like in the improved TOC above.',
 					},
 					{
 						type: 'paragraph',
@@ -1008,7 +991,7 @@ export const A11Y_BITES: A11yBite[] = [
 								text: 'The `<aside>` tells the browser: "This whole area is secondary to the main page content."',
 							},
 							{
-								text: 'The `<nav>` inside it tells the browser: "The specific purpose of this content is to help the user navigate to other parts of the hub."',
+								text: 'The `<nav>` inside it tells the browser: "The specific purpose of this content is to help the user navigate to other parts of the page or site."',
 							},
 						],
 					},
@@ -1034,11 +1017,11 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'code',
-						code: '<nav aria-label="Main"> ... </nav>\n...\n<aside>\n  <nav aria-label="Content Hub Categories"> ... </nav>\n</aside>',
+						code: '<nav aria-label="Main"> ... </nav>\n...\n<aside>\n  <nav aria-label="On this page"> ... </nav>\n</aside>',
 					},
 					{
 						type: 'paragraph',
-						text: '**2. Nested Navigations** - A content hub typically has a `<nav>` inside an `<aside>`.',
+						text: '**2. Nested Navigations** - A sidebar with its own links, such as a table of contents, typically has a `<nav>` inside an `<aside>`.',
 					},
 					{
 						type: 'paragraph',
@@ -1052,7 +1035,7 @@ export const A11Y_BITES: A11yBite[] = [
 								text: '**Aside**: "I am in a sidebar."',
 							},
 							{
-								text: '**Nav**: "I am navigating Hub Categories."',
+								text: '**Nav**: "I am navigating the table of contents."',
 							},
 						],
 					},
@@ -1062,7 +1045,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'code',
-						code: '<aside aria-labelledby="sidebar-title">\n  <h2 id="sidebar-title">Hub pages</h2>\n  <nav aria-label="Content Hub Categories">\n    <ul>...</ul>\n  </nav>\n</aside>',
+						code: '<aside aria-labelledby="sidebar-title">\n  <h2 id="sidebar-title">On this page</h2>\n  <nav aria-label="Table of contents">\n    <ul>...</ul>\n  </nav>\n</aside>',
 					},
 					{
 						type: 'paragraph',
@@ -1070,7 +1053,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'paragraph',
-						text: 'The order of your tags in the HTML is the "highway" for keyboard users. There are two potential strategies for a content hub:',
+						text: 'The order of your tags in the HTML is the "highway" for keyboard users. There are two potential strategies for a page with a sidebar:',
 					},
 					{
 						type: 'paragraph',
@@ -1204,7 +1187,7 @@ export const A11Y_BITES: A11yBite[] = [
 				blocks: [
 					{
 						type: 'paragraph',
-						text: 'To hit the WCAG 2.1 Success Criterion 1.4.13 (the fancy way of saying "don\'t break the UI on hover"), the code has to go from "just CSS" to "actually smart."',
+						text: 'To hit the [WCAG 2.1 Success Criterion 1.4.13](https://www.w3.org/WAI/WCAG22/Understanding/content-on-hover-or-focus.html) (the fancy way of saying "don\'t break the UI on hover"), the code has to go from "just CSS" to "actually smart."',
 					},
 					{
 						type: 'heading',
@@ -1216,10 +1199,10 @@ export const A11Y_BITES: A11yBite[] = [
 						ordered: false,
 						items: [
 							{
-								text: '`aria-describedby`: We linked the trigger to the tooltip via a unique ID. Now, screen readers announce the description immediately after the element’s name.',
+								text: '`aria-describedby`: Link the trigger to the tooltip via a unique ID. Now, screen readers announce the description immediately after the element’s name.',
 							},
 							{
-								text: '**The hidden twin strategy:** Since portalled bubbles are hard for screen readers to track, we introduced a visually hidden `div` inside the trigger.',
+								text: '**The hidden twin strategy:** Since portalled bubbles are hard for screen readers to track, introduce a visually hidden `div` inside the trigger.',
 								sublist: {
 									type: 'list',
 									ordered: false,
@@ -1228,7 +1211,7 @@ export const A11Y_BITES: A11yBite[] = [
 											text: '`useId()` generates a stable ID for the hidden copy, linking the trigger to this hidden `div` via `aria-describedby`',
 										},
 										{
-											text: '**Portal isolation:** we gave the visual bubble `aria-hidden="true"` so screen readers don\'t get stuck in a "double-announcement" loop.',
+											text: '**Portal isolation:** give the visual bubble `aria-hidden="true"` so screen readers don\'t get stuck in a "double-announcement" loop.',
 										},
 									],
 								},
@@ -1237,7 +1220,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'paragraph',
-						text: 'We also used `role="tooltip"` on the container. This tells the browser exactly what this element’s function is in the accessibility tree.',
+						text: 'You could also use `role="tooltip"` on the container. This tells the browser exactly what this element’s function is in the accessibility tree.',
 					},
 					{
 						type: 'heading',
@@ -1249,13 +1232,13 @@ export const A11Y_BITES: A11yBite[] = [
 						ordered: false,
 						items: [
 							{
-								text: '**Dismissible:** Users can hit Escape to kill the tooltip without losing their place.',
+								text: '**Dismissible:** Users can hit `Escape` to kill the tooltip without losing their place.',
 							},
 							{
-								text: '**The 300 ms grace period:** To fix the vanishing act, we added a hover delay. On `mouseLeave`, a timer starts. If you move your mouse back or into the bubble within 300ms, we clear the timer. This allows the cursor to pass through the "dead zone" between the trigger and the bubble without the content disappearing. No more chasing bubbles!',
+								text: '**The 300 ms grace period:** To fix the vanishing act, you can add a hover delay. On `mouseLeave`, a timer starts. If you move your mouse back or into the bubble within 300ms, you clear the timer. This allows the cursor to pass through the "dead zone" between the trigger and the bubble without the content disappearing. No more chasing bubbles!',
 							},
 							{
-								text: '**Persistent:** It stays visible until the user *explicitly* decides it’s time to go. You can tab to the tooltip and it will disappear either when you tab on or when you decide to dismiss it with Esc.',
+								text: '**Persistent:** It stays visible until the user *explicitly* decides it’s time to go. You can tab to the tooltip and it will disappear either when you tab away or when you decide to dismiss it with `Esc`.',
 							},
 						],
 					},
@@ -1269,22 +1252,22 @@ export const A11Y_BITES: A11yBite[] = [
 						ordered: false,
 						items: [
 							{
-								text: '**Dual-triggering:** Our tooltips now listen for both the mouse (`mouseenter`) and the keyboard (`focus`).',
+								text: '**Dual-triggering:** Tooltips should listen for both the mouse (`mouseenter`) and the keyboard (`focus`).',
 							},
 							{
-								text: '`tabIndex={0}`: We applied this to all triggers. Whether it’s a hover or click tooltip, it’s now officially on the "Tab Highway."',
+								text: '`tabIndex={0}`: Apply this to all triggers. Whether it’s a hover or click tooltip, it’s now officially on the "Tab Highway."',
 							},
 							{
 								text: '**Strict non-interactivity:** A tooltip is for *reading*, not *doing*. If you need a link or a button inside that popup, it’s a dialog and those handle focus trapping differently.',
 							},
 							{
-								text: '**Global overrides:** Added `handleKeyDown` to support the Escape key for immediate dismissal and Enter/Space for reopening.',
+								text: '**Global overrides:** Add `handleKeyDown` to support the `Escape` key for immediate dismissal and `Enter`/`Space` for reopening.',
 							},
 						],
 					},
 					{
 						type: 'paragraph',
-						text: '**Bottom line:** If your tooltip disappears like a shy ghost or ignores the keyboard entirely, it’s not helping—it’s haunting. Let’s keep our UI helpful, reachable, and ghost-free. 👻🚫 It’s a small component, but a huge leap in making the web more inclusive, one `tabIndex` at a time.',
+						text: '**Bottom line:** If your tooltip disappears like a shy ghost or ignores the keyboard entirely, it’s not helping—it’s haunting. Let’s keep our UI helpful, reachable, and ghost-free 👻🚫 It’s a small component, but a huge leap in making the web more inclusive, one `tabIndex` at a time.',
 					},
 					{
 						type: 'quote',
@@ -1299,7 +1282,7 @@ export const A11Y_BITES: A11yBite[] = [
 		number: 9,
 		title: 'Accessible forms',
 		summary:
-			"Accessibility isn't a feature, it’s the infrastructure. For forms, it's the difference between a clear path and a dead end. If a form lives inside a modal, the complexity doubles: we aren’t just managing inputs, we’re managing a tiny, floating sub-universe. We recently audited the logic behind our signup and newsletter subscription modals to ensure they don't accidentally ghost our users. Here is what we did and why.",
+			"Accessibility isn't a feature, it’s the infrastructure. For forms, it's the difference between a clear path and a dead end. And in case a form lives inside a modal, the complexity doubles: we aren’t just managing inputs, we’re managing a tiny, floating sub-universe.",
 		sections: [
 			{
 				heading: 'What are accessible forms?',
@@ -1313,13 +1296,13 @@ export const A11Y_BITES: A11yBite[] = [
 						ordered: false,
 						items: [
 							{
-								text: '**Semantic Integrity:** Every input is legally married to a permanent label. No "situationships" or vague placeholders allowed.',
+								text: '**Semantic integrity:** Every input is legally married to a permanent label. No "situationships" or vague placeholders allowed.',
 							},
 							{
-								text: '**Navigational Predictability:** The Tab key should move like a chess grandmaster—logical, sequential, and always visible.',
+								text: '**Navigational predictability:** The `Tab` key should move like a chess grandmaster—logical, sequential, and always visible.',
 							},
 							{
-								text: '**Actionable Feedback:** The form actually talks back. It tells you what’s required, what’s broken, and when you’ve successfully crossed the finish line.',
+								text: '**Actionable feedback:** The form actually talks back. It tells you what’s required, what’s broken, and when you’ve successfully crossed the finish line.',
 							},
 						],
 					},
@@ -1337,19 +1320,19 @@ export const A11Y_BITES: A11yBite[] = [
 						ordered: false,
 						items: [
 							{
-								text: '**Cognitive Clarity:** Clear instructions mean users with cognitive disabilities don\'t have to play "Guess the Input." This includes logical layout structures, clear instructions, and immediate feedback.',
+								text: '**Cognitive clarity:** Clear instructions mean users with cognitive disabilities don\'t have to play "Guess the Input." This includes logical layout structures, clear instructions, and immediate feedback.',
 							},
 							{
-								text: '**Voice Command Support:** If I’m shouting "Next Field" at my computer, the code needs to know what "Next" actually means. People using speech input rely on programmatically linked labels to activate controls and move focus to specific fields via voice commands.',
+								text: '**Voice command support:** If I’m shouting "Next Field" at my computer, the code needs to know what "Next" actually means. People using speech input rely on programmatically linked labels to activate controls and move focus to specific fields via voice commands.',
 							},
 							{
-								text: '**Improved Hit Targets:** Ever tried to click a tiny checkbox with a shaky hand or a trackpad on a bumpy bus? Larger, label-linked clickable areas are a godsend for dexterity.',
+								text: '**Improved hit targets:** Ever tried to click a tiny checkbox with a shaky hand or a trackpad on a bumpy bus? Larger, label-linked clickable areas are a godsend for dexterity.',
 							},
 							{
-								text: "**Screen Reader Harmony:** Assistive tech users shouldn't have to solve a riddle to figure out which field they’re typing in. They depend on structural elements like labels and fieldsets to identify and understand the purpose of each control in the context of the form.",
+								text: "**Screen reader harmony:** Assistive tech users shouldn't have to solve a riddle to figure out which field they’re typing in. They depend on structural elements like labels and fieldsets to identify and understand the purpose of each control in the context of the form.",
 							},
 							{
-								text: '**Universal Usability:** Ultimately, an accessible form is a more usable form for everyone. Because frankly, even "power users" hate bad forms.',
+								text: '**Universal usability:** Ultimately, an accessible form is a more usable form for everyone. Because frankly, even "power users" hate bad forms.',
 							},
 						],
 					},
@@ -1359,7 +1342,7 @@ export const A11Y_BITES: A11yBite[] = [
 				heading: 'Common pitfalls',
 				isIssues: true,
 				blocks: [
-					{ type: 'paragraph', text: 'Signup and newsletter forms, especially in modals, tend to share the same barriers:' },
+					{ type: 'paragraph', text: 'Forms, also inside modals, tend to share the same barriers:' },
 					{
 						type: 'list',
 						ordered: false,
@@ -1386,44 +1369,44 @@ export const A11Y_BITES: A11yBite[] = [
 					{
 						type: 'heading',
 						level: 3,
-						text: '1. Modal "The Golden Rules"',
+						text: '1. Modal "golden rules"',
 					},
 					{
 						type: 'paragraph',
-						text: 'Since most of our forms live in modals, the container must act as a "mini-application" to prevent user disorientation.',
+						text: 'When forms live in modals, the container must act as a "mini-application" to prevent user disorientation.',
 					},
 					{
 						type: 'list',
 						ordered: false,
 						items: [
 							{
-								text: '**Focus Trap:** Use a focus trap to ensure Tab and Shift+Tab cycle exclusively within the modal. Users should never accidentally "leak" focus into the background page.',
+								text: '**Focus trap:** Use a focus trap to ensure `Tab` and `Shift+Tab` cycle exclusively within the modal. Users should never accidentally "leak" focus into the background page.',
 							},
 							{
-								text: '**Role & Labeling:** Apply `role="dialog"` and `aria-modal="true"`. It tells the browser, "Pay attention to me now."',
+								text: '**Role & labeling:** Apply `role="dialog"` and `aria-modal="true"`. It tells the browser, "Pay attention to me now."',
 							},
 							{
-								text: '**Initial Focus:** Upon opening, move focus to the first interactive element (usually the first input).',
+								text: '**Initial focus:** Upon opening, move focus to the first interactive element (usually the first input).',
 							},
 							{
-								text: '**The Great Return:** The Esc key must trigger the close function. When the modal closes, we need to put the user back exactly where they started. It’s only polite.',
+								text: '**The great return:** The `Esc` key must trigger the close function. When the modal closes, we need to put the user back exactly where they started. It’s only polite.',
 							},
 						],
 					},
 					{
 						type: 'heading',
 						level: 3,
-						text: '2. Form Input Requirements',
+						text: '2. Form input requirements',
 					},
 					{
 						type: 'list',
 						ordered: false,
 						items: [
 							{
-								text: '**Explicit Labels:** Avoid relying on `placeholder` text, which disappears when typing. Use `<label for="id">` for long-term commitment.',
+								text: '**Explicit labels:** Avoid relying on `placeholder` text, which disappears when typing. Use `<label for="id">` for long-term commitment.',
 							},
 							{
-								text: '**Visible Focus:** Maintain a high-contrast focus ring. Never use `outline: none` without a robust custom replacement.',
+								text: '**Visible focus:** Maintain a high-contrast focus ring. Never use `outline: none` without a robust custom replacement.',
 							},
 							{
 								text: "**Grouping:** Use `<fieldset>` and `<legend>` for related inputs so screen readers announce the group's context.",
@@ -1433,14 +1416,14 @@ export const A11Y_BITES: A11yBite[] = [
 					{
 						type: 'heading',
 						level: 3,
-						text: '3. Autocomplete & Personalization',
+						text: '3. Autocomplete & personalization',
 					},
 					{
 						type: 'list',
 						ordered: false,
 						items: [
 							{
-								text: '**Identify Input Purpose:** Use the `autocomplete` attribute for standard fields (e.g., `autocomplete="email"`, `autocomplete="given-name"`, `autocomplete="new-password"`).',
+								text: '**Identify input purpose:** Use the `autocomplete` attribute for standard fields (e.g., `autocomplete="email"`, `autocomplete="given-name"`, `autocomplete="new-password"`).',
 							},
 							{
 								text: "**Benefits:** We let the browser do the heavy lifting. Our users' fingers will thank us.",
@@ -1450,59 +1433,40 @@ export const A11Y_BITES: A11yBite[] = [
 					{
 						type: 'heading',
 						level: 3,
-						text: '4. Handling "Required" Fields',
+						text: '4. Handling "required" fields',
 					},
 					{
 						type: 'list',
 						ordered: false,
 						items: [
 							{
-								text: '**The Native Way:** Use the HTML5 `required` attribute. It’s robust, simple, and the browser handles the basic nagging for us. (But for custom components that don\'t support native attributes, use `aria-required="true"`.)',
+								text: '**The native way:** Use the HTML5 `required` attribute. It’s robust, simple, and the browser handles the basic nagging for us. (But for custom components that don\'t support native attributes, use `aria-required="true"`.)',
 							},
 							{
-								text: '**Visual Cues:** Don’t just use color (red is for danger, but not everyone sees red). Use the classic `*` or `(required)` text.',
+								text: '**Visual cues:** Don’t just use color (red is for danger, but not everyone sees red). Use the classic `*` or `(required)` text.',
 							},
 						],
 					},
 					{
 						type: 'heading',
 						level: 3,
-						text: '5. Logic & Flow',
+						text: '5. Logic & flow',
 					},
 					{
 						type: 'list',
 						ordered: false,
 						items: [
 							{
-								text: '**Tab Order:** If it looks like it’s next, it should be next in the DOM. Simple.',
+								text: '**Tab order:** If it looks like it’s next, it should be next in the DOM. Simple.',
 							},
 							{
-								text: '**Intentional Submission:** No "surprise submissions." A form should only submit when a user explicitly hits a button—never just because they finished a field.',
+								text: '**Intentional submission:** No "surprise submissions." A form should only submit when a user explicitly hits a button—never just because they finished a field.',
 							},
 						],
 					},
 					{
 						type: 'paragraph',
-						text: 'Taking these things into account, we implemented proactive error management in signup flow:',
-					},
-					{
-						type: 'list',
-						ordered: false,
-						items: [
-							{
-								text: '**Automatic Focus Shift:** If a user attempts to submit or move to the next signup step with invalid data, we now automatically move focus back to the first offending field.',
-							},
-							{
-								text: '**Integrated Feedback:** Because we connected the error via `aria-describedby`, the screen reader immediately says: *"Your name. Please add your name."* No hunting required.',
-							},
-							{
-								text: "**Forgive and Forget:** As soon as a user starts typing to fix an error, we clear the `aria-invalid` state. We're not here to judge.",
-							},
-						],
-					},
-					{
-						type: 'paragraph',
-						text: '**Bottom line:** A form that everyone can use is a form that actually gets filled out. Let’s keep the barriers in the obstacle courses, not our signup flows.',
+						text: '**Bottom line:** A form that everyone can use is a form that actually gets filled out. Let’s keep the barriers in the obstacle courses, not in your signup flows.',
 					},
 					{
 						type: 'quote',
@@ -1517,7 +1481,7 @@ export const A11Y_BITES: A11yBite[] = [
 		number: 10,
 		title: 'Accessible graphical elements',
 		summary:
-			'The first thing people usually think when they hear the term “accessibility” is: “Yes, I know what it is! It’s those image alt texts right?”. On one hand this is cool because, there is at least *something* related to accessibility, that has been talked about so much that people kind of know it already by heart. On the other hand, it is insidious, as it will give false impression there is not really much more to accessibility than slapping some alt text on images and we are good to go. Also it is not that widespread knowledge that not *all* images actually need alt text filled to begin with. Let’s talk about how we should actually make graphical elements accessible, informative and not annoying.',
+			'The first thing people usually think when they hear the term “accessibility” is: *“Yes, I know what it is! It’s those image alt texts right?”*. On one hand this is cool because, there is at least *something* related to accessibility, that has been talked about so much that people kind of know it already by heart. On the other hand, it is insidious, as it will give false impression there is not really much more to accessibility than slapping some alt text on images and we are good to go. Also it is not that widespread knowledge that not *all* images actually need alt text filled to begin with. Let’s talk about how we should actually make graphical elements accessible, informative and not annoying.',
 		sections: [
 			{
 				heading: 'What are accessible graphical elements?',
@@ -1596,7 +1560,7 @@ export const A11Y_BITES: A11yBite[] = [
 								text: '**Noisy decorative icons:** screen readers don\'t need to hear every decorative checkmark. Add `aria-hidden="true"` to the "visual sugar" so users get to the content faster.',
 							},
 							{
-								text: '**Broken relationships:** a review badge reads "5 of 5", but the logo beside it has no alt text, so users don\'t know *who* gave the rating, and the star SVGs add clutter. Give the logo `alt="GetApp rating:"` and hide the stars, and it reads *"GetApp rating: 5 of 5."*',
+								text: '**Broken relationships:** a rating badge reads "5 of 5", but the logo beside it has no alt text, so users don\'t know *who* gave the rating, and the decorative star icons add clutter. Give the logo an alt text like `alt="Acme Reviews rating:"` and hide the stars, and it reads *"Acme Reviews rating: 5 of 5."*',
 							},
 						],
 					},
@@ -1627,8 +1591,12 @@ export const A11Y_BITES: A11yBite[] = [
 						],
 					},
 					{
+						type: 'code',
+						code: '<img src="dashboard.png" alt="Acme sales pipeline showing three deals in the Negotiation stage.">',
+					},
+					{
 						type: 'paragraph',
-						text: '*Example:* `<img src="dashboard.png" alt="Acme sales pipeline showing three deals in the Negotiation stage.">` Also there is a general rule that you should try avoid adding images with actual informative text content on them. If this information is valuable for the sighted user, it will be valuable to everyone. If the design really needs something like this, then image alt text needs to include the same information.',
+						text: 'Also there is a general rule that you should try to avoid adding images with actual informative text content on them. If this information is valuable for the sighted user, it will be valuable to everyone. If the design really needs something like this, then image alt text needs to include the same information.',
 					},
 					{
 						type: 'list',
@@ -1640,8 +1608,12 @@ export const A11Y_BITES: A11yBite[] = [
 						],
 					},
 					{
+						type: 'code',
+						code: '<img src="blue-swirl.png" alt="">',
+					},
+					{
 						type: 'paragraph',
-						text: '*Example:* `<img src="blue-swirl.png" alt="">` PS! An empty/null alternative text attribute *is not the same* as a missing alternative text attribute! If the alternative text attribute is missing, assistive technology might read out the file name or surrounding content in an attempt to give the user more information about the image.',
+						text: 'PS! An empty/null alternative text attribute *is not the same* as a missing alternative text attribute! If the alternative text attribute is missing, assistive technology might read out the file name or surrounding content in an attempt to give the user more information about the image.',
 					},
 					{
 						type: 'list',
@@ -1661,13 +1633,12 @@ export const A11Y_BITES: A11yBite[] = [
 						text: 'If an icon is a button, describe the *action.*',
 					},
 					{
-						type: 'list',
-						ordered: false,
-						items: [
-							{
-								text: '*Example:* `<button aria-label="Delete Deal"><i class="icon-trash"></i></button>` (Because hearing "trash can" is less helpful than hearing "delete").',
-							},
-						],
+						type: 'code',
+						code: '<button aria-label="Delete Deal"><i class="icon-trash"></i></button>',
+					},
+					{
+						type: 'paragraph',
+						text: 'Because hearing "trash can" is less helpful than hearing "delete".',
 					},
 					{
 						type: 'paragraph',
@@ -1683,8 +1654,8 @@ export const A11Y_BITES: A11yBite[] = [
 						],
 					},
 					{
-						type: 'paragraph',
-						text: '*Example:* `<img class="lightbulb" alt="Lightbulb moment!" src="lightbulb.svg">`',
+						type: 'code',
+						code: '<img class="lightbulb" alt="Lightbulb moment!" src="lightbulb.svg">',
 					},
 					{
 						type: 'list',
@@ -1769,10 +1740,10 @@ export const A11Y_BITES: A11yBite[] = [
 						ordered: false,
 						items: [
 							{
-								text: '**Accessible Name:** The short, punchy label. It answers the question: *"What is this?"* (e.g., "Submit" or "Menu")',
+								text: '**Accessible name:** The short, punchy label. It answers the question: *"What is this?"* (e.g., "Submit" or "Menu")',
 							},
 							{
-								text: '**Accessible Description:** An optional, longer string that provides additional context or instructions. It answers the question: *"How do I use this?"* or *"What are the requirements?"* (e.g., "Password must be at least 8 characters").',
+								text: '**Accessible description:** An optional, longer string that provides additional context or instructions. It answers the question: *"How do I use this?"* or *"What are the requirements?"* (e.g., "Password must be at least 8 characters").',
 							},
 						],
 					},
@@ -1785,7 +1756,7 @@ export const A11Y_BITES: A11yBite[] = [
 						ordered: true,
 						items: [
 							{
-								text: '**Convey Intent:** Ensure the user understands the purpose of the element. So basically the user should know if they’re clicking "Save" or "Delete the entire Database."',
+								text: '**Convey intent:** Ensure the user understands the purpose of the element. So basically the user should know if they’re clicking "Save" or "Delete the entire Database."',
 							},
 							{
 								text: '**Distinguishability:** If you have five "Edit" buttons on a page, the accessible name is the only thing keeping a screen reader user from playing "Button Roulette."',
@@ -1850,7 +1821,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'paragraph',
-						text: 'Certain elements always require a name, others may usually or sometimes require a name, and still others should never be named. You can find a comprehensive table [here](https://www.w3.org/WAI/ARIA/apg/practices/names-and-descriptions/#accessiblenameguidancebyrole), which lists all ARIA roles and when naming is required.',
+						text: 'Certain elements always require a name, others may usually or sometimes require a name, and still others should never be named. You can find a comprehensive table, which lists all ARIA roles and when naming is required, in the [accessible name guidance by role](https://www.w3.org/WAI/ARIA/apg/practices/names-and-descriptions/#accessiblenameguidancebyrole) section of the ARIA Authoring Practices Guide.',
 					},
 					{
 						type: 'paragraph',
@@ -1981,7 +1952,7 @@ export const A11Y_BITES: A11yBite[] = [
 		number: 12,
 		title: 'Stable component semantics',
 		summary:
-			'When we build responsive websites, we often spend hours ensuring that layout grids bend, text reflows fluidly, and images scale gracefully. But there is a silent, invisible layer of the user experience that often breaks when a screen shrinks: *semantic consistency*. If a component acts as a tab list on a desktop browser, it should not magically transform into an application menu when viewed on a phone. (Spoiler alert: Elements do not actually like identity crises). This is exactly what we learned recently when reviewing our own Tabs component. Yes, we might not get everything right on the first go, but we can definitely learn from our mistakes 🤓 This post breaks down why keeping ARIA roles and semantic HTML synchronized across all device layouts is vital for an accessible web.',
+			'When we build responsive websites, we often spend hours ensuring that layout grids bend, text reflows fluidly, and images scale gracefully. But there is a silent, invisible layer of the user experience that often breaks when a screen shrinks: *semantic consistency*. If a component acts as a tab list on a desktop browser, it should not magically transform into an application menu when viewed on a phone. (Spoiler alert: Elements do not actually like identity crises). This post breaks down why keeping ARIA roles and semantic HTML synchronized across all device layouts is vital for an accessible web.',
 		sections: [
 			{
 				heading: 'What is Accessibility Tree?',
@@ -1992,7 +1963,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'paragraph',
-						text: 'When a browser loads a webpage, it parses the HTML to create the Document Object Model (DOM). Simultaneously, it builds a secondary blueprint called the *Accessibility Tree*. This tree strips away layout wrappers, fancy CSS styles, and presentation noise, leaving behind *only* the pure semantic meaning of your interface. Here is a good simplified example for DOM vs Accessibility tree ([original reference](https://testdino.com/blog/accessibility-tree)):',
+						text: 'When a browser loads a webpage, it parses the HTML to create the Document Object Model (DOM). Simultaneously, it builds a secondary blueprint called the *Accessibility Tree*. This tree strips away layout wrappers, fancy CSS styles, and presentation noise, leaving behind *only* the pure semantic meaning of your interface. Here is a good simplified example for DOM vs Accessibility tree (from [TestDino’s article on the accessibility tree](https://testdino.com/blog/accessibility-tree)):',
 					},
 					{
 						type: 'paragraph',
@@ -2003,20 +1974,20 @@ export const A11Y_BITES: A11yBite[] = [
 						ordered: false,
 						items: [
 							{
-								text: '**Role:** What the component is (e.g., `role="tab"`, `role="button"`). The role is the law! **It dictates expected keyboard controls.**',
+								text: '**Role:** What the component is (e.g., `role="tab"`, `role="button"`). The role is the law! *It dictates expected keyboard controls.*',
 							},
 							{
 								text: '**State / Property:** The current condition of the component (e.g., `aria-selected="true"`, `aria-expanded="false"`).',
 							},
 							{
-								text: '**Accessible Name:** The text label that identifies it (e.g., "Get Started").',
+								text: '**Accessible name:** The text label that identifies it (e.g., "Get Started").',
 							},
 						],
 					},
 				],
 			},
 			{
-				heading: 'Why we need components to match (desktop vs. mobile)?',
+				heading: 'Why we need components to match?',
 				blocks: [
 					{
 						type: 'paragraph',
@@ -2056,7 +2027,7 @@ export const A11Y_BITES: A11yBite[] = [
 					{
 						type: 'heading',
 						level: 3,
-						text: '4. Regulatory compliance (WCAG 3.2.4)',
+						text: '4. Regulatory compliance',
 					},
 					{
 						type: 'paragraph',
@@ -2100,7 +2071,7 @@ export const A11Y_BITES: A11yBite[] = [
 				blocks: [
 					{
 						type: 'paragraph',
-						text: 'The mobile dropdown exposes a tab-switching interface: selecting an item reveals a content panel and hides others, exactly like the desktop layout. The fix? Keeping the core semantic architecture identical to desktop, adapting only the orientation and focus states for the mobile viewport.',
+						text: 'Take the hypothetical component from the pitfalls above: tabs on desktop that turn into a dropdown on mobile. Even as a dropdown, it is still a tab-switching interface - selecting an item reveals one content panel and hides the others, exactly like the desktop layout. The fix? Keep the core semantic architecture identical to desktop, and adapt only the orientation and focus states for the mobile viewport.',
 					},
 					{
 						type: 'paragraph',
@@ -2108,7 +2079,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'code',
-						code: '<button aria-expanded="false" aria-controls="tabs-X-M">\n  Tab 0\n</button>\n\n<ul role="tablist" aria-label="`Optimize your sales process`" aria-orientation="vertical" inert>\n  <li role="tab" aria-selected="true" aria-controls="tabs-X-P-0" id="tabs-X-T-0" tabIndex="0">tab 0</li>\n  <li role="tab" aria-selected="false" aria-controls="tabs-X-P-1" id="tabs-X-T-1" tabIndex="-1">tab 1</li>\n</ul>',
+						code: '<button aria-expanded="false" aria-controls="tabs-X-M">\n  Tab 0\n</button>\n\n<ul role="tablist" aria-label="Optimize your sales process" aria-orientation="vertical" inert>\n  <li role="tab" aria-selected="true" aria-controls="tabs-X-P-0" id="tabs-X-T-0" tabIndex="0">tab 0</li>\n  <li role="tab" aria-selected="false" aria-controls="tabs-X-P-1" id="tabs-X-T-1" tabIndex="-1">tab 1</li>\n</ul>',
 					},
 					{
 						type: 'heading',
@@ -2120,16 +2091,16 @@ export const A11Y_BITES: A11yBite[] = [
 						ordered: false,
 						items: [
 							{
-								text: '**Swapped menus for tabs:** Changing `role="menu"` to `role="tablist"` and `role="menuitem"` to `role="tab"` instantly fixed the semantic model. Screen readers now correctly announce it as a tab group, and attributes like `aria-selected` and `aria-controls` actually work as intended.',
+								text: '**Swapped menus for tabs:** Changing `role="menu"` to `role="tablist"` and `role="menuitem"` to `role="tab"` would instantly fix the semantic model. Screen readers now correctly announce it as a tab group, and attributes like `aria-selected` and `aria-controls` actually work as intended.',
 							},
 							{
 								text: '**Added** `aria-orientation="vertical"`**:** Since the mobile tablist is stacked vertically, this attribute tells screen readers that `ArrowUp` and `ArrowDown` keys are the correct way to navigate through the tabs.',
 							},
 							{
-								text: '**Corrected group labeling:** We replaced `aria-labelledby` pointing to the dynamic trigger button text with a stable, descriptive `aria-label="<Section title here>"`. A tab group\'s label should describe its overall purpose, not its currently active state.',
+								text: '**Corrected group labeling:** Replaced `aria-labelledby` pointing to the dynamic trigger button text with a stable, descriptive `aria-label="Optimize your sales process"`. A tab group\'s label should describe its overall purpose, not its currently active state.',
 							},
 							{
-								text: '**Pruned the invisible tree with** `inert`**:** Our dropdown uses a smooth CSS grid transition to expand and collapse. While visually hidden when closed, the elements remained in the DOM and the tab order, meaning keyboard users were accidentally navigating into Narnia when the dropdown was closed. By applying the HTML `inert` attribute to the `ul` when `isExpanded` is false, we completely remove the closed dropdown from the keyboard and accessibility tree without breaking the CSS animation.',
+								text: '**Pruned the invisible tree with** `inert`**:** A dropdown like this is often expands and collapses with a CSS transition. While visually hidden when closed, its elements can remain in the DOM and the tab order, meaning keyboard users end up navigating into Narnia when the dropdown is closed. By applying the HTML `inert` attribute to the `ul` whenever the dropdown is collapsed, you completely remove it from the keyboard and accessibility tree without breaking the CSS animation.',
 							},
 						],
 					},
@@ -2155,10 +2126,6 @@ export const A11Y_BITES: A11yBite[] = [
 						],
 					},
 					{
-						type: 'callout',
-						text: 'If the component still behaves like a single-panel switcher on mobile, keep the tab semantics— no matter how vertically "dropdown-y" it looks 🙂 Next time we’ll know better.',
-					},
-					{
 						type: 'quote',
 						quote: '“AI scales operations, let humans scale compassion.”',
 						author: 'Janna Cachola',
@@ -2171,7 +2138,7 @@ export const A11Y_BITES: A11yBite[] = [
 		number: 13,
 		title: 'VoiceOver quick start guide',
 		summary:
-			'“But Kristina, how do I even test with screen reader? In your PR description you told to also check with VoiceOver. I have no idea how to use it 🤷 And what is even *reading order* in VoiceOver? Help!” Yeah, I think I can hear some of you saying this in my head when I post my PRs for a review. Although I have basically never heard it out loud. So maybe you all know this already? 🤔 Or maybe not. But I think it is worth going over this at least once for the most basic and useful shortcuts etc. So today’s post is not about how to write accessible code, but how to test that it actually is.',
+			'*“But Kristina, how do I even test with a screen reader? Your PR description says to check with VoiceOver, and I have no idea how to use it. What even is reading order? Help!”* I can hear some of you saying this in my head whenever I post a PR for review, though I have never actually heard it out loud. Maybe you all know this already, or maybe not. Either way, it is worth going through the most basic and useful shortcuts once more. So today’s post is not about writing accessible code, but about testing that it actually is accessible.',
 		sections: [
 			{
 				heading: 'What are screen readers?',
@@ -2189,7 +2156,7 @@ export const A11Y_BITES: A11yBite[] = [
 						ordered: true,
 						items: [
 							{
-								text: '**Text-to-Speech (TTS):** A synthetic voice that reads the page content. *Fun fact:* Power users usually crank the reading speed up to a level that sounds like a glitching alien to the untrained ear, yet they comprehend it perfectly.',
+								text: '**Text-to-Speech (TTS):** A synthetic voice that reads the page content.\nFun fact: Power users usually crank the reading speed up to a level that sounds like a glitching alien to the untrained ear, yet they comprehend it perfectly.',
 							},
 							{
 								text: '**Braille Displays:** High-tech hardware gadgets with pins that physically move up and down to let users read the screen with their fingers.',
@@ -2216,7 +2183,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'paragraph',
-						text: 'Running an automated tool like Lighthouse is great, but they are only smart enough to catch some % of accessibility issues. An automated test will happily give you a green checkmark if your image has an `alt` tag, even if that tag says `alt="asdfghjkl123"`. A computer doesn’t care, but a screen reader user will hear that read aloud and wonder what we’re drinking. Manual testing with an actual screen reader is the only way to catch real UX disasters.',
+						text: 'Running an automated tool like Lighthouse is great, but they are only smart enough to catch some of the accessibility issues. An automated test will happily give you a green checkmark if your image has an `alt` tag, even if that tag says `alt="asdfghjkl123"`. A computer doesn’t care, but a screen reader user will hear that read aloud and wonder what we’re drinking. Manual testing with an actual screen reader is the only way to catch real UX disasters.',
 					},
 					{
 						type: 'heading',
@@ -2234,20 +2201,20 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'paragraph',
-						text: 'Now, you might think, "Can\'t I just test keyboard navigation and modals by bashing the Tab key without a screen reader?" Well, yes and no. While you can catch a basic keyboard trap (where you get physically stuck) with just your keyboard, screen readers introduce "invisible" issues.',
+						text: 'Now, you might think, "Can\'t I just test keyboard navigation and modals by bashing the `Tab` key without a screen reader?" Well, yes and no. While you can catch a basic keyboard trap (where you get physically stuck) with just your keyboard, screen readers introduce "invisible" issues.',
 					},
 					{
 						type: 'paragraph',
-						text: 'For example, if a mobile hamburger menu is closed but incorrectly coded, a sighted user won\'t see it, and a standard Tab-key test won\'t hit it. However, a screen reader user navigating by headings or swipes might get dragged into this hidden menu, reading out "ghost" links that are visually invisible off-screen. Testing with a screen reader ensures that what a user hears perfectly matches what is actually happening on the screen.',
+						text: 'For example, if a mobile hamburger menu is closed but incorrectly coded, a sighted user won\'t see it, and a standard `Tab`-key test won\'t hit it. However, a screen reader user navigating by headings or swipes might get dragged into this hidden menu, reading out "ghost" links that are visually invisible off-screen. Testing with a screen reader ensures that what a user hears perfectly matches what is actually happening on the screen.',
 					},
 				],
 			},
 			{
-				heading: 'Technical Solutions (aka testing with VoiceOver on Mac)',
+				heading: 'Technical Solutions (testing)',
 				blocks: [
 					{
 						type: 'paragraph',
-						text: 'Alright, so we agree that automated testing is just scratching the surface, and "Div-Soups" are the enemy. How do we actually start testing our work? If you’re on a Mac (like most of us), you already have a testing lab built right into your OS: VoiceOver.',
+						text: 'Alright, so we agree that automated testing is just scratching the surface, and "Div-Soups" are the enemy. How do we actually start testing our work? If you’re on a Mac, you already have a testing lab built right into your OS: VoiceOver.',
 					},
 					{
 						type: 'paragraph',
@@ -2264,24 +2231,24 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'paragraph',
-						text: 'To kick things off, slam Command + F5. You’ll hear a robotic voice burst into life. Welcome to the other side!',
+						text: 'To kick things off, slam `Command + F5`. You’ll hear a robotic voice burst into life. Welcome to the other side!',
 					},
 					{
 						type: 'paragraph',
-						text: 'To navigate like you would be reading the full content, you’ll need to hold down a special modifier known as the **"VO Key"** (yes, it is literally called VoiceOver Key). By default, this is **Control + Option** (or just **Caps Lock** if you prefer a single-finger toggle). Get used to holding these down - they are your steering wheel. ***Pro tip:*** If you are navigating through a long page it can feel tedious to keep holding down the VO keys. Or even one Caps Lock key. The **VO keys lock** (`VO + ;`) acts like Caps Lock but for Control+Option. You can just use the arrows and spacebar and free up your other hand for a mug of tea.',
+						text: 'To navigate like you would be reading the full content, you’ll need to hold down a special modifier known as the **"VO Key"** (yes, it is literally called VoiceOver Key). By default, this is **`Control + Option`** (or just **`Caps Lock`** if you prefer a single-finger toggle). Get used to holding these down - they are your steering wheel. **Pro tip:** If you are navigating through a long page it can feel tedious to keep holding down the VO keys. Or even one `Caps Lock` key. The **VO keys lock** (`VO + ;`) acts like `Caps Lock` but for `Control + Option`. You can just use the arrows and `Space` and free up your other hand for a mug of tea.',
 					},
 					{
 						type: 'list',
 						ordered: false,
 						items: [
 							{
-								text: '**Sequential Scavenger Hunt:** Hold `VO + Right Arrow` to step forward through every single element on the page, or `VO + Left Arrow` to go backward. This is how you test *reading order*. Now if your cursor suddenly jumps from the header straight to the footer, skipping your main article, here’s your clue that your DOM order is messed up.',
+								text: '**Sequential scavenger hunt:** Hold `VO + Right Arrow` to step forward through every single element on the page, or `VO + Left Arrow` to go backward. This is how you test *reading order*. Now if your cursor suddenly jumps from the header straight to the footer, skipping your main article, here’s your clue that your DOM order is messed up.',
 							},
 							{
-								text: '**Pulling the Trigger:** Found a button or link? `VO + Space` is your virtual click. This interacts with stuff.',
+								text: '**Pulling the trigger:** Found a button or link? `VO + Space` is your virtual click. This interacts with stuff.',
 							},
 							{
-								text: '**Shut Up, Please:** If VoiceOver gets trapped in a loop reading a massive block of text and you just need it to be quiet for a second, hit the standalone Control key. It acts as an instant mute button.',
+								text: '**Shut up, please:** If VoiceOver gets trapped in a loop reading a massive block of text and you just need it to be quiet for a second, hit the standalone `Control` key. It acts as an instant mute button.',
 							},
 							{
 								text: '`VO + A` tells VoiceOver to start reading the entire page starting from where you are at. You can just sit back and listen for anomalies.',
@@ -2293,11 +2260,11 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'paragraph',
-						text: '***Pro tip:*** When building and testing you do not want to actually *hear everything* spoken out loud to you each and every time. When you use VO it automatically opens a small separate popup, where you can actually see the same things VO will read out loud. So you can use that and mute the talk. For that open VoiceOver Utility app (just search for it, I’ll talk more about it down below as well) > Go to Speech > Tick “Mute Speech” checkbox. Now you can debug also in silence 😮‍💨',
+						text: '**Pro tip:** When building and testing you do not want to actually *hear everything* spoken out loud to you each and every time. When you use VO it automatically opens a small separate popup, where you can actually see the same things VO will read out loud. So you can use that and mute the talk. For that open VoiceOver Utility app (just search for it, I’ll talk more about it down below as well) > Go to Speech > Tick “Mute Speech” checkbox. Now you can debug also in silence 😮‍💨',
 					},
 					{
 						type: 'paragraph',
-						text: '**2. The "Interaction Trap": Entering and exiting Containers**',
+						text: '**2. The "Interaction trap": Entering and exiting containers**',
 					},
 					{
 						type: 'paragraph',
@@ -2316,10 +2283,10 @@ export const A11Y_BITES: A11yBite[] = [
 						ordered: false,
 						items: [
 							{
-								text: '**Step Inside:** Press `VO + Shift + Down Arrow` to "interact" with the container and test its internal elements.',
+								text: '**Step inside:** Press `VO + Shift + Down Arrow` to "interact" with the container and test its internal elements.',
 							},
 							{
-								text: '**Step Outside:** Press `VO + Shift + Up Arrow` to stop interacting and return to the main page layout.',
+								text: '**Step outside:** Press `VO + Shift + Up Arrow` to stop interacting and return to the main page layout.',
 							},
 						],
 					},
@@ -2345,16 +2312,16 @@ export const A11Y_BITES: A11yBite[] = [
 						ordered: false,
 						items: [
 							{
-								text: 'Use your `Left/Right Arrows` to flip between categories like **Headings**, **Links**, **Landmarks**, and **Form Controls**.',
+								text: 'Use your Left/Right Arrows to flip between categories like Headings, Links, Landmarks, and Form Controls.',
 							},
 							{
-								text: 'Use your `Up/Down Arrows` to scroll through the items in that category, and hit `Enter` to teleport focus directly to it.',
+								text: 'Use your Up/Down Arrows to scroll through the items in that category, and hit `Enter` to teleport focus directly to it.',
 							},
 						],
 					},
 					{
 						type: 'paragraph',
-						text: '**The Test:** Open the Rotor on some web page. Go to "Links." Do you see ten links in a row named *"Click here"* or *"Read more"*? If you do, you’ve just uncovered a massive context blind spot for your users.',
+						text: '**The Test:** Open the Rotor on some page. Go to "Links." Do you see ten links in a row named *"Click here"* or *"Read more"*? If you do, you’ve just uncovered a massive context blind spot for your users.',
 					},
 					{
 						type: 'heading',
@@ -2374,13 +2341,13 @@ export const A11Y_BITES: A11yBite[] = [
 						ordered: false,
 						items: [
 							{
-								text: '**Ditch the Training Wheels:** By default, VoiceOver acts like a helicopter parent, explaining how to use every single element (e.g., *"Link, Contact Us... To click this link, press..."*). It’s great for day one, but agonizing for day X into it. When you\'re ready, head into **VoiceOver Utility > Verbosity > Hints** and uncheck *"Speak instructions"*. Your testing loops will instantly feel faster, smoother, and much less noisy. Just make sure you feel comfortable with the core controls before you turn them off!',
+								text: '**Ditch the training wheels:** By default, VoiceOver acts like a helicopter parent, explaining how to use every single element (e.g., *"Link, Contact Us... To click this link, press..."*). It’s great for day one, but agonizing for day X into it. When you\'re ready, head into VoiceOver Utility > Verbosity > Hints and uncheck *"Speak instructions"*. Your testing loops will instantly feel faster, smoother, and much less noisy. Just make sure you feel comfortable with the core controls before you turn them off!',
 							},
 							{
-								text: '**Enforce Strict Coding Rules (Web > Navigation):** Look for Navigate webpages by and set it to **DOM order**. This forces VoiceOver to follow the exact, raw layout of your HTML document structure rather than trying to help you intelligently. If you wrote sloppy HTML, this setting will instantly expose it.',
+								text: '**Enforce strict coding rules (Web > Navigation):** Look for *Navigate webpages by* and set it to *DOM order*. This forces VoiceOver to follow the exact, raw layout of your HTML document structure rather than trying to help you intelligently. If you wrote sloppy HTML, this setting will instantly expose it.',
 							},
 							{
-								text: '**Crank Down the Speed (Speech > Voices):** Daily power users listen to speech at 80% to 100% speed—sounding like a fast-forwarded cassette tape. For testing, set your speech **Rate slider to around 50%**. You need to hear exactly how VoiceOver pronounces your custom `aria-labels` and `alt` text to ensure no syllables or characters are getting clipped or mangled.',
+								text: '**Crank down the speed (Speech > Voices):** Daily power users listen to speech at 80% to 100% speed—sounding like a fast-forwarded cassette tape. For testing, set your speech Rate slider to around 50%. You need to hear exactly how VoiceOver pronounces your custom `aria-labels` and `alt` text to ensure no syllables or characters are getting clipped or mangled.',
 							},
 							{
 								text: '**Test with following VO cursor (Navigation > Mouse pointer)**: Sometimes VO could produce weird behavior on elements, which have some hover functionality for mouse users. In this case you can test by letting mouse cursor follow Voiceover cursor.',
@@ -2389,11 +2356,11 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'paragraph',
-						text: 'And that’s it! Of course there are a bunch of other settings in VoiceOver Utility app, but I encourage you to test them out on your own (if you are interested). In general this should be enough to get you started on testing you code with screen readers. So just do it! 💥',
+						text: 'And that’s it! Of course there are a bunch of other settings in VoiceOver Utility app, but I encourage you to test them out on your own (if you are interested). In general this should be enough to get you started on testing you code with screen readers. So just do it!',
 					},
 					{
 						type: 'paragraph',
-						text: 'PS! If you want to become a power user for VoiceOver then here’s an [extended list of shortcuts](https://dequeuniversity.com/screenreaders/voiceover-keyboard-shortcuts) you can use.',
+						text: 'PS! If you want to become a VoiceOver power user, Deque University has an [extended list of VoiceOver keyboard shortcuts](https://dequeuniversity.com/screenreaders/voiceover-keyboard-shortcuts) you can use.',
 					},
 					{
 						type: 'quote',
@@ -2408,7 +2375,7 @@ export const A11Y_BITES: A11yBite[] = [
 		number: 14,
 		title: 'Accessible emojis',
 		summary:
-			"Emojis are the universal language of the internet. They inject humor 🤦 , soften a direct tone 🙂 , and mimic body language 💪 in our text-based digital lives. But while slapping a tiny picture on a sentence feels like second nature to us, their impact on web accessibility is often completely ignored. If we use them carelessly, we aren't just muddying our messaging - we are building digital brick walls for millions of users. Here is how emojis accidentally ruin web content accessibility, and how to handle them like a pro 🚀.",
+			"Emojis are the universal language of the internet. They inject humor {🤦|person facepalming} , soften a direct tone {🙂|slightly smiling face} , and mimic body language {💪|flexed biceps} in our text-based digital lives. But while slapping a tiny picture on a sentence feels like second nature to us, their impact on web accessibility is often completely ignored. If we use them carelessly, we aren't just muddying our messaging - we are building digital brick walls for millions of users. Here is how emojis accidentally ruin web content accessibility, and how to handle them like a pro {🚀|rocket}.",
 		sections: [
 			{
 				heading: 'What are emojis?',
@@ -2422,10 +2389,10 @@ export const A11Y_BITES: A11yBite[] = [
 						ordered: false,
 						items: [
 							{
-								text: '**Emojis:** These are native, graphic pictographs standardized by the [Unicode Consortium](https://www.unicode.org/consortium/consort.html). Every single emoji has a fixed, unchangeable, sometimes overly literal technical name baked into its DNA. For example, 👋 is universally registered as *"Waving Hand"*.',
+								text: '**Emojis:** These are native, graphic pictographs standardized by the [Unicode Consortium](https://www.unicode.org/consortium/consort.html). Every single emoji has a fixed, unchangeable, sometimes overly literal technical name baked into its DNA. For example, {👋|waving hand} is universally registered as *"Waving Hand"*.',
 							},
 							{
-								text: '**Emoticons & ASCII Art:** These are the vintage, pre-historic dinosaurs of the web. Unlike emojis, Emoticons `:)` and internet relics like `¯\\_(ツ)_/¯` are structural patterns made entirely of standard text punctuation, symbols, and numbers arranged to loosely mimic visual shapes.',
+								text: '**Emoticons & ASCII Art:** These are the vintage, pre-historic dinosaurs of the web. Unlike emojis, Emoticons {:)|smiling face} and internet relics like {¯\\_(ツ)_/¯|shrug} are structural patterns made entirely of standard text punctuation, symbols, and numbers arranged to loosely mimic visual shapes.',
 							},
 						],
 					},
@@ -2453,10 +2420,10 @@ export const A11Y_BITES: A11yBite[] = [
 								text: '**Reducing cognitive load and sensory overload:** For neurodivergent users, individuals with processing disorders, or people with learning disabilities, dense walls of text can be daunting. Emojis can act as brilliant visual anchors to break up text and guide a reader through a page. However, if those emojis are overused, misplaced, or unstructured, they trigger immediate cognitive friction and sensory overload. Accessible emoji practices provide the right balance—offering clarity without the chaos.',
 							},
 							{
-								text: '**Bridging the "Vibe" gap:** Emojis carry deep emotional weight, but internet culture\'s slang meanings are drastically disconnected from their literal code names. For example, using 💀 to mean *"I am laughing hysterically"* will result in a screen reader robotically saying *"Skull"*. Similarly, 🙏 could mean prayer, gratitude, pleading, or a high-five depending on who is reading it. By making an emoji technically accessible, we bridge the gap between a visual "vibe" and an auditory description, ensuring that our intended sarcasm or humor is equally conveyed to everyone.',
+								text: '**Bridging the "vibe" gap:** Emojis carry deep emotional weight, but internet culture\'s slang meanings are drastically disconnected from their literal code names. For example, using {💀|skull} to mean *"I am laughing hysterically"* will result in a screen reader robotically saying *"Skull"*. Similarly, {🙏|folded hands} could mean prayer, gratitude, pleading, or a high-five depending on who is reading it. By making an emoji technically accessible, we bridge the gap between a visual "vibe" and an auditory description, ensuring that our intended sarcasm or humor is equally conveyed to everyone.',
 							},
 							{
-								text: '**Preventing "Invisible UI" ghost towns:** In modern web design, emojis are frequently used as buttons or standalone interactive indicators (like a ❤️ for a "favorite" button or an ⚠️ for a system alert). If these graphics are not configured with accessible labels, a screen reader user encounters an entirely blank or ambiguous interactive element. They know a button is there, but they have no earthly clue what it does.',
+								text: '**Preventing "Invisible UI" ghost towns:** In modern web design, emojis are frequently used as buttons or standalone interactive indicators (like a {❤️|red heart} for a "favorite" button or an {⚠️|warning sign} for a system alert). If these graphics are not configured with accessible labels, a screen reader user encounters an entirely blank or ambiguous interactive element. They know a button is there, but they have no earthly clue what it does.',
 							},
 						],
 					},
@@ -2483,7 +2450,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'paragraph',
-						text: "According to the W3C [WCAG 2.2 Technique H86](https://www.w3.org/WAI/WCAG22/Techniques/html/H86), you cannot use standard image `alt` tags on emojis because they are text characters. If you are using an emoji to convey a specific context or emotion that doesn't match its raw Unicode name, wrap it in a `<span>` and use ARIA properties to assign an accurate alternative text.",
+						text: "According to [WCAG 2.2 Technique H86](https://www.w3.org/WAI/WCAG22/Techniques/html/H86), you cannot use standard image `alt` tags on emojis because they are text characters. If you are using an emoji to convey a specific context or emotion that doesn't match its raw Unicode name, wrap it in a `<span>` and use ARIA properties to assign an accurate alternative text.",
 					},
 					{
 						type: 'code',
@@ -2503,7 +2470,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'paragraph',
-						text: '**3. Ditch the punctuation faces (=== ban emoticons)**',
+						text: '**3. Ditch the punctuation faces ({===|strictly equals} ban emoticons)**',
 					},
 					{
 						type: 'paragraph',
@@ -2511,7 +2478,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'paragraph',
-						text: '**Solution:** Swap old-school emoticons like `:)` out for native Unicode emojis like 🙂 and code them properly. If you absolutely *must* use ASCII text art, use `role="img"` and an `aria-label` to group it seamlessly.',
+						text: '**Solution:** Swap old-school emoticons like {:)|smiling face} out for native Unicode emojis like {🙂|slightly smiling face} and code them properly. If you absolutely *must* use ASCII text art, use `role="img"` and an `aria-label` to group it seamlessly.',
 					},
 					{
 						type: 'paragraph',
@@ -2522,19 +2489,19 @@ export const A11Y_BITES: A11yBite[] = [
 						ordered: false,
 						items: [
 							{
-								text: '**Push emojis to the end:** Never sandwich emojis in the middle of text. (e.g. Avoid: *"Happy 🎂 Day to you!"* which reads out as *"Happy birthday cake day to you"*). Put emojis at the absolute end of the sentence so assistive tools can dictate the core message without mid-sentence disruption.',
+								text: '**Push emojis to the end:** Never sandwich emojis in the middle of text. (e.g. Avoid: *"Happy {🎂|birthday cake} Day to you!"* which reads out as *"Happy birthday cake day to you"*). Put emojis at the absolute end of the sentence so assistive tools can dictate the core message without mid-sentence disruption.',
 							},
 							{
-								text: '**Cap the count (No stacking):** Limit yourself to a maximum of *three emojis per post/section*, and never repeat the exact same emoji back-to-back. Stacking 🔥 🔥 🔥 forces a screen reader user to listen to a tedious, robotic loop: *"Fire, fire, fire."*',
+								text: '**Cap the count (No stacking):** Limit yourself to a maximum of *three emojis per post/section*, and never repeat the exact same emoji back-to-back. Stacking {🔥|fire} {🔥|fire} {🔥|fire} forces a screen reader user to listen to a tedious, robotic loop: *"Fire, fire, fire."*',
 							},
 							{
-								text: '**🚨 Never substitute words:** Use emojis to *complement* your vocabulary, never to **replace** words.',
+								text: '**Never substitute words:** Use emojis to *complement* your vocabulary, never to **replace** words.',
 								sublist: {
 									type: 'list',
 									ordered: false,
 									items: [
 										{
-											text: '*Bad:* "Please bring your 🐶 to the park." (Screen reader: "Please bring your dog face to the park.")',
+											text: '*Bad:* "Please bring your {🐶|dog face} to the park." (Screen reader: "Please bring your dog face to the park.")',
 										},
 										{
 											text: '*Good:* "Please bring your dog 🐶 to the park."',
@@ -2576,7 +2543,7 @@ export const A11Y_BITES: A11yBite[] = [
 		number: 15,
 		title: 'The magic of mega menus',
 		summary:
-			'We got ourselves a brand new and shiny mega menu navigation implementation 🎉 It would be a good time to recap what makes a good accessible mega menu. How have we already improved and is there still some way to go.',
+			'Mega menus are one of the places where a site’s navigation most often falls apart for anyone not using a standard mouse. Let’s recap what makes a mega menu accessible, from the semantic structure and ARIA to keyboard behavior, and which common pitfalls to avoid.',
 		sections: [
 			{
 				heading: 'What is accessible mega menu?',
@@ -2587,7 +2554,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'paragraph',
-						text: 'A standard menu is just a list of links. A mega menu is a big, multi-column panel filled with links, images, promo banners etc (and sometimes also a mini-existential crisis for the user 🙈 ). An accessible version of this means that whether someone is using a mouse, a trackpad, a keyboard, a screen reader, or an alternative switch device, they can find relavant pages without throwing their hardware out of the window.',
+						text: 'A standard menu is just a list of links. A mega menu is a big, multi-column panel filled with links, images, promo banners etc (and sometimes also a mini-existential crisis for the user). An accessible version of this means that whether someone is using a mouse, a trackpad, a keyboard, a screen reader, or an alternative switch device, they can find relavant pages without throwing their hardware out of the window.',
 					},
 				],
 			},
@@ -2629,7 +2596,7 @@ export const A11Y_BITES: A11yBite[] = [
 				blocks: [
 					{
 						type: 'paragraph',
-						text: "Mega menus are where header accessibility usually falls apart: no skip link to jump over the navigation, header links that do one thing on hover and another on click, and items a keyboard can't reach at all. The whole menu ends up out of reach for keyboard and assistive technology users 🙈",
+						text: "Mega menus are where header accessibility usually falls apart: no skip link to jump over the navigation, header links that do one thing on hover and another on click, and items a keyboard can't reach at all. The whole menu ends up out of reach for keyboard and assistive technology users",
 					},
 					{
 						type: 'paragraph',
@@ -2658,13 +2625,13 @@ export const A11Y_BITES: A11yBite[] = [
 						ordered: false,
 						items: [
 							{
-								text: '**The `<header>` and `<nav>` landmarks:** Wrap entire top bar in a `<header>` element. Inside, wrap main menu in a `<nav>` element. It would also be nice to give it an explicit label using `aria-label="Main Navigation"` so screen readers can instantly distinguish it from a footer or sidebar menu.',
+								text: '**The `<header>` and `<nav>` landmarks:** Wrap entire top bar in a `<header>` element. Inside, wrap main menu in a `<nav>` element. It would also be nice to give it an explicit label using `aria-label="Main"` so screen readers can instantly distinguish it from a footer or sidebar menu. Leave the word "navigation" out of the label, because the `<nav>` element already announces it.',
 							},
 							{
 								text: '**The "Skip to content" lifeline:** Keyboard users don\'t want to tab through your X amount of header / mega menu links on *every single page load*. This is why we need "Skip to main content" link as the absolute first element in our HTML. We hide it visually with CSS, but make it highly visible when it receives focus. It targets the primary content area container via an ID (e.g., `href="#main-content"`).',
 							},
 							{
-								text: '**The Logo:** If company logo links to the homepage, the `<a>` tag needs explicit inner text or an `<img>` tag with `alt="Acme"`. If using an inline SVG, include `role="img"` and an internal `<title>` tag linked via `aria-labelledby`.',
+								text: '**The Logo:** If company logo links to the homepage, the `<a>` tag needs explicit inner text or an `<img>` tag with `alt`. If using an inline SVG, include `role="img"` and an internal `<title>` tag linked via `aria-labelledby`.',
 							},
 						],
 					},
@@ -2679,7 +2646,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'paragraph',
-						text: '**⚠️ The `role="menu"` trap**',
+						text: '**The `role="menu"` trap**',
 					},
 					{
 						type: 'paragraph',
@@ -2691,7 +2658,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'paragraph',
-						text: '**Correct ARIA setup:**',
+						text: '**Correct ARIA setup**',
 					},
 					{
 						type: 'list',
@@ -2738,7 +2705,7 @@ export const A11Y_BITES: A11yBite[] = [
 					},
 					{
 						type: 'paragraph',
-						text: '🎨 **Visual feedback and handling the active page** (WCAG Technique G128)',
+						text: '**Visual feedback and handling the active page** ([WCAG Technique G128](https://www.w3.org/WAI/WCAG22/Techniques/general/G128))',
 					},
 					{
 						type: 'paragraph',
@@ -2770,29 +2737,29 @@ export const A11Y_BITES: A11yBite[] = [
 						ordered: true,
 						items: [
 							{
-								text: '**Initial Tab progression:** When users press the `Tab` key, they should first step across the *top-level items only.* This allows them to quickly browse the main categories without getting dragged through dozens of underlying submenu items.',
+								text: '**Initial `Tab` progression:** When users press the `Tab` key, they should first step across the *top-level items only.* This allows them to quickly browse the main categories without getting dragged through dozens of underlying submenu items.',
 							},
 							{
-								text: '**Enter / Space functionality:** Pressing `Enter` or `Space` on an active top-level trigger opens the associated mega menu and places focus directly onto the first interactive element inside it.',
+								text: '**`Enter` / `Space` functionality:** Pressing `Enter` or `Space` on an active top-level trigger opens the associated mega menu and places focus directly onto the first interactive element inside it.',
 							},
 							{
-								text: '**Internal Tab navigation:** Once inside an open submenu, the `Tab` key moves the user sequentially forward through all structural links or form fields in a logical reading order. `Shift + Tab` steps them backward.',
+								text: '**Internal `Tab` navigation:** Once inside an open submenu, the `Tab` key moves the user sequentially forward through all structural links or form fields in a logical reading order. `Shift + Tab` steps them backward.',
 							},
 							{
 								text: '**Natural exit:** Tabbing past the final link of an open submenu must smoothly exit that block and place focus onto the *next* top-level navigation item.',
 							},
 							{
-								text: '**The universal escape (`Esc` Key):** Per WCAG 2.1 Criterion 1.4.13 (Content on Hover or Focus), any content that appears on hover or focus must be completely dismissible without shifting focus or moving the pointer. Pressing `Esc` must immediately close the mega menu panel and return focus cleanly back to the top-level trigger button.',
+								text: '**The universal escape (`Esc` Key):** Per [WCAG 2.1 Criterion 1.4.13 (Content on Hover or Focus)](https://www.w3.org/WAI/WCAG22/Understanding/content-on-hover-or-focus.html), any content that appears on hover or focus must be completely dismissible without shifting focus or moving the pointer. Pressing `Esc` must immediately close the mega menu panel and return focus cleanly back to the top-level trigger button.',
 							},
 						],
 					},
 					{
 						type: 'paragraph',
-						text: '**The Pro-tier option: Arrow key shortcuts**',
+						text: '**The Pro-tier option: `Arrow` key shortcuts**',
 					},
 					{
 						type: 'paragraph',
-						text: 'If we choose to implement arrow key support for power users, it should act as an alternative shortcut—*never* at the expense of standard `Tab` routing:',
+						text: 'If you choose to implement arrow key support for power users, it should act as an alternative shortcut—*never* at the expense of standard `Tab` routing:',
 					},
 					{
 						type: 'list',
@@ -2856,38 +2823,38 @@ export const A11Y_BITES: A11yBite[] = [
 				blocks: [
 					{
 						type: 'paragraph',
-						text: 'To keep the design completely aligned, global navigation architecture should be mapped directly back to these core WCAG criteria:',
+						text: 'To keep the design completely aligned, global navigation architecture should be mapped directly back to these core WCAG criterias:',
 					},
 					{
 						type: 'list',
 						ordered: false,
 						items: [
 							{
-								text: '**Consistent Navigation (WCAG 3.2.3 - Level AA):** The primary navigation structure must stay identical in location, layout, order, and label text across all site pages so users do not have to relearn your layout.',
+								text: '**[Consistent Navigation (WCAG 3.2.3 - Level AA)](https://www.w3.org/WAI/WCAG22/Understanding/consistent-navigation.html):** The primary navigation structure must stay identical in location, layout, order, and label text across all site pages so users do not have to relearn your layout.',
 							},
 							{
-								text: '**Focus Visible (WCAG 2.4.7 - Level AA):** Interactive targets must show an obvious, high-contrast visual outline when focused via keyboard navigation. Never allow `outline: none;` without custom alternatives.',
+								text: '**[Focus Visible (WCAG 2.4.7 - Level AA)](https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html):** Interactive targets must show an obvious, high-contrast visual outline when focused via keyboard navigation. Never allow `outline: none;` without custom alternatives.',
 							},
 							{
-								text: '**Target Size Minimum (WCAG 2.5.8 - Level AA):** Interactive elements must meet a minimum size boundary of at least 24×24px (or be spaced sufficiently apart) to accommodate touch input and motor control variations.',
+								text: '**[Target Size Minimum (WCAG 2.5.8 - Level AA)](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html):** Interactive elements must meet a minimum size boundary of at least 24×24px (or be spaced sufficiently apart) to accommodate touch input and motor control variations.',
 							},
 							{
-								text: '**Reflow (WCAG 1.4.10 - Level AA):** The interface must remain responsive. Zooming a page up to 200% must seamlessly wrap and collapse the header layout into a functional mobile menu instead of breaking, causing double-scrolling, or overlapping text fields.',
+								text: '**[Reflow (WCAG 1.4.10 - Level AA)](https://www.w3.org/WAI/WCAG21/Understanding/reflow.html):** The interface must remain responsive. Zooming a page up to 200% must seamlessly wrap and collapse the header layout into a functional mobile menu instead of breaking, causing double-scrolling, or overlapping text fields.',
 							},
 							{
-								text: '**Info & Relationships (WCAG 1.3.1 - Level A):** The structural visual hierarchy must be explicitly hardcoded into the layout using proper semantic tags (`<nav>`, `<ul>`, `<li>`, structural headings).',
+								text: '**[Info & Relationships (WCAG 1.3.1 - Level A)](https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships):** The structural visual hierarchy must be explicitly hardcoded into the layout using proper semantic tags (`<nav>`, `<ul>`, `<li>`, structural headings).',
 							},
 							{
-								text: '**Name, Role, Value (WCAG 4.1.2 - Level A):** Interactive controls must transparently pass their structural identity, name, and current visual status down to assistive devices using standard parameters (like `aria-expanded`).',
+								text: '**[Name, Role, Value (WCAG 4.1.2 - Level A)](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html):** Interactive controls must transparently pass their structural identity, name, and current visual status down to assistive devices using standard parameters (like `aria-expanded`).',
 							},
 							{
-								text: '**Bypass Blocks (WCAG 2.4.1 - Level A):** Provide a native method to easily jump past repetitive interface sections, accomplished via a clean "Skip to Main Content" element.',
+								text: '**[Bypass Blocks (WCAG 2.4.1 - Level A)](https://www.w3.org/WAI/WCAG21/Understanding/bypass-blocks.html):** Provide a native method to easily jump past repetitive interface sections, accomplished via a clean "Skip to Main Content" element.',
 							},
 						],
 					},
 					{
 						type: 'paragraph',
-						text: 'And that’s a wrap! A navigation built with all of this in mind guides users much better, and lets everyone see exactly why your product deserves to be loved 😻',
+						text: 'And that’s a wrap! A navigation built with all of this in mind guides users much better, and lets everyone see exactly why your product deserves to be loved!',
 					},
 					{
 						type: 'quote',
