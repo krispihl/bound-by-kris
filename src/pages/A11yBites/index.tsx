@@ -1,5 +1,5 @@
 import cx from 'classnames'
-import type { MouseEvent, TransitionEvent } from 'react'
+import type { TransitionEvent } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
 import { BiteContent } from '../../components/BiteContent'
@@ -35,6 +35,7 @@ export const A11yBites = () => {
 	const [openNumber, setOpenNumber] = useState<number | null>(null)
 	// The bite whose panel is still collapsing. It no longer counts as open, but stays on the page until it has collapsed.
 	const [closingNumber, setClosingNumber] = useState<number | null>(null)
+	const pageRef = useRef<HTMLDivElement>(null)
 	const listRef = useRef<HTMLUListElement>(null)
 	// The row to bring back into view once the closing bite has collapsed.
 	const rowToShowRef = useRef<Element | null>(null)
@@ -65,13 +66,11 @@ export const A11yBites = () => {
 		rowToShowRef.current = null
 	}
 
-	// Lets a click on the opened content close its bite, unless the reader is selecting text or using a link, a code block
-	// or a table inside it.
-	const closeOnContentClick = (number: number, event: MouseEvent<HTMLDivElement>) => {
-		if (window.getSelection()?.toString() || (event.target instanceof Element && event.target.closest('a, button, [tabindex]'))) {
-			return
-		}
-		closeBite(number, event.currentTarget.closest('li'))
+	// Closes a bite from inside its content. Its title is the control that closes it, and the one the reader was last at,
+	// so focus goes back there before the content is removed, rather than being lost with it.
+	const closeFromContent = (number: number, row: Element | null) => {
+		document.getElementById(`bite-${number}-button`)?.focus()
+		closeBite(number, row)
 	}
 
 	// Opening a bite can leave it above the viewport (e.g. after closing a long one higher up), so bring its whole row back,
@@ -88,9 +87,30 @@ export const A11yBites = () => {
 		}
 	}, [openNumber])
 
+	// Escape closes the open bite, as it does the menu. Focus is on its title or in its content, or on the page itself after
+	// a click on its text, so the key is taken from anywhere on the page, but not from the header, e.g. an open menu.
+	useEffect(() => {
+		if (openNumber === null) {
+			return
+		}
+
+		const handleKeyDown = (event: KeyboardEvent) => {
+			const isOnPage = event.target === document.body || (event.target instanceof Node && pageRef.current?.contains(event.target))
+			if (event.key === 'Escape' && isOnPage) {
+				closeFromContent(openNumber, document.getElementById(`bite-${openNumber}-button`)?.closest('li') ?? null)
+			}
+		}
+
+		document.addEventListener('keydown', handleKeyDown)
+
+		return () => {
+			document.removeEventListener('keydown', handleKeyDown)
+		}
+	})
+
 	return (
 		<>
-			<div className={styles.page}>
+			<div ref={pageRef} className={styles.page}>
 				<div className={styles.page__header}>
 					<PageHeading className={styles.page__title}>a11y bites</PageHeading>
 					<p className={styles.page__intro}>
@@ -150,18 +170,27 @@ export const A11yBites = () => {
 										</ol>
 									</nav>
 								) : null}
-								{/* Mouse-only shortcut: keyboard and assistive tech close the bite with its title button, which stays the real control. */}
-								{/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */}
 								<div
 									id={panelId}
 									role="region"
 									aria-labelledby={buttonId}
 									className={cx(styles.row__panel, isClosing && styles['row__panel--closing'])}
 									hidden={!isShown}
-									onClick={(event) => closeOnContentClick(bite.number, event)}
 									onTransitionEnd={removeClosedPanel}
 								>
-									<div className={styles['row__panel-content']}>{isShown ? <BiteContent sections={sections} /> : null}</div>
+									<div className={styles['row__panel-content']}>
+										{isShown ? (
+											<>
+												<BiteContent sections={sections} />
+												<button
+													className={styles.row__close}
+													onClick={(event) => closeFromContent(bite.number, event.currentTarget.closest('li'))}
+												>
+													Close <span className="screenreader-only">{bite.title}</span>
+												</button>
+											</>
+										) : null}
+									</div>
 								</div>
 							</li>
 						)

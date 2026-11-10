@@ -54,7 +54,7 @@ describe('A11yBites', () => {
 		vi.restoreAllMocks()
 	})
 
-	it('closes an open bite on a click in its content, but not on a link inside it', async () => {
+	it('does not close an open bite on a click in its content', async () => {
 		const user = userEvent.setup()
 		render(<A11yBites />)
 
@@ -62,12 +62,54 @@ describe('A11yBites', () => {
 		await user.click(toggle)
 		const region = screen.getByRole('region', { name: 'Use of color' })
 
-		const link = within(region).getAllByRole('link')[0]
-		link.addEventListener('click', (event) => event.preventDefault())
-		await user.click(link)
-		expect(toggle).toHaveAttribute('aria-expanded', 'true')
-
 		await user.click(within(region).getAllByRole('heading')[0])
+		await user.dblClick(within(region).getAllByRole('paragraph')[0])
+
+		expect(toggle).toHaveAttribute('aria-expanded', 'true')
+	})
+
+	it('closes a bite with the close button at the end of its content and puts focus back on its title', async () => {
+		const user = userEvent.setup()
+		render(<A11yBites />)
+
+		const toggle = screen.getByRole('button', { name: 'Use of color' })
+		await user.click(toggle)
+		const region = screen.getByRole('region', { name: 'Use of color' })
+
+		await user.click(within(region).getByRole('button', { name: 'Close Use of color' }))
+
+		expect(toggle).toHaveAttribute('aria-expanded', 'false')
+		expect(toggle).toHaveFocus()
+	})
+
+	it('closes a bite on Escape from inside its content and puts focus back on its title', async () => {
+		const user = userEvent.setup()
+		render(<A11yBites />)
+
+		const toggle = screen.getByRole('button', { name: 'Use of color' })
+		await user.click(toggle)
+		const region = screen.getByRole('region', { name: 'Use of color' })
+
+		await user.click(within(region).getAllByRole('link')[0])
+		within(region).getAllByRole('link')[0].focus()
+		await user.keyboard('{Escape}')
+
+		expect(toggle).toHaveAttribute('aria-expanded', 'false')
+		expect(toggle).toHaveFocus()
+	})
+
+	it('closes a bite on Escape while focus is still on its title or on the page after a click on its text', async () => {
+		const user = userEvent.setup()
+		render(<A11yBites />)
+
+		const toggle = screen.getByRole('button', { name: 'Use of color' })
+		await user.click(toggle)
+		await user.keyboard('{Escape}')
+		expect(toggle).toHaveAttribute('aria-expanded', 'false')
+
+		await user.click(toggle)
+		await user.click(within(screen.getByRole('region', { name: 'Use of color' })).getAllByRole('heading')[0])
+		await user.keyboard('{Escape}')
 		expect(toggle).toHaveAttribute('aria-expanded', 'false')
 	})
 
