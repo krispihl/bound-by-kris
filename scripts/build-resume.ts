@@ -29,7 +29,7 @@ const SHORT_HIGHLIGHTS: Record<string, string[]> = {
 		'Built accessibility into the CMS and design system and wrote a 15-part "Accessibility Bites" series.',
 	],
 	'Engineering Lead': [
-		'Built the engineering side of A/B experimentation from scratch, shipping reliable tests with fewer defects.',
+		'Coordinated the engineering side of A/B experimentation, shipping reliable tests with fewer defects.',
 		'Turned winning experiments into roadmap work, resolved Optimizely conflicts and guided weekly engineering syncs.',
 		'Wrote the Optimizely handbook and mentored new colleagues.',
 	],
