@@ -4,11 +4,11 @@
 
 /* Sized to the link's text and drawn in its colour, so it changes with the link on hover. */
 .icon {
-	width: 0.75em;
-	height: 0.75em;
+	width: 1em;
+	height: 1em;
 	margin-left: 0.3em;
 	/* The icon is drawn on a 24-unit grid, but its lines end 2 units above the bottom of the box, so by default there is
 	   a small gap between the drawing and the text's baseline. Lowering the box by those 2 units (2/24 of the icon's
-	   0.75em, which is 0.0625em) closes it, and the bottom of the drawing sits on the baseline. */
-	vertical-align: -0.0625em;
+	   1em, which is about 0.0833em) closes it, and the bottom of the drawing sits on the baseline. */
+	vertical-align: -0.0833em;
 }

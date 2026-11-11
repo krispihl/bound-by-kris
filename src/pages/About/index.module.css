@@ -180,10 +180,10 @@
 
 /* Sized to the text, like the new-tab icon, and drawn in the link's colour. */
 .section__link-icon {
-	width: 0.75em;
-	height: 0.75em;
+	width: 1em;
+	height: 1em;
 	margin-left: 0.25em;
-	vertical-align: -0.0625em;
+	vertical-align: -0.0833em;
 }
 
 .tags {

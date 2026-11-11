@@ -117,11 +117,9 @@ export const A11yBites = () => {
 				<div className={styles.page__header}>
 					<PageHeading className={styles.page__title}>a11y bites</PageHeading>
 					<p className={styles.page__intro}>
-						Bite-sized accessibility lessons initially made for our team at Pipedrive.
+						Bite-sized accessibility lessons initially made for my team at work.
 						<br />
 						Each bite covers one topic, which was relevant at that point in time.
-						<br />
-						Click one to read it.
 					</p>
 				</div>
 
