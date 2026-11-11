@@ -126,8 +126,8 @@ export const CV_SECTIONS: CvSection[] = [
 						stats: ['Experimenter of the Year', 'Optimizely handbook'],
 						highlights: [
 							{
-								label: 'Built our experimentation practices from scratch',
-								text: 'Led the engineering side of Web Strategy, establishing how we ship reliable A/B tests with fewer defects and guided weekly engineering syncs.',
+								label: 'Coordinated the engineering side of experimentation',
+								text: 'Learned our experimentation tools and led the engineering side of Web Strategy, helping us ship reliable A/B tests with fewer defects and guiding weekly engineering syncs.',
 							},
 							{
 								label: 'Streamlined testing to production',
