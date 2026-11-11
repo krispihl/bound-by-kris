@@ -14,6 +14,9 @@ import { getBiteSections } from '../../utils/biteSections'
 
 import styles from './index.module.css'
 
+// Krispi is switched off on this page for now. Set to true to bring it back.
+const SHOW_KRISPI = false
+
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 const scrollRowIntoView = (row: Element) => {
@@ -226,7 +229,7 @@ export const A11yBites = () => {
 				</section>
 			</div>
 			{/* Outside the page, whose container query would otherwise pin this fixed element to the page instead of the window. */}
-			<Krispi pose="peek" className={styles.peek} />
+			{SHOW_KRISPI ? <Krispi pose="peek" className={styles.peek} /> : null}
 		</>
 	)
 }
