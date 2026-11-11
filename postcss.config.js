@@ -5,6 +5,10 @@ const breakpointMixins = Object.fromEntries(
 	Object.entries(MEDIA_QUERIES).map(([name, query]) => [name, { [`@media ${query}`]: { '@mixin-content': {} } }])
 )
 
+// Wraps hover styles so they apply only where a pointer can hover, e.g. `@mixin hover { &:hover { ... } }`. On a touch
+// screen a tap leaves `:hover` on until the next tap, so the element would look stuck.
+const hoverMixin = { '@media (hover: hover)': { '@mixin-content': {} } }
+
 // For a link with padding around its text: draws the focus ring round the text instead of round the padding, which
 // would bring it close to what is above and below. The link needs `position: relative`. `inset` is how far the ring's
 // box sits in from the link's edges (the padding, to get to the text), `offset` the gap between that box and the ring,
@@ -22,7 +26,7 @@ const textFocusRing = (_mixin, inset, offset) => ({
 
 export default {
 	plugins: {
-		'postcss-mixins': { mixins: { ...breakpointMixins, 'text-focus-ring': textFocusRing } },
+		'postcss-mixins': { mixins: { ...breakpointMixins, hover: hoverMixin, 'text-focus-ring': textFocusRing } },
 		'postcss-nested': {},
 		'postcss-preset-env': {
 			stage: 3,

@@ -73,6 +73,8 @@
 	grid-column: 2;
 	grid-row: 1;
 	margin: 0;
+	/* Room for the chevron at the right. */
+	padding-right: 2rem;
 	font-size: 1.5rem;
 	line-height: 1.2;
 }
@@ -103,9 +105,49 @@
 		}
 	}
 
-	&:hover,
 	.row--open & {
 		color: var(--color-accent);
+	}
+
+	/* Hover only where there is a pointer to hover with; on a touch screen it would stay on after a tap. */
+	@mixin hover {
+		&:hover {
+			color: var(--color-accent);
+		}
+	}
+}
+
+/* A chevron showing that the row opens. Drawn with borders, which forced colors keep. */
+.row__icon {
+	/* On narrow screens it shares the row of the number and title, at the right edge. */
+	grid-column: 1 / -1;
+	grid-row: 1;
+	align-self: center;
+	justify-self: end;
+	width: 0.625rem;
+	height: 0.625rem;
+	margin-right: 0.25rem;
+	border-right: 0.125rem solid var(--color-text-muted);
+	border-bottom: 0.125rem solid var(--color-text-muted);
+	pointer-events: none;
+	transform: translateY(-0.125rem) rotate(45deg);
+	transition:
+		transform 0.3s ease,
+		border-color 0.2s ease;
+
+	.row--open & {
+		transform: translateY(0.125rem) rotate(225deg);
+	}
+
+	/* Like the title, it keeps the colour while the bite is open. */
+	.row--open & {
+		border-color: var(--color-accent);
+	}
+
+	@mixin hover {
+		.row:has(.row__button:hover) & {
+			border-color: var(--color-accent);
+		}
 	}
 }
 
@@ -261,11 +303,13 @@
 		}
 	}
 
-	&:hover {
-		color: var(--color-bg);
+	@mixin hover {
+		&:hover {
+			color: var(--color-bg);
 
-		&::before {
-			background: var(--color-text);
+			&::before {
+				background: var(--color-text);
+			}
 		}
 	}
 }
@@ -296,8 +340,10 @@
 	text-decoration: none;
 	transition: color 0.2s ease;
 
-	&:hover {
-		color: var(--color-accent-text);
+	@mixin hover {
+		&:hover {
+			color: var(--color-accent-text);
+		}
 	}
 
 	@mixin text-focus-ring 0.75rem 0, 0.25rem;
@@ -383,9 +429,14 @@
 		transition: transform 0.2s;
 	}
 
-	&:hover::after,
 	&:focus-visible::after {
 		transform: scaleX(1);
+	}
+
+	@mixin hover {
+		&:hover::after {
+			transform: scaleX(1);
+		}
 	}
 
 	@mixin text-focus-ring 0.75rem 0, 0.25rem;
@@ -463,6 +514,7 @@
 		align-items: center;
 		justify-content: flex-end;
 		min-height: var(--title-row-height);
+		padding-right: 0;
 		font-size: clamp(1.75rem, 3.2cqi, 2.5rem);
 		text-align: right;
 	}
@@ -476,7 +528,14 @@
 		grid-column: 3;
 		grid-row: 1;
 		margin: calc((var(--title-row-height) - 2.8125rem) / 2) 0 0;
-		padding-right: 1rem;
+		padding-right: 3rem;
+	}
+
+	.row__icon {
+		grid-column: 3;
+		align-self: start;
+		/* Halfway down the title's row, which is as tall as the closed summary. */
+		margin: calc(var(--title-row-height) / 2 - 0.3125rem) 1.25rem 0 0;
 	}
 
 	.row__panel {
@@ -680,6 +739,7 @@
 	.row,
 	.row::after,
 	.row__button,
+	.row__icon,
 	.row__number,
 	.row__close,
 	.row__close::before,

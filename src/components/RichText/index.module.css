@@ -3,8 +3,11 @@
 	text-decoration: underline;
 	text-underline-offset: 0.15em;
 
-	&:hover {
-		color: var(--color-accent-text);
+	/* Hover only where there is a pointer to hover with; on a touch screen it would stay on after a tap. */
+	@mixin hover {
+		&:hover {
+			color: var(--color-accent-text);
+		}
 	}
 
 	/* Right against the text, as a link in a paragraph has the lines above and below it close by, and a ring further

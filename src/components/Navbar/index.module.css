@@ -53,8 +53,10 @@
 	cursor: pointer;
 	transition: color 0.3s;
 
-	&:hover {
-		color: var(--color-accent-text);
+	@mixin hover {
+		&:hover {
+			color: var(--color-accent-text);
+		}
 	}
 
 	&--open {
@@ -62,8 +64,10 @@
 
 		color: var(--color-on-fill);
 
-		&:hover {
-			color: var(--color-divider);
+		@mixin hover {
+			&:hover {
+				color: var(--color-divider);
+			}
 		}
 	}
 }
@@ -205,9 +209,14 @@
 		opacity 0.2s,
 		transform 0.2s;
 
-	&:hover,
 	&:focus-visible {
 		color: var(--color-divider);
+	}
+
+	@mixin hover {
+		&:hover {
+			color: var(--color-divider);
+		}
 	}
 
 	&--active {
@@ -216,9 +225,14 @@
 		text-decoration-thickness: 0.06em;
 		text-underline-offset: 0.12em;
 
-		&:hover,
 		&:focus-visible {
 			color: var(--color-divider);
+		}
+
+		@mixin hover {
+			&:hover {
+				color: var(--color-divider);
+			}
 		}
 	}
 }

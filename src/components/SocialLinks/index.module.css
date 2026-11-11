@@ -28,9 +28,14 @@
 		transition: transform 0.2s;
 	}
 
-	&:hover::after,
 	&:focus-visible::after {
 		transform: scaleX(1);
+	}
+
+	@mixin hover {
+		&:hover::after {
+			transform: scaleX(1);
+		}
 	}
 }
 

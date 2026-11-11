@@ -46,8 +46,10 @@
 	white-space: nowrap;
 	transition: color 0.3s;
 
-	&:hover {
-		color: var(--color-accent-text);
+	@mixin hover {
+		&:hover {
+			color: var(--color-accent-text);
+		}
 	}
 }
 
@@ -95,10 +97,12 @@
 		content: counter(section, decimal-leading-zero);
 	}
 
-	.section:hover & {
-		border-color: var(--color-border-strong);
-		background: var(--color-fill);
-		color: var(--color-on-fill);
+	@mixin hover {
+		.section:hover & {
+			border-color: var(--color-border-strong);
+			background: var(--color-fill);
+			color: var(--color-on-fill);
+		}
 	}
 }
 
@@ -113,8 +117,10 @@
 	color: var(--color-text-muted);
 	transition: color 0.2s ease;
 
-	.section:hover & {
-		color: var(--color-accent);
+	@mixin hover {
+		.section:hover & {
+			color: var(--color-accent);
+		}
 	}
 }
 
@@ -155,9 +161,14 @@
 		transition: transform 0.2s;
 	}
 
-	&:hover::after,
 	&:focus-visible::after {
 		transform: scaleX(1);
+	}
+
+	@mixin hover {
+		&:hover::after {
+			transform: scaleX(1);
+		}
 	}
 
 	/* Right against the text, like the links in the a11y bites, so the ring doesn't cover the words beside the link or
@@ -466,8 +477,10 @@
 			transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
 		}
 
-		&:hover::after {
-			transform: scaleY(1);
+		@mixin hover {
+			&:hover::after {
+				transform: scaleY(1);
+			}
 		}
 	}
 
@@ -588,11 +601,13 @@
 		transform: none;
 	}
 
-	.section:hover .section__number {
-		forced-color-adjust: none;
-		border-color: Highlight;
-		background: Highlight;
-		color: HighlightText;
+	@mixin hover {
+		.section:hover .section__number {
+			forced-color-adjust: none;
+			border-color: Highlight;
+			background: Highlight;
+			color: HighlightText;
+		}
 	}
 
 	.section__link::after {

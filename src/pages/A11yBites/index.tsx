@@ -157,6 +157,7 @@ export const A11yBites = () => {
 								<p id={summaryId} className={styles.row__summary}>
 									<RichText text={bite.summary} />
 								</p>
+								<span className={styles.row__icon} aria-hidden="true" />
 								{headings.length > 0 ? (
 									<nav className={styles.row__contents} aria-label={`${bite.title} contents`}>
 										<ol className={styles.contents}>
