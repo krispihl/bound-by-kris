@@ -88,7 +88,9 @@ describe('About', () => {
 
 		const interests = getSection('Interests')
 		expect(within(interests).getByRole('link', { name: 'board games' })).toHaveAttribute('href', '/boardgames')
-		expect(interests).toHaveTextContent('Cycling, bikepacking, motorcycle touring, snowboarding, running, swimming, reading, board games')
+		expect(interests).toHaveTextContent(
+			'Cycling, bikepackingbike packing, motorcycle touring, snowboarding, running, swimming, reading, board games'
+		)
 	})
 
 	it('links to the LinkedIn recommendations from the profile, opening them in a new tab', () => {

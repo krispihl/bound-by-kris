@@ -1,10 +1,11 @@
 import { Fragment } from 'react'
 
-// Abbreviations a screen reader gets wrong, and how it should say them: a word spelled letter by letter, or "A/B" without
-// the slash.
+// Words a screen reader gets wrong, and how it should say them: an acronym spelled letter by letter, "A/B" without the
+// slash, or "bikepacking" as two words.
 const SPOKEN: Record<string, string> = {
 	SEO: 'S E O',
 	'A/B': 'A B',
+	bikepacking: 'bike packing',
 }
 
 const PATTERN = new RegExp(`\\b(${Object.keys(SPOKEN).join('|')})\\b`)

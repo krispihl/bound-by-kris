@@ -21,6 +21,8 @@ type CvStep = {
 
 type CvEntry = {
 	title: string
+	// The language of the title when it isn't English, so a screen reader pronounces it right, e.g. 'et' for Estonian.
+	titleLang?: string
 	detail?: string
 	// Positions held, newest first, shown as a timeline under the title.
 	steps?: CvStep[]
@@ -179,11 +181,13 @@ export const CV_SECTIONS: CvSection[] = [
 			},
 			{
 				title: 'Vali IT! course',
+				titleLang: 'et',
 				steps: [{ title: 'Student', detail: '4 months course + 2 months internship' }],
 				period: '2018',
 			},
 			{
 				title: 'MIHO OÜ',
+				titleLang: 'et',
 				steps: [{ title: 'Technician / AutoCad draftsman', detail: 'Construction technical drawings with AutoCad' }],
 				period: '2016 – 2018',
 			},

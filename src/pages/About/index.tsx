@@ -82,7 +82,7 @@ export const About = () => {
 											) : (
 												<li key={entry.title} className={styles.entry}>
 													<div className={styles.entry__head}>
-														<h3 className={styles.entry__title}>
+														<h3 className={styles.entry__title} lang={entry.titleLang}>
 															<SpokenAcronyms text={entry.title} />
 														</h3>
 														{entry.period ? <p className={styles.entry__period}>{entry.period}</p> : null}

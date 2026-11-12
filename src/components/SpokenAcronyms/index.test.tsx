@@ -27,6 +27,17 @@ describe('SpokenAcronyms', () => {
 		expect(screen.getByText('A B')).toHaveClass('screenreader-only')
 	})
 
+	it('says bikepacking as two words', () => {
+		render(
+			<p>
+				<SpokenAcronyms text="Cycling, bikepacking" />
+			</p>
+		)
+
+		expect(screen.getByText('bikepacking')).toBeVisible()
+		expect(screen.getByText('bike packing')).toHaveClass('screenreader-only')
+	})
+
 	it('leaves text without an acronym alone, and does not match inside a word', () => {
 		render(
 			<p>
