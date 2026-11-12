@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kristinapihl.pages.dev/sitemap.xml
