@@ -134,7 +134,6 @@ export const A11yBites = () => {
 						const isShown = isOpen || isClosing
 						const buttonId = `bite-${bite.number}-button`
 						const panelId = `bite-${bite.number}-panel`
-						const summaryId = `bite-${bite.number}-summary`
 						const sections = isShown ? getBiteSections(bite) : []
 						const headings = sections.map((section) => section.heading)
 
@@ -146,7 +145,6 @@ export const A11yBites = () => {
 										className={styles.row__button}
 										aria-expanded={isOpen}
 										aria-controls={panelId}
-										aria-describedby={summaryId}
 										onClick={() => (isOpen ? closeBite(bite.number) : openBite(bite.number))}
 									>
 										{bite.title}
@@ -155,7 +153,7 @@ export const A11yBites = () => {
 								<span className={styles.row__number} aria-hidden="true">
 									{String(bite.number).padStart(2, '0')}
 								</span>
-								<p id={summaryId} className={styles.row__summary}>
+								<p className={styles.row__summary}>
 									<RichText text={bite.summary} />
 								</p>
 								<span className={styles.row__icon} aria-hidden="true" />
