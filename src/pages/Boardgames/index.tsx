@@ -11,6 +11,21 @@ import { matchesSearch } from '../../utils/matchesSearch'
 
 import styles from './index.module.css'
 
+// A screen reader skips the dash of a range such as '2 – 10 players' without saying anything, so it gets "to" instead.
+const Players = ({ players }: { players: string }) => {
+	const spoken = players.replace(' – ', ' to ')
+	if (spoken === players) {
+		return players
+	}
+
+	return (
+		<>
+			<span aria-hidden="true">{players}</span>
+			<span className="screenreader-only">{spoken}</span>
+		</>
+	)
+}
+
 export const Boardgames = () => {
 	usePageTitle('Board games')
 
@@ -117,7 +132,11 @@ export const Boardgames = () => {
 													)}
 												</h3>
 												<p className={styles.game__meta}>
-													{game.isExpansion ? <span className={styles.tag}>Expansion</span> : game.players}
+													{game.isExpansion ? (
+														<span className={styles.tag}>Expansion</span>
+													) : game.players ? (
+														<Players players={game.players} />
+													) : null}
 													{game.isEstonian ? (
 														<span className={cx(styles.tag, styles['tag--language'])}>Estonian</span>
 													) : null}

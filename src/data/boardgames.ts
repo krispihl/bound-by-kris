@@ -1,6 +1,6 @@
 export type Boardgame = {
 	title: string
-	// e.g. '2–4 players'; absent for expansions, which need the base game.
+	// e.g. '2 – 4 players'; absent for expansions, which need the base game.
 	players?: string
 	isExpansion: boolean
 	// The edition's language is Estonian; its title may still be the English one (Codenames, Pandemic).

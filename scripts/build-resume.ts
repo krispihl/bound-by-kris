@@ -73,7 +73,11 @@ const section = (id: string) => {
 const heading = (number: string, text: string) =>
 	`<h2 class="heading"><span class="heading__number" aria-hidden="true">${number}</span>${escapeHtml(text)}</h2>`
 
-const period = (text?: string) => (text ? `<span class="period">${escapeHtml(text)}</span>` : '')
+// The site writes the months out in full, which a screen reader reads best; on paper they are shortened to fit.
+const shortMonths = (text: string) =>
+	text.replace(/\b(January|February|March|April|June|July|August|September|October|November|December)\b/g, (month) => month.slice(0, 3))
+
+const period = (text?: string) => (text ? `<span class="period">${escapeHtml(shortMonths(text))}</span>` : '')
 
 // Main column: every job as the company, then each position in bold with its dates, then the Pipedrive roles and highlights.
 const renderJob = (entry: CvEntry) => {

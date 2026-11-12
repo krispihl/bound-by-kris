@@ -2,11 +2,11 @@ import type { Boardgame } from '../data/boardgames'
 
 const findColumn = (header: string[], pattern: RegExp) => header.findIndex((cell) => pattern.test(cell.trim()))
 
-// '2 - 4' → '2–4 players', '1' → '1 player'; anything else is shown as written.
+// '2 - 4' → '2 – 4 players', '1' → '1 player'; anything else is shown as written.
 const formatPlayers = (value: string) => {
 	const range = /^(\d+)\s*-\s*(\d+)$/.exec(value)
 	if (range) {
-		return `${range[1]}–${range[2]} players`
+		return `${range[1]} – ${range[2]} players`
 	}
 	if (/^\d+$/.test(value)) {
 		return `${value} ${value === '1' ? 'player' : 'players'}`

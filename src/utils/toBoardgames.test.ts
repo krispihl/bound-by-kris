@@ -11,8 +11,8 @@ describe('toBoardgames', () => {
 		]
 
 		expect(toBoardgames(rows)).toEqual([
-			{ title: 'Alias', players: '4–12 players', isExpansion: false, isEstonian: true },
-			{ title: 'Azul', players: '2–4 players', isExpansion: false, isEstonian: false },
+			{ title: 'Alias', players: '4 – 12 players', isExpansion: false, isEstonian: true },
+			{ title: 'Azul', players: '2 – 4 players', isExpansion: false, isEstonian: false },
 		])
 	})
 
@@ -27,7 +27,7 @@ describe('toBoardgames', () => {
 		expect(toBoardgames(rows)).toEqual([
 			{ title: '7 wonders leaders', players: undefined, isExpansion: true, isEstonian: false },
 			{ title: 'Solo game', players: '1 player', isExpansion: false, isEstonian: false },
-			{ title: 'UNO Cars', players: '2–10 players', isExpansion: false, isEstonian: false },
+			{ title: 'UNO Cars', players: '2 – 10 players', isExpansion: false, isEstonian: false },
 		])
 	})
 

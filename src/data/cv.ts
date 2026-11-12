@@ -93,9 +93,9 @@ export const CV_SECTIONS: CvSection[] = [
 			{
 				title: 'Pipedrive',
 				steps: [
-					{ title: 'Software Engineer', period: 'Jan 2022 – Dec 2026', current: true },
-					{ title: 'Junior Front End Developer', period: 'Apr 2019 – Dec 2021' },
-					{ title: 'Front End Developer Intern', period: 'Dec 2018 – Mar 2019' },
+					{ title: 'Software Engineer', period: 'January 2022 – December 2026', current: true },
+					{ title: 'Junior Front End Developer', period: 'April 2019 – December 2021' },
+					{ title: 'Front End Developer Intern', period: 'December 2018 – March 2019' },
 				],
 				period: '2018 – 2026',
 				roles: [

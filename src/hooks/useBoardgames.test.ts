@@ -27,8 +27,8 @@ describe('useBoardgames', () => {
 		expect(result.current.state).toEqual({
 			status: 'success',
 			games: [
-				{ title: 'Alias', players: '4–12 players', isExpansion: false, isEstonian: true },
-				{ title: 'Azul', players: '2–4 players', isExpansion: false, isEstonian: false },
+				{ title: 'Alias', players: '4 – 12 players', isExpansion: false, isEstonian: true },
+				{ title: 'Azul', players: '2 – 4 players', isExpansion: false, isEstonian: false },
 			],
 		})
 	})

@@ -39,7 +39,8 @@ describe('Boardgames', () => {
 		render(<Boardgames />)
 
 		const alias = (await screen.findByRole('heading', { name: 'Alias' })).closest('li')
-		expect(alias).toHaveTextContent('4–12 players')
+		expect(alias).toHaveTextContent('4 – 12 players')
+		expect(alias).toHaveTextContent('4 to 12 players')
 		expect(alias).toHaveTextContent('Estonian')
 
 		const leaders = screen.getByRole('heading', { name: '7 wonders leaders' }).closest('li')
