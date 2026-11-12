@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { ExternalLink } from '../../components/ExternalLink'
 import { Krispi } from '../../components/Krispi'
 import { PageHeading } from '../../components/PageHeading'
+import { SpokenAcronyms } from '../../components/SpokenAcronyms'
 import type { CvLink, CvParagraph } from '../../data/cv'
 import { CV_SECTIONS, paragraphText } from '../../data/cv'
 import { useScrolledToBottom } from '../../hooks/useScrolledToBottom'
@@ -28,9 +29,13 @@ const SectionLink = ({ link }: { link: CvLink }) =>
 // A paragraph of text, with its links, if it has any, among the words.
 const SummaryParagraph = ({ paragraph }: { paragraph: CvParagraph }) => (
 	<p className={styles.section__summary}>
-		{typeof paragraph === 'string'
-			? paragraph
-			: paragraph.map((part, index) => (typeof part === 'string' ? part : <SectionLink key={index} link={part} />))}
+		{typeof paragraph === 'string' ? (
+			<SpokenAcronyms text={paragraph} />
+		) : (
+			paragraph.map((part, index) =>
+				typeof part === 'string' ? <SpokenAcronyms key={index} text={part} /> : <SectionLink key={index} link={part} />
+			)
+		)}
 	</p>
 )
 
@@ -62,7 +67,7 @@ export const About = () => {
 									<ul className={styles.tags} aria-label="Skills">
 										{section.tags.map((tag) => (
 											<li key={tag} className={styles.tag}>
-												{tag}
+												<SpokenAcronyms text={tag} />
 											</li>
 										))}
 									</ul>
@@ -72,14 +77,20 @@ export const About = () => {
 										{section.entries.map((entry) =>
 											entry.note ? (
 												<li key={entry.title} className={styles.note}>
-													{entry.title}
+													<SpokenAcronyms text={entry.title} />
 												</li>
 											) : (
 												<li key={entry.title} className={styles.entry}>
 													<div className={styles.entry__head}>
-														<h3 className={styles.entry__title}>{entry.title}</h3>
+														<h3 className={styles.entry__title}>
+															<SpokenAcronyms text={entry.title} />
+														</h3>
 														{entry.period ? <p className={styles.entry__period}>{entry.period}</p> : null}
-														{entry.detail ? <p className={styles.entry__detail}>{entry.detail}</p> : null}
+														{entry.detail ? (
+															<p className={styles.entry__detail}>
+																<SpokenAcronyms text={entry.detail} />
+															</p>
+														) : null}
 														{entry.steps ? (
 															<ol className={styles.entry__steps}>
 																{entry.steps.map((step) => (
@@ -97,7 +108,9 @@ export const About = () => {
 																			<span className={styles.step__period}>{step.period}</span>
 																		) : null}
 																		{step.detail ? (
-																			<span className={styles.step__detail}>{step.detail}</span>
+																			<span className={styles.step__detail}>
+																				<SpokenAcronyms text={step.detail} />
+																			</span>
 																		) : null}
 																	</li>
 																))}
@@ -108,12 +121,14 @@ export const About = () => {
 														<ul className={styles.roles}>
 															{entry.roles.map((role) => (
 																<li key={role.title} className={styles.role}>
-																	<h4 className={styles.role__title}>{role.title}</h4>
+																	<h4 className={styles.role__title}>
+																		<SpokenAcronyms text={role.title} />
+																	</h4>
 																	{role.stats ? (
 																		<ul className={styles.stats} aria-label="Key results">
 																			{role.stats.map((stat) => (
 																				<li key={stat} className={styles.stat}>
-																					{stat}
+																					<SpokenAcronyms text={stat} />
 																				</li>
 																			))}
 																		</ul>
@@ -121,8 +136,12 @@ export const About = () => {
 																	<ul className={styles.highlights}>
 																		{role.highlights.map((highlight) => (
 																			<li key={highlight.label} className={styles.highlight}>
-																				<strong className={styles.highlight__label}>{highlight.label}</strong>
-																				<p className={styles.highlight__text}>{highlight.text}</p>
+																				<strong className={styles.highlight__label}>
+																					<SpokenAcronyms text={highlight.label} />
+																				</strong>
+																				<p className={styles.highlight__text}>
+																					<SpokenAcronyms text={highlight.text} />
+																				</p>
 																			</li>
 																		))}
 																	</ul>

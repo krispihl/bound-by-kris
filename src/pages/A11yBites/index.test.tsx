@@ -10,7 +10,7 @@ describe('A11yBites', () => {
 	it('renders a collapsed toggle for every bite under a page heading', () => {
 		render(<A11yBites />)
 
-		expect(screen.getByRole('heading', { level: 1, name: 'a11y bites' })).toBeInTheDocument()
+		expect(screen.getByRole('heading', { level: 1, name: 'accessibility bites' })).toBeInTheDocument()
 
 		// Krispi's dismiss button is the only other button on the page, and it doesn't expand anything.
 		const toggles = screen.getAllByRole('button').filter((button) => button.hasAttribute('aria-expanded'))

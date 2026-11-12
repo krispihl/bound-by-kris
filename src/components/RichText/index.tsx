@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react'
 
+import { SpokenAcronyms } from '../SpokenAcronyms'
+
 import styles from './index.module.css'
 
 const INLINE_PATTERN = /(`[^`]+`|\*\*[^*].*?\*\*|\*[^*\s](?:[^*]*[^*\s])?\*|\[[^\]]+\]\(https?:\/\/[^)\s]+\)|\{[^{}|]+\|[^{}|]+\})/
@@ -48,7 +50,7 @@ const parseInline = (text: string): ReactNode[] =>
 						{piece}
 					</span>
 				) : (
-					piece
+					<SpokenAcronyms key={`${index}-${lineIndex}-${pieceIndex}`} text={piece} />
 				)
 			)
 			return lineIndex === 0 ? pieces : [<br key={`${index}-${lineIndex}`} />, ...pieces]

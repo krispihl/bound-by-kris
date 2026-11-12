@@ -2,6 +2,7 @@ import cx from 'classnames'
 import type { TransitionEvent } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
+import { A11yText } from '../../components/A11yText'
 import { BiteContent } from '../../components/BiteContent'
 import { ExternalLink } from '../../components/ExternalLink'
 import { Krispi } from '../../components/Krispi'
@@ -33,7 +34,7 @@ const showRowIfAbove = (row: Element | null) => {
 }
 
 export const A11yBites = () => {
-	usePageTitle('a11y bites')
+	usePageTitle('Accessibility bites')
 
 	const [openNumber, setOpenNumber] = useState<number | null>(null)
 	// The bite whose panel is still collapsing. It no longer counts as open, but stays on the page until it has collapsed.
@@ -115,7 +116,9 @@ export const A11yBites = () => {
 		<>
 			<div ref={pageRef} className={styles.page}>
 				<div className={styles.page__header}>
-					<PageHeading className={styles.page__title}>a11y bites</PageHeading>
+					<PageHeading className={styles.page__title}>
+						<A11yText /> bites
+					</PageHeading>
 					<p className={styles.page__intro}>
 						Bite-sized accessibility lessons initially made for my team at work.
 						<br />

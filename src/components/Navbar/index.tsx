@@ -1,16 +1,24 @@
 import cx from 'classnames'
-import type { CSSProperties } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
+import { A11yText } from '../A11yText'
 import { HEADER_HEADING_ID } from '../PageHeading'
 import { useScrollLock } from '../../hooks/useScrollLock'
 import styles from './index.module.css'
 
-const LINKS = [
+const LINKS: { to: string; label: ReactNode }[] = [
 	{ to: '/', label: 'Home' },
 	{ to: '/about', label: 'About' },
-	{ to: '/a11y-bites', label: 'a11y bites' },
+	{
+		to: '/a11y-bites',
+		label: (
+			<>
+				<A11yText /> bites
+			</>
+		),
+	},
 	{ to: '/boardgames', label: 'Board games' },
 ]
 
