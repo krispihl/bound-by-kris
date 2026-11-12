@@ -16,6 +16,7 @@ type CvEntry = CvSection['entries'][number]
 const OUTPUT = fileURLToPath(new URL('../public/kristina-pihl-cv.pdf', import.meta.url))
 
 const CONTACTS = [
+	{ label: 'kristinapihl.pages.dev', href: 'https://kristinapihl.pages.dev/' },
 	{ label: 'kristina.r@gmail.com', href: 'mailto:kristina.r@gmail.com' },
 	{ label: 'linkedin.com/in/kristina-pihl-97461a10a', href: 'https://www.linkedin.com/in/kristina-pihl-97461a10a/' },
 	{ label: 'github.com/kristinapihl', href: 'https://github.com/kristinapihl' },
