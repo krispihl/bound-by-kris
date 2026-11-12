@@ -46,9 +46,11 @@
 	max-width: max(20rem, calc((var(--name-room) - var(--intro-room)) / 0.3822 + 4rem));
 	margin-inline: auto;
 
-	/* On desktop the intro sits beside PIHL and the rows close up, so only the name (1.7 × 21%) has to fit. */
+	/* On desktop the intro sits beside PIHL and the rows close up, so only the name (1.7 × 21%) has to fit. Never narrower
+	   than 40rem, though: the intro beside PIHL is about half of that width, and any narrower it would wrap into more
+	   lines than PIHL is tall and run up over KRISTINA. On a window too short for that, the page scrolls instead. */
 	@mixin desktop-only {
-		max-width: max(20rem, calc(var(--name-room) / 0.357 + 4rem));
+		max-width: max(40rem, calc(var(--name-room) / 0.357 + 4rem));
 	}
 }
 
