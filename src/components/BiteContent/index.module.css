@@ -96,9 +96,11 @@
 .list {
 	padding-left: 1.25rem;
 
-	/* Accent square bullets, as on the About page. */
-	&:is(ul) {
-		list-style-type: square;
+	/* Accent square bullets, as on the About page. A screen reader reads a plain square as "black square", so the marker is
+	   given empty alternative text after the slash, which leaves it silent. */
+	&:is(ul) > li::marker {
+		content: '\25A0  ' / '';
+		font-size: 0.75em;
 	}
 
 	& li::marker {

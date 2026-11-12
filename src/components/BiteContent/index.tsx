@@ -58,7 +58,11 @@ const BlockView = ({ block }: { block: Block }) => {
 					<blockquote className={styles.quote__text}>
 						<RichText text={block.quote} />
 					</blockquote>
-					<figcaption className={styles.quote__author}>— {block.author}</figcaption>
+					<figcaption className={styles.quote__author}>
+						{/* The dash is a visual lead-in; a screen reader would skip it, so it hears "by" instead. */}
+						<span aria-hidden="true">—</span>
+						<span className="screenreader-only">by</span> {block.author}
+					</figcaption>
 				</figure>
 			)
 		case 'code':
