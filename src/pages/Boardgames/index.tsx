@@ -5,6 +5,7 @@ import { ExternalLink } from '../../components/ExternalLink'
 import { PageHeading } from '../../components/PageHeading'
 import { Spinner } from '../../components/Spinner'
 import { useBoardgames } from '../../hooks/useBoardgames'
+import { useCanonicalUrl } from '../../hooks/useCanonicalUrl'
 import { usePageTitle } from '../../hooks/usePageTitle'
 import { groupByLetter } from '../../utils/groupByLetter'
 import { matchesSearch } from '../../utils/matchesSearch'
@@ -28,6 +29,7 @@ const Players = ({ players }: { players: string }) => {
 
 export const Boardgames = () => {
 	usePageTitle('Board games')
+	useCanonicalUrl('/boardgames')
 
 	const { state, retry } = useBoardgames()
 	const [search, setSearch] = useState('')

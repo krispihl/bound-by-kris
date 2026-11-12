@@ -9,6 +9,7 @@ import { SpokenAcronyms } from '../../components/SpokenAcronyms'
 import type { CvLink, CvParagraph } from '../../data/cv'
 import { CV_SECTIONS, paragraphText } from '../../data/cv'
 import { useScrolledToBottom } from '../../hooks/useScrolledToBottom'
+import { useCanonicalUrl } from '../../hooks/useCanonicalUrl'
 import { usePageTitle } from '../../hooks/usePageTitle'
 
 import styles from './index.module.css'
@@ -41,6 +42,7 @@ const SummaryParagraph = ({ paragraph }: { paragraph: CvParagraph }) => (
 
 export const About = () => {
 	usePageTitle('About')
+	useCanonicalUrl('/about')
 	const atBottom = useScrolledToBottom()
 
 	return (

@@ -2,6 +2,7 @@ import cx from 'classnames'
 import type { PointerEvent } from 'react'
 
 import { Cursor } from '../../components/Cursor'
+import { useCanonicalUrl } from '../../hooks/useCanonicalUrl'
 import { usePageTitle } from '../../hooks/usePageTitle'
 import styles from './index.module.css'
 
@@ -43,6 +44,7 @@ const Name = ({ animated }: { animated: boolean }) => (
 
 export const Home = () => {
 	usePageTitle()
+	useCanonicalUrl('/')
 
 	return (
 		<>

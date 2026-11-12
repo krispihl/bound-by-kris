@@ -10,6 +10,7 @@ import { PageHeading } from '../../components/PageHeading'
 import { RichText } from '../../components/RichText'
 import { A11Y_BITES } from '../../data/a11yBites'
 import { A11Y_RESOURCES } from '../../data/a11yResources'
+import { useCanonicalUrl } from '../../hooks/useCanonicalUrl'
 import { usePageTitle } from '../../hooks/usePageTitle'
 import { getBiteSections } from '../../utils/biteSections'
 
@@ -35,6 +36,7 @@ const showRowIfAbove = (row: Element | null) => {
 
 export const A11yBites = () => {
 	usePageTitle('Accessibility bites')
+	useCanonicalUrl('/a11y-bites')
 
 	const [openNumber, setOpenNumber] = useState<number | null>(null)
 	// The bite whose panel is still collapsing. It no longer counts as open, but stays on the page until it has collapsed.
