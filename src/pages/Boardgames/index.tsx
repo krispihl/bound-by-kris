@@ -53,7 +53,7 @@ export const Boardgames = () => {
 	const isSearching = search.trim() !== ''
 
 	return (
-		<div className={styles.page}>
+		<div className={styles.page} data-page-loading={state.status === 'loading' ? '' : undefined}>
 			<div className={styles.page__header}>
 				<PageHeading className={styles.page__title}>Board games</PageHeading>
 			</div>

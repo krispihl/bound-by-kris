@@ -17,8 +17,10 @@ const App = () => {
 		<BrowserRouter>
 			<ScrollToTop />
 			<Navbar />
-			<main>
-				<Suspense fallback={null}>
+			{/* The footer waits for the page with the Suspense boundary, so it doesn't show at the bottom of the window while a page
+			    loads and then jump down below the page's content. */}
+			<Suspense fallback={<main />}>
+				<main>
 					<Routes>
 						<Route path="/" element={<Home />} />
 						<Route path="/about" element={<About />} />
@@ -26,9 +28,9 @@ const App = () => {
 						<Route path="/boardgames" element={<Boardgames />} />
 						<Route path="*" element={<NotFound />} />
 					</Routes>
-				</Suspense>
-			</main>
-			<Footer />
+				</main>
+				<Footer />
+			</Suspense>
 		</BrowserRouter>
 	)
 }

@@ -18,10 +18,30 @@ export const ScrollToTop = () => {
 		}
 		focusedPath.current = pathname
 
-		const heading = document.querySelector<HTMLElement>('main h1')
-		if (heading) {
+		const focusHeading = () => {
+			const heading = document.querySelector<HTMLElement>('main h1')
+			if (!heading) {
+				return false
+			}
 			heading.tabIndex = -1
 			heading.focus({ preventScroll: true })
+			return true
+		}
+
+		if (focusHeading()) {
+			return
+		}
+
+		// A page that loads on first visit has no heading yet, so focus moves when it appears.
+		const observer = new MutationObserver(() => {
+			if (focusHeading()) {
+				observer.disconnect()
+			}
+		})
+		observer.observe(document.body, { childList: true, subtree: true })
+
+		return () => {
+			observer.disconnect()
 		}
 	}, [pathname])
 

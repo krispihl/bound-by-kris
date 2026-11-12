@@ -1,3 +1,10 @@
+/* A page that is still loading its content (see data-page-loading) is short, so the footer would sit up in the window and
+   then jump far down when the content arrives. It is hidden meanwhile, but keeps its place, so it shows up already where
+   it belongs. */
+:global(#root):has([data-page-loading]) .footer {
+	visibility: hidden;
+}
+
 .footer {
 	display: flex;
 	justify-content: flex-end;
