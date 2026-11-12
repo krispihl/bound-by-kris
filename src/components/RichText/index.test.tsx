@@ -12,6 +12,14 @@ describe('RichText', () => {
 		expect(screen.getByText('links').tagName).toBe('EM')
 	})
 
+	it('names a lone tag as an element for screen readers, and leaves longer code as written', () => {
+		render(<RichText text='Use `<nav>` not `<div role="navigation">`' />)
+
+		expect(screen.getByText('<nav>')).toHaveAttribute('aria-hidden', 'true')
+		expect(screen.getByText('nav element')).toHaveClass('screenreader-only')
+		expect(screen.getByText('<div role="navigation">').tagName).toBe('CODE')
+	})
+
 	it('renders http links with their href', () => {
 		render(<RichText text="See [WCAG](https://www.w3.org/WAI/WCAG21/)" />)
 

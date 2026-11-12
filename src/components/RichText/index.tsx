@@ -7,6 +7,8 @@ import styles from './index.module.css'
 const INLINE_PATTERN = /(`[^`]+`|\*\*[^*].*?\*\*|\*[^*\s](?:[^*]*[^*\s])?\*|\[[^\]]+\]\(https?:\/\/[^)\s]+\)|\{[^{}|]+\|[^{}|]+\})/
 const LINK_PATTERN = /^\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)$/
 
+// A lone opening tag such as <nav>, which a screen reader would read as "less than nav greater than".
+const TAG_PATTERN = /^<([a-z][a-z0-9]*)>$/i
 const LABELLED_PATTERN = /^\{([^{}|]+)\|([^{}|]+)\}$/
 // A run of emoji, including skin tones, variation selectors and joined sequences like 😮‍💨. ©, ® and ™ are excluded as they are text.
 const EMOJI_PATTERN =
@@ -15,7 +17,17 @@ const EMOJI_PATTERN =
 const parseInline = (text: string): ReactNode[] =>
 	text.split(INLINE_PATTERN).map((part, index) => {
 		if (part.startsWith('`') && part.endsWith('`') && part.length > 2) {
-			return <code key={index}>{part.slice(1, -1)}</code>
+			const code = part.slice(1, -1)
+			const tag = TAG_PATTERN.exec(code)
+			// The brackets are for the eye; a screen reader is told the element instead. Longer snippets stay as written.
+			return tag ? (
+				<code key={index}>
+					<span aria-hidden="true">{code}</span>
+					<span className="screenreader-only">{tag[1]} element</span>
+				</code>
+			) : (
+				<code key={index}>{code}</code>
+			)
 		}
 		if (part.startsWith('**') && part.endsWith('**') && part.length > 4) {
 			return <strong key={index}>{parseInline(part.slice(2, -2))}</strong>
